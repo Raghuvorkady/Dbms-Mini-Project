@@ -20,3 +20,6 @@
 1. [Oracle DB vs SQLite DB](https://db-engines.com/en/system/Oracle%3BSQLite)
 2. [Guide to Speech Recognition using python](https://realpython.com/python-speech-recognition/)
 3. [Projects using django](https://data-flair.training/blogs/django-project-ideas/)
+***
+### GitHub project repos:
+1. https://github.com/samarth-p/College-ERP
