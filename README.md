@@ -1,12 +1,15 @@
 # Library Management System (with Voice based search)
 
 ### PROCEDURE:
-1. First step feature listing
-2. Design of db
-3. ER diagram
-4. Populate small dataset
-5. Test your backend
-5. Front end building
+| Sl. No | Step | Status |
+| --- | --- | --- |
+| 1 | First step feature listing | ❌ |
+| 2 | Design of db | ❌ |
+| 3 | ER diagram | ❌ |
+| 4 | Schema Diagram | ❌ |
+| 5 | Populate small dataset | ❌ |
+| 6 | Test your backend | ❌ |
+| 7 | Front end building | ❌ |
 ***
 ### Tools required:
 1. SQLite - Database
