@@ -3,9 +3,9 @@
 ### PROCEDURE:
 | Sl. No | Step | Status |
 | --- | --- | --- |
-| 1 | First step feature listing | ❌ |
+| 1 | First step feature listing | ✔ |
 | 2 | Design of db | ❌ |
-| 3 | ER diagram | ❌ |
+| 3 | ER diagram | ✔ |
 | 4 | Schema Diagram | ❌ |
 | 5 | Populate small dataset | ❌ |
 | 6 | Test your backend | ❌ |
