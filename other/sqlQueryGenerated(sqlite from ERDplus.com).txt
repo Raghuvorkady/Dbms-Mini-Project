@@ -2,8 +2,10 @@ CREATE TABLE USER
 (
   userId INT NOT NULL,
   fName INT NOT NULL,
-  mName INT NOT NULL,
-  lName INT NOT NULL,
+  mName INT,
+  lName INT,
+  email INT NOT NULL,
+  password INT NOT NULL,
   streetAddr INT NOT NULL,
   district INT NOT NULL,
   state INT NOT NULL,
@@ -12,25 +14,23 @@ CREATE TABLE USER
   USN INT NOT NULL,
   course INT NOT NULL,
   sem INT NOT NULL,
-  email INT NOT NULL,
-  password INT NOT NULL,
   PRIMARY KEY (userId)
 );
 
 CREATE TABLE LIBRARIAN
 (
-  password INT NOT NULL,
-  email INT NOT NULL,
   librarianId INT NOT NULL,
-  salary INT NOT NULL,
   fName INT NOT NULL,
-  mName INT NOT NULL,
-  lName INT NOT NULL,
+  mName INT,
+  lName INT,
+  email INT NOT NULL,
+  password INT NOT NULL,
   streetAddr INT NOT NULL,
   district INT NOT NULL,
   state INT NOT NULL,
   pinCode INT NOT NULL,
   phoneNum INT NOT NULL,
+  salary INT NOT NULL,
   PRIMARY KEY (librarianId)
 );
 
@@ -49,12 +49,12 @@ CREATE TABLE PUBLISHER
 CREATE TABLE BOOK
 (
   bookId INT NOT NULL,
-  pubYear INT NOT NULL,
-  genre INT NOT NULL,
-  title INT NOT NULL,
-  ISBN INT NOT NULL,
   librarianId INT NOT NULL,
   pubId INT NOT NULL,
+  title INT NOT NULL,
+  pubYear INT NOT NULL,
+  genre INT NOT NULL,
+  ISBN INT NOT NULL,
   PRIMARY KEY (bookId),
   FOREIGN KEY (librarianId) REFERENCES LIBRARIAN(librarianId),
   FOREIGN KEY (pubId) REFERENCES PUBLISHER(pubId)
@@ -62,30 +62,35 @@ CREATE TABLE BOOK
 
 CREATE TABLE STOCK
 (
-  bookCopies INT NOT NULL,
   bookId INT NOT NULL,
   librarianId INT NOT NULL,
+  bookCopies INT NOT NULL,
   FOREIGN KEY (bookId) REFERENCES BOOK(bookId),
   FOREIGN KEY (librarianId) REFERENCES LIBRARIAN(librarianId)
 );
 
 CREATE TABLE AUTHOR
 (
-  lName INT NOT NULL,
-  mName INT NOT NULL,
-  fName INT NOT NULL,
   bookId INT NOT NULL,
+  fName INT NOT NULL,
+  mName INT NOT NULL,
+  lName INT NOT NULL,
   FOREIGN KEY (bookId) REFERENCES BOOK(bookId)
 );
 
-CREATE TABLE borrows/returns
+CREATE TABLE BORROWED_BOOKS
 (
+  bookId INT NOT NULL,
+  userId INT NOT NULL,
   checkOut INT NOT NULL,
   dueDate INT NOT NULL,
   checkIn INT NOT NULL,
-  userId INT NOT NULL,
-  bookId INT NOT NULL,
   PRIMARY KEY (userId, bookId),
   FOREIGN KEY (userId) REFERENCES USER(userId),
   FOREIGN KEY (bookId) REFERENCES BOOK(bookId)
+);
+
+CREATE TABLE STAFF
+(
+  staffEmail varchar(30) NOT NULL
 );
