@@ -6,30 +6,32 @@
 1. Open the command prompt and change the directory (choose a folder to maintain the local repos ex. dbms project)
 
 2. Run the command
-	
+
 	> Type: **git clone https://github.com/Raghuvorkady/Dbms-Mini-Project.git**
 
 3. Next it will prompt you to enter your GitHub username/email and password
 
 4. Now after successfull clone(download), create a new django project inside the folder "djangoProject"<br>For the above step again open the command prompt and change the directory to the folder "djangoProject"
 
-	> Type: **django-admin startproject speechTest** 
-	
+	> Type: **django-admin startproject speechTest**
+
+	After starting new project, change the directory to **speechTest**
+
 	> Type: **python manage.py startapp srt**
 
 And now it's time for some django work, designing a simple ui to input a speech and extract the output
 
 5. Open the cmd, change the dir to **Dbms-Mini-Project** (the cloned repo)
-	
+
 	> Type: **git status**
-	
+
 	> Type: **git add ***
-	
+
 	> Type: **git commit -m "YOURNAME speech commit"**
-	
+
 	> Type: **git push**
-	
-	> Type: **git status** 
+
+	> Type: **git status**
 	(Ouput should be: nothing to commit, working tree clean)
 
 6. If successfully pushed, all will receive a mail.
@@ -50,7 +52,7 @@ So if you face any rejected message whenever you push, follow Step 7.
 | 2 | Design of db | ❌ |
 | 3 | ER diagram | ✔ |
 | 4 | Schema Diagram | ✔ |
-| 5 | Populate small dataset | ❌ |
+| 5 | Populate small dataset | ✔ |
 | 6 | Testing SQLite with few test cases | ✔ |
 | 7 | Test your backend | ❌ |
 | 8 | Front end building | ❌ |
