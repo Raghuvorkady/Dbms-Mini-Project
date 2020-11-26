@@ -1,0 +1,92 @@
+{% extends 'libraryApp/test4.html' %}
+{% load static %}
+
+{% block content %}
+
+<br>
+
+<div class="container">
+    <div class="card card-body">
+
+        <form>
+            <div class="card-header text-center">
+                <h3 class="text-info">Add publisher details</h3>
+            </div>
+            <br>
+
+            <div class="form-group">
+                <label for="pubName">Select publisher</label>
+                <select id="pubName" class="form-control">
+                    <option selected>Choose...</option>
+                    <option>Ksd</option>
+                </select>
+            </div>
+
+
+            <h6 class="text-muted text-center">If not here, add the details <a data-toggle="collapse"
+                    href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                    here
+                </a></h6>
+
+
+            <div class="collapse" id="collapseExample">
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                        <label for="firstName">Publisher name</label>
+                        <input type="text" class="form-control" id="firstName" placeholder="publisher name">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="inputAddress">Address</label>
+                    <textarea class="form-control" id="inputAddress" rows="2"
+                        placeholder="1234 Main Street"></textarea>
+                </div>
+
+                <div class="form-row">
+
+                    <div class="form-group col-md-6">
+                        <label for="district">District</label>
+                        <select id="inputState" class="form-control">
+                            <option selected>Choose...</option>
+                            <option>Ksd</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group col-md-4">
+                        <label for="inputState">State</label>
+                        <select id="inputState" class="form-control">
+                            <option selected>Choose...</option>
+                            <option>Kerala</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group col-md-2">
+                        <label for="inputZip">Pin code</label>
+                        <input type="text" class="form-control" id="inputZip">
+                    </div>
+
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                        <label for="phone">Phone</label>
+                        <input type="text" class="form-control" id="phone" placeholder="123456789">
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="row justify-content-end">
+                <button type="submit" class="btn btn-primary" style="margin-right: 10px;">Next</button>
+            </div>
+        </form>
+
+
+    </div>
+</div>
+
+<br>
+
+{% endblock %}

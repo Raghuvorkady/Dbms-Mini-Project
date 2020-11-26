@@ -1,0 +1,41 @@
+{% extends 'libraryApp/main.html' %}
+{% load static %}
+
+{% block content %}
+
+<br>
+
+<div class="row text-center booksTable container">
+    <div class="col-md-12">
+        <h2 class="text-center">
+           Return book
+        </h2>
+        <br>
+        <div class="card card-body">
+            <table class="table table-sm table-hover">
+                <tr>
+                    <th>#</th>
+                    <th>Book title</th>
+                    <th>Author</th>
+                    <th>ISBN</th>
+                    <th>checkOut</th>
+                    <th>dueDate</th>
+                </tr>
+
+                
+                <tr>
+                    <td>1</td>
+                    
+                    <td><a href="#">Unix</a></td>
+                    <td>Abc</td>
+                    <td>978-3-16-148410-0</td>
+                    <td>20/02/2020</td>
+                    <td>30/02/2020</td>
+                </tr>
+
+            </table>
+        </div>
+    </div>
+
+    <br>
+    {% endblock %}

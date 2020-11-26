@@ -1,0 +1,86 @@
+{% extends 'libraryApp/main.html' %}
+{% load static %}
+
+{% block content %}
+
+<br>
+
+<div class="row text-center booksTable">
+    <div class="col-md-12">
+        <h2 class="text-center">
+            Currently, we have * no. of books in library
+        </h2>
+        <div class="row justify-content-end addBookBtn">
+        <button type="button" class="btn btn-secondary btn-lg" data-toggle="tooltip" data-placement="right"
+                title="Click here to add a book">Add book</button>
+        </div>
+        <br>
+        <div class="card card-body">
+            <table class="table table-sm table-hover">
+                <tr>
+                    <th>#</th>
+                    <th>Book title</th>
+                    <th>Genre</th>
+                    <th>Author</th>
+                    <th>Publisher</th>
+                    <th>Pub. year</th>
+                    <th>ISBN</th>
+                    <th>Availability</th>
+                    <th>Manage</th>
+                </tr>
+
+                <tr>
+                    <td>1</td>
+                    <td>Unix</td>
+                    <td>Thriller</td>
+                    <td>Abc</td>
+                    <td>Pigeon</td>
+                    <td>2000</td>
+                    <td>978-3-16-148410-0</td>
+                    <td>yes</td>
+
+                    <!-- TODO  CHECK IF STAFF OR NOT-->
+                    <td>{% include 'libraryApp/action_btn.html' %}</td>
+                </tr>
+
+                <tr>
+                    <td>1</td>
+                    <td>Unix</td>
+                    <td>Thriller</td>
+                    <td>Abc</td>
+                    <td>Pigeon</td>
+                    <td>2000</td>
+                    <td>978-3-16-148410-0</td>
+                    <td>yes</td>
+                    <td>{% include 'libraryApp/action_btn.html' %}</td>
+                </tr>
+
+                <tr>
+                    <td>1</td>
+                    <td>Unix</td>
+                    <td>Thriller</td>
+                    <td>Abc</td>
+                    <td>Pigeon</td>
+                    <td>2000</td>
+                    <td>978-3-16-148410-0</td>
+                    <td>yes</td>
+                    <td>{% include 'libraryApp/action_btn.html' %}</td>
+                </tr>
+
+                <tr>
+                    <td>1</td>
+                    <td>Unix</td>
+                    <td>Thriller</td>
+                    <td>Abc</td>
+                    <td>Pigeon</td>
+                    <td>2000</td>
+                    <td>978-3-16-148410-0</td>
+                    <td>yes</td>
+                    <td>{% include 'libraryApp/action_btn.html' %}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <br>
+    {% endblock %}

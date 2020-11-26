@@ -1,0 +1,40 @@
+{% extends 'libraryApp/authenticate.html' %}
+{% load static %}
+
+{% block content %}
+
+    <div class="container" style="max-width: 500px;">
+
+    <form class="form-signin">
+
+      <div class="text-center">
+        <img class="mb-4" src="{% static '/img/lms.png' %}" alt="" >
+        <h1 class="h3 mb-3 font-weight-normal">Library Management System</h1>
+      </div>
+      <br>
+
+      <div class="form-row">
+      <div class="form-group col-lg-12">
+        <input type="email" id="inputEmail" class="form-control" placeholder="Email address" autofocus="">
+      </div>
+      </div>
+
+<div class="form-row">
+      <div class="form-group col-lg-12">
+        <input type="password" id="inputPassword" class="form-control" placeholder="Password">
+      </div>
+      </div>
+
+      {% comment %} <div class="checkbox mb-3">
+        <label>
+          <input type="checkbox" value="remember-me"> Remember me
+        </label>
+      </div> {% endcomment %}
+      <button class="btn btn-primary btn-lg btn-primary btn-block" type="submit">Sign in</button>
+      <h6 class="mt-5 mb-3 text-muted text-center">Don't have account? Create here</h6>
+      <button class="btn btn-primary btn-lg btn-primary btn-block" type="button">Sign up</button>
+    </form>
+
+    </div>
+
+{% endblock content %}

@@ -1,0 +1,79 @@
+{% extends 'libraryApp/main.html' %}
+{% load static %}
+
+{% block content %}
+  
+<br>
+  
+<div class="row">
+	<div class="col-md-6 cardMargin">
+    <h5 class="text-center">Borrowed Books</h5>
+    <br>
+		<div class="card card-body">
+			<table class="table table-sm table-hover">
+				<tr>
+					<th>#</th>
+					<th>Book title</th>
+          
+          <!-- TODO  CHECK IF STAFF OR NOT-->
+          
+          <th>User</th>
+          <th>checkOut</th>
+          <th>checkIn</th>
+				</tr>
+
+        <tr>
+          <td>1</td>
+          <td>Unix</td>
+          <td></td>
+          <td>12/01/2020</td>
+          <td>15/01/2020</td>
+        </tr>
+
+        <tr>
+          <td>2</td>
+          <td>Atc</td>
+          <td></td>
+          <td>12/04/2020</td>
+          <td>15/05/2020</td>
+        </tr>
+
+        <tr>
+          <td>3</td>
+          <td>Unix</td>
+          <td></td>
+          <td>12/01/2020</td>
+          <td>15/01/2020</td>
+        </tr>
+			</table>
+		</div>
+	</div>
+
+  <br>
+
+	<div class="col-md-6 cardMargin">
+    <h5 class="text-center">Returned Books</h5>
+    <br>
+		<div class="card card-body">
+			<table class="table table-sm table-hover">
+				<tr>
+					<th>#</th>
+          <th>Book title</th>
+          <th>User</th>
+          <th>checkOut</th>
+          <th>checkIn</th>
+				</tr>
+
+        <tr>
+          <td>1</td>
+          <td>CNS</td>
+          <td></td>
+          <td>12/01/2020</td>
+          <td>15/01/2020</td>
+        </tr>
+			</table>
+		</div>
+	</div>
+
+</div>
+{% endblock %}

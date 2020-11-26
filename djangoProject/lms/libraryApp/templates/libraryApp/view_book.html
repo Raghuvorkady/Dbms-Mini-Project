@@ -1,0 +1,56 @@
+{% extends 'libraryApp/main.html' %}
+{% load static %}
+
+{% block content %}
+
+<br>
+
+<style>
+    .viewBook {
+        margin: 10px;
+    }
+</style>
+
+<div class="row align-items-center viewBook">
+    <div class="col-md-8 card card-body border-light bg-light ml-auto">
+        <!-- <img src="{% static '/img/sample-book-cover2.png' %}" class="img-rounded" alt=""> -->
+        <div class="card-header text-center">Book details</div>
+        <div class="card-body text-info">
+            <div class="row justify-content-center">
+                <h3 class="card-title font-weight-bold">Book Title</h3>
+            </div>
+            <div class="row justify-content-center">
+                <span>3 copies are available</span>
+            </div>
+            <div class="row justify-content-center">
+                <h5>Genre</h5>
+            </div>
+            <div class="row justify-content-center">
+                <h5>Publisher</h5>
+            </div>
+            <div class="row justify-content-center">
+                <span>Year of Publication</span>
+            </div>
+            <div class="card-text row justify-content-center">
+                <h5>Street Address <br> District <br> State 671323 </h5>
+            </div>
+        </div>
+
+    </div>
+    <div class="col-md-4">
+        <div class="row justify-content-center">
+            <button type="button" class="btn btn-outline-success btn-lg" data-toggle="tooltip" data-placement="right"
+                title="Click here to borrow the book">Borrow</button>
+        </div>
+        <br>
+        <div class="row justify-content-center">
+            <button type="button" class="btn btn-outline-danger btn-lg" data-toggle="tooltip" data-placement="right"
+                title="Click here to return the book">Return</button>
+        </div>
+    </div>
+</div>
+
+<br>
+
+
+{% endblock %}
