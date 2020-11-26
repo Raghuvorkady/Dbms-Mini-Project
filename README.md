@@ -11,11 +11,9 @@
 
 3. Next it will prompt you to enter your GitHub username/email and password
 
-4. Now after successfull clone(download), create a new django project inside the folder "djangoProject"
+4. Now after successfull clone(download), create a new django project inside the folder "djangoProject"<br>For the above step again open the command prompt and change the directory to the folder "djangoProject"
 
-For the above step again open the command prompt and change the directory to the folder "djangoProject"
-	
-	> Type: **django-admin startproject speechTest**
+	> Type: **django-admin startproject speechTest** 
 	
 	> Type: **python manage.py startapp srt**
 
@@ -31,7 +29,8 @@ And now it's time for some django work, designing a simple ui to input a speech 
 	
 	> Type: **git push**
 	
-	> Type: **git status** (Ouput should be: nothing to commit, working tree clean)
+	> Type: **git status** 
+	(Ouput should be: nothing to commit, working tree clean)
 
 6. If successfully pushed, all will receive a mail.
 
@@ -50,10 +49,11 @@ So if you face any rejected message whenever you push, follow Step 7.
 | 1 | First step feature listing | ✔ |
 | 2 | Design of db | ❌ |
 | 3 | ER diagram | ✔ |
-| 4 | Schema Diagram | ❌ |
+| 4 | Schema Diagram | ✔ |
 | 5 | Populate small dataset | ❌ |
-| 6 | Test your backend | ❌ |
-| 7 | Front end building | ❌ |
+| 6 | Testing SQLite with few test cases | ✔ |
+| 7 | Test your backend | ❌ |
+| 8 | Front end building | ❌ |
 ***
 ### Tools required:
 1. SQLite - Database
