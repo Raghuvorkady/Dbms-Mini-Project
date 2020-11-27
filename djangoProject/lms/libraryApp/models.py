@@ -50,7 +50,6 @@ class USER(models.Model):
     def __str__(self):
         return self.email
 
-
 class LIBRARIAN(models.Model):
     fName = models.CharField(max_length=20)
     mName = models.CharField(max_length=20)
@@ -66,7 +65,6 @@ class LIBRARIAN(models.Model):
 
     def __str__(self):
         return self.email
-
 
 class PUBLISHER(models.Model):
     pubName = models.CharField(max_length=30)
@@ -96,7 +94,6 @@ class AUTHOR(models.Model):
 
     def __str__(self):
         return self.authorName
-
 
 class STOCK(models.Model):
     bookCopies = models.IntegerField()
