@@ -29,55 +29,23 @@
                     <th>Manage</th>
                 </tr>
 
-                <tr>
-                    <td>1</td>
-                    <td>Unix</td>
-                    <td>Thriller</td>
-                    <td>Abc</td>
-                    <td>Pigeon</td>
-                    <td>2000</td>
-                    <td>978-3-16-148410-0</td>
-                    <td>yes</td>
+                {% for i in books %}
+                    <tr>
+                        <td>{{i}}</td>
+                        <td>{{i.bookTitle}}</td>
+                        <td>{{i.genre}}</td>
+                        <td></td>
+                        <td></td>
+                        <td>{{i.pubYear}}</td>
+                        <td>{{i.isbn}}</td>
+                        <td></td>
+                        <td>{% include 'libraryApp/action_btn.html' %}</td>
+                    </tr>
+                    
 
-                    <!-- TODO  CHECK IF STAFF OR NOT-->
-                    <td>{% include 'libraryApp/action_btn.html' %}</td>
-                </tr>
+                
+                {% endfor %}
 
-                <tr>
-                    <td>1</td>
-                    <td>Unix</td>
-                    <td>Thriller</td>
-                    <td>Abc</td>
-                    <td>Pigeon</td>
-                    <td>2000</td>
-                    <td>978-3-16-148410-0</td>
-                    <td>yes</td>
-                    <td>{% include 'libraryApp/action_btn.html' %}</td>
-                </tr>
-
-                <tr>
-                    <td>1</td>
-                    <td>Unix</td>
-                    <td>Thriller</td>
-                    <td>Abc</td>
-                    <td>Pigeon</td>
-                    <td>2000</td>
-                    <td>978-3-16-148410-0</td>
-                    <td>yes</td>
-                    <td>{% include 'libraryApp/action_btn.html' %}</td>
-                </tr>
-
-                <tr>
-                    <td>1</td>
-                    <td>Unix</td>
-                    <td>Thriller</td>
-                    <td>Abc</td>
-                    <td>Pigeon</td>
-                    <td>2000</td>
-                    <td>978-3-16-148410-0</td>
-                    <td>yes</td>
-                    <td>{% include 'libraryApp/action_btn.html' %}</td>
-                </tr>
             </table>
         </div>
     </div>

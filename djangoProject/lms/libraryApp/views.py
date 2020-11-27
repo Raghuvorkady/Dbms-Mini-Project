@@ -1,3 +1,4 @@
+from libraryApp.models import AUTHOR, BOOK, PUBLISHER, WRITTENBY
 from django.shortcuts import render
 from django.http import HttpResponse
 
@@ -6,21 +7,21 @@ def index(request):
     main = 'libraryApp/main.html'
     return render(request, main)
 
-def test(request):
-    test = 'libraryApp/test.html'
-    return render(request, test)
+def addPublisherDetails(request):
+    publisherDetails = 'libraryApp/add_publisher_details.html'
+    return render(request, publisherDetails)
 
-def test2(request):
-    test2 = 'libraryApp/test2.html'
-    return render(request, test2)
+def addAuthorDetails(request):
+    authorDetails = 'libraryApp/add_author_details.html'
+    return render(request, authorDetails)
 
-def test3(request):
-    test3 = 'libraryApp/test3.html'
-    return render(request, test3)
+def addBookDetails(request):
+    bookDetails = 'libraryApp/add_book_details.html'
+    return render(request, bookDetails)
 
-def test4(request):
-    test4 = 'libraryApp/test4.html'
-    return render(request, test4)
+def addBookTemplate(request):
+    addBookTemplate = 'libraryApp/add_book_template.html'
+    return render(request, addBookTemplate)
 
 def progressive(request):
     progressive = 'libraryApp/progresive.html'
@@ -32,7 +33,20 @@ def dashboard(request):
 
 def borrowBook(request):
     borrowBook = 'libraryApp/borrow_book.html'
-    return render(request, borrowBook)
+
+    books = BOOK.objects.all()
+
+    for i in books:
+        pub = PUBLISHER.objects.filter(pubName=i.pubID)
+        for i in pub.all():
+            print(i)
+            
+        wb = WRITTENBY.objects.filter(bookID = i.id)
+        print(wb)
+    
+    author = AUTHOR.objects
+    context = {'books': books}
+    return render(request, borrowBook, context)
 
 def viewBook(request):
     viewBook = 'libraryApp/view_book.html'
