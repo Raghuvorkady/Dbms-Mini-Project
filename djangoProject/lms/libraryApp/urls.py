@@ -10,6 +10,7 @@ urlpatterns = [
     path('progressive/', views.progressive),
     path('dashboard/', views.dashboard),
     path('borrowbook/', views.borrowBook),
+    #path('/', views.borrowBook),  for staff to view all books
     path('viewbook/', views.viewBook),
     path('returnbook/', views.returnBook),
     path('signup/', views.signUp),

@@ -5,7 +5,7 @@ from django.http import HttpResponse
 
 class tempBook:
 
-    def __init__(self, slNo, bookTitle, genre, pubName, pubYear, author, isbn, isAvail):
+    def __init__(self, slNo, bookTitle, genre, pubName, pubYear, author, isbn, stock):
         self.slNo = slNo
         self.bookTitle = bookTitle
         self.genre = genre
@@ -13,7 +13,7 @@ class tempBook:
         self.pubYear = pubYear
         self.author = author
         self.isbn = isbn
-        self.isAvail = isAvail
+        self.stock = stock
 
 # Create your views here.
 
@@ -65,7 +65,6 @@ def borrowBook(request):
         stock = STOCK.objects.filter(bookID__bookTitle=i.bookTitle).first()
         wb = WRITTENBY.objects.filter(bookID__bookTitle=i.bookTitle)
         authorList = []
-        isAvail = False
         for w in wb.all():
             for j in w.authorID.all():
                 authorList.append(j)
@@ -73,13 +72,12 @@ def borrowBook(request):
         pub = PUBLISHER.objects.filter(
             book__bookTitle__contains=i.bookTitle).first()
         #print(i.bookTitle, "of genre", i.genre, "of ID:", i.id, "is published by,", pub.pubName,"of id", pub.id, "and authors are: ", authors, "is having:", stock.bookCopies, "copies")
-        if stock.bookCopies > 0:
-            isAvail = True
         booksList.append(tempBook(count, i.bookTitle, i.genre,
-                                  pub.pubName, i.pubYear, authorString, i.isbn, isAvail))
+                                  pub.pubName, i.pubYear, authorString, i.isbn, stock.bookCopies))
 
     context = {
         'books': booksList,
+        'count': count
     }
     return render(request, borrowBook, context)
 
