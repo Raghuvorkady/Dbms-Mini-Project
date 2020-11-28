@@ -3,18 +3,20 @@
 <head>
 <title></title>
 <meta name="ROBOTS" content="NOINDEX, NOFOLLOW" />
-<!-- CSS styles for standard search box -->
+
 
 </head>
 <body>
+
 <style>
+
       .speech {
         border: 5.5px solid #000000;
         width:300px;
         padding:10px;
-        background-color: #ffff
-
-        margin:10px
+        background-color: #ffDffS;
+        margin:10px;
+        
       }
 
       .speech input {
@@ -23,21 +25,27 @@
         display:inline-block;
         height:30px;
         font-size: 20px;
-        font-color : black
+        font-style: italic;
+        font-color : black;
+    
       }
 
       .speech img {
         float:right;
         width:35px
-      }
+        
+     }
 
     </style>
+
 
     <form id="google" method="get" action="http://www.google.com">
       <div class="speech">
         <input type="text" name="s" id="transcript" placeholder="we are listening "/>
         <img onclick="startDictation()" src="//i.imgur.com/cHidSVu.gif" />
+    
       </div>
+
     </form>
 
     <script>
