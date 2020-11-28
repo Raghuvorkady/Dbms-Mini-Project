@@ -1,7 +1,7 @@
 from libraryApp.models import *
 from django.shortcuts import render
 from django.http import HttpResponse
-
+import datetime
 
 class tempBook:
 
@@ -16,6 +16,15 @@ class tempBook:
         self.stock = stock
 
 # Create your views here.
+class tempDashboard:
+
+    def __init__(self, slNo, bookTitle, userName, checkOut, checkIn, dueDate):
+        self.slNo = slNo
+        self.bookTitle = bookTitle
+        self.userName = userName
+        self.checkOut = checkOut
+        self.checkIn = checkIn
+        self.dueDate = dueDate
 
 
 def index(request):
@@ -70,7 +79,25 @@ def progressive(request):
 
 def dashboard(request):
     dashboard = 'libraryApp/dashboard.html'
-    return render(request, dashboard)
+    borrowedBooks = BORROWEDBOOK.objects.all()
+    borrowedBooksList = []
+    returnedBooksList = []
+    count = 0
+    for i in borrowedBooks:
+        count += 1
+        user = USER.objects.filter(email=i.userID).first()
+        userName = user.fName + " " + user.mName + " " + user.lName
+        print(userName)
+        if i.checkIn is not None:
+            borrowedBooksList.append(tempDashboard(count, i.bookID, userName, i.checkOut, i.checkIn, i.dueDate + datetime.timedelta(days=14)))
+        else:
+            returnedBooksList.append(tempDashboard(count, i.bookID, userName, i.checkOut, i.checkIn, i.dueDate))
+
+    context = {
+        "borrowedBooks" : borrowedBooksList,
+        "returnedBooks" : returnedBooksList
+    }
+    return render(request, dashboard, context)
 
 
 def borrowBook(request):
@@ -119,4 +146,12 @@ def signIn(request):
 
 def signUp(request):
     signUp = 'libraryApp/sign_up.html'
-    return render(request, signUp)
+    states = defaultValues.statesInIndia
+    courses = defaultValues.courses
+    genres = defaultValues.genre
+    context = {
+        "states" : states,
+        "courses" : courses,
+        "genres" : genres
+    }
+    return render(request, signUp, context)

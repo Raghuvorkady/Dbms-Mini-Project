@@ -18,33 +18,19 @@
           <!-- TODO  CHECK IF STAFF OR NOT-->
           
           <th>User</th>
-          <th>checkOut</th>
-          <th>checkIn</th>
+          <th>CheckOut</th>
+          <th>DueDate</th>
 				</tr>
 
-        <tr>
-          <td>1</td>
-          <td>Unix</td>
-          <td></td>
-          <td>12/01/2020</td>
-          <td>15/01/2020</td>
-        </tr>
-
-        <tr>
-          <td>2</td>
-          <td>Atc</td>
-          <td></td>
-          <td>12/04/2020</td>
-          <td>15/05/2020</td>
-        </tr>
-
-        <tr>
-          <td>3</td>
-          <td>Unix</td>
-          <td></td>
-          <td>12/01/2020</td>
-          <td>15/01/2020</td>
-        </tr>
+        {% for i in borrowedBooks %}
+          <tr>
+            <td>{{i.slNo}}</td>
+            <td><a href="#">{{i.bookTitle}}</a></td>
+            <td>{{i.userName}}</td>
+            <td>{{i.checkOut}}</td>
+            <td>{{i.dueDate}}</td>
+          </tr>
+        {% endfor %}
 			</table>
 		</div>
 	</div>
@@ -64,14 +50,17 @@
           <th>checkIn</th>
 				</tr>
 
-        <tr>
-          <td>1</td>
-          <td>CNS</td>
-          <td></td>
-          <td>12/01/2020</td>
-          <td>15/01/2020</td>
-        </tr>
-			</table>
+        {% for i in borrowedBooks %}
+          <tr>
+            <td>{{i.slNo}}</td>
+            <td><a href="#">{{i.bookTitle}}</a></td>
+            <td>{{i.userName}}</td>
+            <td>{{i.checkOut}}</td>
+            <td>{{i.checkIn}}</td>
+          </tr>
+        {% endfor %}
+
+        </table>
 		</div>
 	</div>
 
