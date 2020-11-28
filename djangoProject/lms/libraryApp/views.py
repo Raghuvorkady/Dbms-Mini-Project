@@ -25,17 +25,37 @@ def index(request):
 
 def addPublisherDetails(request):
     publisherDetails = 'libraryApp/add_publisher_details.html'
-    return render(request, publisherDetails)
+    publishers = PUBLISHER.objects.all()
+    
+    context = {
+        'publishers' : publishers
+    }
+    
+    return render(request, publisherDetails, context)
 
 
 def addAuthorDetails(request):
     authorDetails = 'libraryApp/add_author_details.html'
-    return render(request, authorDetails)
+    authors = AUTHOR.objects.all()
+
+    context = {
+        'authors': authors
+    }
+        
+    return render(request, authorDetails, context)
 
 
 def addBookDetails(request):
     bookDetails = 'libraryApp/add_book_details.html'
-    return render(request, bookDetails)
+    authors = AUTHOR.objects.all()
+    publishers = PUBLISHER.objects.all()
+    
+    context = {
+        'authors': authors,
+        'publishers' : publishers
+
+    }
+    return render(request, bookDetails, context)
 
 
 def addBookTemplate(request):

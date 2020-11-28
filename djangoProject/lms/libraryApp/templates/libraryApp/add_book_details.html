@@ -24,9 +24,9 @@
       <div class="form-group">
         <label for="authName">Select author</label>
         <select id="authName" class="selectpicker form-control" multiple data-live-search="true">
-            <option>Mustard</option>
-            <option>Ketchup</option>
-            <option>Relish</option>
+            {% for i in authors %}
+                <option>{{i}}</option>
+            {% endfor %}
         </select>
       </div>
 
@@ -34,8 +34,9 @@
         <div class="form-group col-md-9">
           <label for="pubName">Select publisher</label>
           <select id="pubName" class="form-control">
-            <option selected>SBC</option>
-            <option>Ksd</option>
+            {% for i in publishers %}
+                <option>{{i}}</option>
+            {% endfor %}
           </select>
         </div>
 

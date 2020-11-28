@@ -17,8 +17,9 @@
             <div class="form-group">
                 <label for="pubName">Select publisher</label>
                 <select id="pubName" class="form-control">
-                    <option selected>Choose...</option>
-                    <option>Ksd</option>
+                    {% for i in publishers %}
+                        <option>{{i}}</option>
+                    {% endfor %}
                 </select>
             </div>
 
