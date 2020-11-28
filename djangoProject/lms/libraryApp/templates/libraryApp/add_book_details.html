@@ -1,4 +1,4 @@
-{% extends 'libraryApp/test4.html' %}
+{% extends 'libraryApp/add_book_template.html' %}
 {% load static %}
 
 {% block content %}
@@ -23,14 +23,15 @@
 
       <div class="form-group">
         <label for="authName">Select author</label>
-        <select id="authName" class="form-control">
-          <option selected>Raghu</option>
-          <option>Ksd</option>
+        <select id="authName" class="selectpicker form-control" multiple data-live-search="true">
+            <option>Mustard</option>
+            <option>Ketchup</option>
+            <option>Relish</option>
         </select>
       </div>
 
       <div class="form-row">
-        <div class="form-group col-md-8">
+        <div class="form-group col-md-9">
           <label for="pubName">Select publisher</label>
           <select id="pubName" class="form-control">
             <option selected>SBC</option>
@@ -38,10 +39,10 @@
           </select>
         </div>
 
-        <div class="form-group col-md-4 ml-auto">
+        <div class="form-group col-md-3">
           <label for="firstName">Publication year</label>
           <br>
-          <input class="datePicker" type="text" id="datepicker" />
+          <input class="datePicker form-control" type="text" id="datepicker">
         </div>
       </div>
 
@@ -55,9 +56,14 @@
       </div>
 
       <div class="form-row">
-        <div class="form-group col-md-12">
+        <div class="form-group col-md-8">
           <label for="firstName">ISBN</label>
           <input type="text" class="form-control" id="firstName" placeholder="978-3-16-148410-0">
+        </div>
+
+        <div class="form-group col-md-4">
+          <label for="stock">Stock</label>
+          <input type="number" class="form-control" id="stock" placeholder="no. of books">
         </div>
       </div>
 

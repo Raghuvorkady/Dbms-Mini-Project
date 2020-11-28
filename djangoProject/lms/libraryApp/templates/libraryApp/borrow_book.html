@@ -8,7 +8,7 @@
 <div class="row text-center booksTable">
     <div class="col-md-12">
         <h2 class="text-center">
-            Currently, we have * no. of books in library
+            Currently, we have {{count}} no. of books in library
         </h2>
         <div class="row justify-content-end addBookBtn">
         <button type="button" class="btn btn-secondary btn-lg" data-toggle="tooltip" data-placement="right"
@@ -25,59 +25,27 @@
                     <th>Publisher</th>
                     <th>Pub. year</th>
                     <th>ISBN</th>
-                    <th>Availability</th>
+                    <th>Stock</th>
                     <th>Manage</th>
                 </tr>
 
-                <tr>
-                    <td>1</td>
-                    <td>Unix</td>
-                    <td>Thriller</td>
-                    <td>Abc</td>
-                    <td>Pigeon</td>
-                    <td>2000</td>
-                    <td>978-3-16-148410-0</td>
-                    <td>yes</td>
+                {% for i in books %}
+                    <tr>
+                        <td>{{i.slNo}}</td>
+                        <td><a href="#">{{i.bookTitle}}</a></td>
+                        <td>{{i.genre}}</td>
+                        <td>{{i.author}}</td>
+                        <td>{{i.pubName}}</td>
+                        <td>{{i.pubYear}}</td>
+                        <td>{{i.isbn}}</td>
+                        <td>{{i.stock}}</td>
+                        <td>{% include 'libraryApp/action_btn.html' %}</td>
+                    </tr>
+                    
 
-                    <!-- TODO  CHECK IF STAFF OR NOT-->
-                    <td>{% include 'libraryApp/action_btn.html' %}</td>
-                </tr>
+                
+                {% endfor %}
 
-                <tr>
-                    <td>1</td>
-                    <td>Unix</td>
-                    <td>Thriller</td>
-                    <td>Abc</td>
-                    <td>Pigeon</td>
-                    <td>2000</td>
-                    <td>978-3-16-148410-0</td>
-                    <td>yes</td>
-                    <td>{% include 'libraryApp/action_btn.html' %}</td>
-                </tr>
-
-                <tr>
-                    <td>1</td>
-                    <td>Unix</td>
-                    <td>Thriller</td>
-                    <td>Abc</td>
-                    <td>Pigeon</td>
-                    <td>2000</td>
-                    <td>978-3-16-148410-0</td>
-                    <td>yes</td>
-                    <td>{% include 'libraryApp/action_btn.html' %}</td>
-                </tr>
-
-                <tr>
-                    <td>1</td>
-                    <td>Unix</td>
-                    <td>Thriller</td>
-                    <td>Abc</td>
-                    <td>Pigeon</td>
-                    <td>2000</td>
-                    <td>978-3-16-148410-0</td>
-                    <td>yes</td>
-                    <td>{% include 'libraryApp/action_btn.html' %}</td>
-                </tr>
             </table>
         </div>
     </div>

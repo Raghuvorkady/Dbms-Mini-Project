@@ -3,13 +3,14 @@ from . import views
 
 urlpatterns = [
     path('', views.index),
-    path('test/', views.test),
-    path('test2/', views.test2),
-    path('test3/', views.test3),
-    path('test4/', views.test4),
+    path('addpublisherdetails/', views.addPublisherDetails),
+    path('addauthordetails/', views.addAuthorDetails),
+    path('addbookdetails/', views.addBookDetails),
+    path('addbooktemplate/', views.addBookTemplate),
     path('progressive/', views.progressive),
     path('dashboard/', views.dashboard),
     path('borrowbook/', views.borrowBook),
+    #path('/', views.borrowBook),  for staff to view all books
     path('viewbook/', views.viewBook),
     path('returnbook/', views.returnBook),
     path('signup/', views.signUp),
