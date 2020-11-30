@@ -82,16 +82,24 @@ def dashboard(request):
     borrowedBooks = BORROWEDBOOK.objects.all()
     borrowedBooksList = []
     returnedBooksList = []
-    count = 0
+    bCount = 0
+    cCount = 0
     for i in borrowedBooks:
-        count += 1
         user = USER.objects.filter(email=i.userID).first()
         userName = user.fName + " " + user.mName + " " + user.lName
-        print(userName)
-        if i.checkIn is not None:
-            borrowedBooksList.append(tempDashboard(count, i.bookID, userName, i.checkOut, i.checkIn, i.dueDate + datetime.timedelta(days=14)))
+        print(i, "CHECKIN", i.checkIn)
+        if i.checkIn is None:
+            print("borrowed",userName)
+            bCount += 1
+            borrowedBooksList.append(tempDashboard(bCount, i.bookID, userName, i.checkOut, i.checkIn, i.dueDate + datetime.timedelta(days=14)))
+            print("\nBORROWED LIST\n")
+            print(borrowedBooksList)
         else:
-            returnedBooksList.append(tempDashboard(count, i.bookID, userName, i.checkOut, i.checkIn, i.dueDate))
+            print("returned",userName)
+            cCount += 1
+            returnedBooksList.append(tempDashboard(cCount, i.bookID, userName, i.checkOut, i.checkIn, i.dueDate))
+            print("\nRETURNED LIST\n")
+            print(returnedBooksList)
 
     context = {
         "borrowedBooks" : borrowedBooksList,
