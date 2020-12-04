@@ -1,7 +1,6 @@
 from libraryApp.models import *
 from django.shortcuts import render
 from django.http import HttpResponse
-import datetime
 
 class tempBook:
 
@@ -91,13 +90,13 @@ def dashboard(request):
         if i.checkIn is None:
             print("borrowed",userName)
             bCount += 1
-            borrowedBooksList.append(tempDashboard(bCount, i.bookID, userName, i.checkOut, i.checkIn, i.dueDate + datetime.timedelta(days=14)))
+            borrowedBooksList.append(tempDashboard(bCount, i.bookID, userName, i.checkOut, None, i.dueDate))
             print("\nBORROWED LIST\n")
             print(borrowedBooksList)
         else:
             print("returned",userName)
             cCount += 1
-            returnedBooksList.append(tempDashboard(cCount, i.bookID, userName, i.checkOut, i.checkIn, i.dueDate))
+            returnedBooksList.append(tempDashboard(cCount, i.bookID, userName, i.checkOut, i.checkIn, None))
             print("\nRETURNED LIST\n")
             print(returnedBooksList)
 

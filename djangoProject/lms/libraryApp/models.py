@@ -1,5 +1,5 @@
 from django.db import models
-
+import datetime
 # Create your models here.
 # null = True is only for testing
 # not needed since django provides a way to store users
@@ -31,8 +31,8 @@ class USER(models.Model):
         (8, "8"),
     ]
     fName = models.CharField(max_length=20)
-    mName = models.CharField(max_length=20)
-    lName = models.CharField(max_length=20)
+    mName = models.CharField(max_length=20, blank=True)
+    lName = models.CharField(max_length=20, blank=True)
     email = models.CharField(max_length=50)
     pwd = models.CharField(max_length=20)
     streetAddr = models.CharField(max_length=50)
@@ -55,8 +55,9 @@ class USER(models.Model):
 
 class LIBRARIAN(models.Model):
     fName = models.CharField(max_length=20)
-    mName = models.CharField(max_length=20)
-    lName = models.CharField(max_length=20)
+    #null=True blank=True This means that the field is optional in all circumstances.
+    mName = models.CharField(max_length=20, blank=True)
+    lName = models.CharField(max_length=20, blank=True)
     email = models.CharField(max_length=50)
     pwd = models.CharField(max_length=20)
     streetAddr = models.CharField(max_length=50)
@@ -118,10 +119,14 @@ class WRITTENBY(models.Model):
 
 class BORROWEDBOOK(models.Model):
     checkOut = models.DateTimeField(auto_now_add=True, null=True)
-    dueDate = models.DateTimeField(auto_now_add=True, null=True)
+    dueDate = models.DateTimeField(null=True, blank=True)
     checkIn = models.DateTimeField(auto_now_add=False, null=True, blank=True)
     userID = models.ForeignKey(USER, null=True, on_delete=models.SET_NULL)
     bookID = models.ForeignKey(BOOK, null=True, on_delete=models.SET_NULL)
+
+    def save(self, *args, **kwargs):
+        self.dueDate = datetime.datetime.now()+datetime.timedelta(days=14) # original answer used this line: self.created + datetime.timedelta(365).isoformat()
+        super(BORROWEDBOOK, self).save(*args, **kwargs) # Call the "real" save() method.
 
 
 class defaultValues(models.Model):
