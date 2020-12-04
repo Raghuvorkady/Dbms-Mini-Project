@@ -141,9 +141,25 @@ def borrowBook(request):
     return render(request, borrowBook, context)
 
 
-def viewBook(request):
+def viewBook(request, bookID):
     viewBook = 'libraryApp/view_book.html'
-    return render(request, viewBook)
+
+    book = BOOK.objects.get(id=bookID)
+    pub = PUBLISHER.objects.filter(book__bookTitle__contains=book.bookTitle).first()
+    stock = STOCK.objects.filter(bookID__bookTitle=book.bookTitle).first()
+    wb = WRITTENBY.objects.filter(bookID__bookTitle=book.bookTitle)
+    authorList = []
+    for w in wb.all():
+        for j in w.authorID.all():
+            authorList.append(j)
+    authorString = ', '.join(map(str, authorList))
+    bookObject = tempBook(None, book.bookTitle, book.genre, pub.pubName, book.pubYear, authorString, book.isbn, stock.bookCopies)
+
+    context = {
+        "book" : bookObject,
+        "pub" : pub
+    }
+    return render(request, viewBook, context)
 
 
 def returnBook(request):

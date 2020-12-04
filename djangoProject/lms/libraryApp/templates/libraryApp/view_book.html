@@ -3,41 +3,75 @@
 
 {% block content %}
 
-<br>
-
 <style>
     .viewBook {
         margin: 10px;
     }
+    .bookTitle{
+        font-size: 34px;
+        color: #444444;
+    }
+    .center{
+        margin: auto;
+    }
+    .cardHead{
+        background-color: lightsteelblue;
+    }
+    .bookCopy{
+        color: #fffffff6;
+    }
+    .small{
+        font-size: 20px;
+    }
+    .bodyText{
+        font-size: 18px;
+    }
 </style>
 
-<div class="row align-items-center viewBook">
-    <div class="col-md-8 card card-body border-light bg-light ml-auto">
+<div>
+    <h1 class="text-center">
+        View book
+     </h1> 
+</div>
+
+<div class="row align-items-center viewBook mt-4">
+    <div class="card card-body border-light bg-light col-md-8">
         <!-- <img src="{% static '/img/sample-book-cover2.png' %}" class="img-rounded" alt=""> -->
-        <div class="card-header text-center">Book details</div>
-        <div class="card-body text-info">
+        <div class="card-header text-center cardHead">
             <div class="row justify-content-center">
-                <h3 class="card-title font-weight-bold">Book Title</h3>
+                <h3 class="font-weight-bold bookTitle">
+                    {{book.bookTitle}} <span class="small">({{book.stock}}*)</span>
+                </h3>
             </div>
             <div class="row justify-content-center">
-                <span>3 copies are available</span>
+                <div class="bookCopy mr-4">
+                    {{book.genre}}
+                </div>
             </div>
+        </div>
+
+
+        <div class="card-body text-center bodyText">
             <div class="row justify-content-center">
-                <h5>Genre</h5>
+                <strong class="pr-1">Author:</strong> {{book.author}}
             </div>
-            <div class="row justify-content-center">
-                <h5>Publisher</h5>
+            <div class="row justify-content-center pt-1">
+                <strong class="pr-1">ISBN:</strong> {{book.isbn}}
             </div>
-            <div class="row justify-content-center">
-                <span>Year of Publication</span>
+            <div class="row justify-content-center pt-1">
+                <strong class="pr-1">Publisher:</strong> {{book.pubName}},
+                {{book.pubYear}}
             </div>
-            <div class="card-text row justify-content-center">
-                <h5>Street Address <br> District <br> State 671323 </h5>
+            <div class="row justify-content-center pt-1">
+                <strong class="pr-1">Address:</strong> {{pub.streetAddr}},<br> {{pub.district}},<br> {{pub.state}}, {{pub.pinCode}}
+            </div>
+            <div class="row justify-content-center pt-1">
+                <strong class="pr-1">Phone:</strong> {{pub.phoneNum}}
             </div>
         </div>
 
     </div>
-    <div class="col-md-4">
+    <div class="col-md-4 mt-5">
         <div class="row justify-content-center">
             <button type="button" class="btn btn-outline-success btn-lg" data-toggle="tooltip" data-placement="right"
                 title="Click here to borrow the book">Borrow</button>

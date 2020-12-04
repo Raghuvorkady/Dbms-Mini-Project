@@ -11,7 +11,7 @@ urlpatterns = [
     path('dashboard/', views.dashboard),
     path('borrowbook/', views.borrowBook),
     #path('/', views.borrowBook),  for staff to view all books
-    path('viewbook/', views.viewBook),
+    path('viewbook/<str:bookID>/', views.viewBook),
     path('returnbook/', views.returnBook),
     path('signup/', views.signUp),
     path('signin/', views.signIn),
