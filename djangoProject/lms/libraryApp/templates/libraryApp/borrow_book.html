@@ -16,19 +16,23 @@
         </div>
         <br>
         <div class="card card-body">
+            
             <table class="table table-sm table-hover">
-                <tr>
-                    <th>#</th>
-                    <th>Book title</th>
-                    <th>Genre</th>
-                    <th>Author</th>
-                    <th>Publisher</th>
-                    <th>Pub. year</th>
-                    <th>ISBN</th>
-                    <th>Stock</th>
-                    <th>Manage</th>
-                </tr>
-
+                
+                <thead class="thead-light threadText">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Book Title</th>
+                        <th scope="col">Genre</th>
+                        <th scope="col">Author</th>
+                        <th scope="col">Publisher</th>
+                        <th scope="col">Pub. Year</th>
+                        <th scope="col">ISBN</th>
+                        <th scope="col">Stock</th>
+                        <th scope="col">Manage</th>
+                    </tr>
+               </thead>
+                
                 {% for i in books %}
                     <tr>
                         <td>{{i.slNo}}</td>
@@ -41,9 +45,6 @@
                         <td>{{i.stock}}</td>
                         <td>{% include 'libraryApp/action_btn.html' %}</td>
                     </tr>
-                    
-
-                
                 {% endfor %}
 
             </table>

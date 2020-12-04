@@ -1,0 +1,46 @@
+{% extends 'libraryApp/main.html' %}
+
+{% block content %}
+
+<div class="container">
+    <div class="col-md-12 text-center">
+        <h1>You have searched for "Unix"</h1>
+    </div>
+    <div class="col-md-12 mt-3">
+        <h6 class="form-text text-center text-muted">
+            0 search results
+        </h6>
+    </div>
+    <div class="card card-body col-md-12 mt-5">
+        <table class="table table-sm table-hover text-center">
+            <thead class="thead-light threadText">
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Book Title</th>
+                  <th scope="col">Genre</th>
+                  <th scope="col">Author</th>
+                  <th scope="col">Publisher</th>
+                  <th scope="col">Pub. Year</th>
+                  <th scope="col">ISBN</th>
+                  <th scope="col">Stock</th>
+                </tr>
+              </thead>
+
+            {% for i in books %}
+                <tr>
+                    <td>{{i.slNo}}</td>
+                    <td><a href="#">{{i.bookTitle}}</a></td>
+                    <td>{{i.genre}}</td>
+                    <td>{{i.author}}</td>
+                    <td>{{i.pubName}}</td>
+                    <td>{{i.pubYear}}</td>
+                    <td>{{i.isbn}}</td>
+                    <td>{{i.stock}}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+
+
+{% endblock content %}

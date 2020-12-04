@@ -184,3 +184,30 @@ def signUp(request):
         "courses" : courses,
     }
     return render(request, signUp, context)
+
+def searchResult(request):
+    searchResult = 'libraryApp/search_result_page.html'
+    books = BOOK.objects.all()
+    booksList = []
+    count = 0
+    
+    for i in books:
+        count += 1
+        stock = STOCK.objects.filter(bookID__bookTitle=i.bookTitle).first()
+        wb = WRITTENBY.objects.filter(bookID__bookTitle=i.bookTitle)
+        authorList = []
+        for w in wb.all():
+            for j in w.authorID.all():
+                authorList.append(j)
+        authorString = ', '.join(map(str, authorList))
+        pub = PUBLISHER.objects.filter(
+            book__bookTitle__contains=i.bookTitle).first()
+        #print(i.bookTitle, "of genre", i.genre, "of ID:", i.id, "is published by,", pub.pubName,"of id", pub.id, "and authors are: ", authors, "is having:", stock.bookCopies, "copies")
+        booksList.append(tempBook(count, i.bookTitle, i.genre,
+                                  pub.pubName, i.pubYear, authorString, i.isbn, stock.bookCopies))
+
+    context = {
+        'books': booksList,
+        'count': count
+    }
+    return render(request, searchResult, context)

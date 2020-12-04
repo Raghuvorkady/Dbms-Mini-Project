@@ -10,17 +10,17 @@
     <h3 class="text-center">Borrowed Books</h3>
     <br>
 		<div class="card card-body">
-			<table class="table table-sm table-hover">
-				<tr>
-					<th>#</th>
-					<th>Book title</th>
-          
-          <!-- TODO  CHECK IF STAFF OR NOT-->
-          
-          <th>User</th>
-          <th>CheckOut</th>
-          <th>DueDate</th>
-				</tr>
+			<table class="table table-sm table-hover text-center">
+
+        <thead class="thead-light threadText">
+          <tr>
+              <th scope="col">#</th>
+              <th scope="col">Book Title</th>
+              <th scope="col">User</th>
+              <th scope="col">CheckOut</th>
+              <th scope="col">DueDate</th>
+          </tr>
+        </thead>
 
         {% for i in borrowedBooks %}
           <tr>
@@ -41,14 +41,17 @@
     <h3 class="text-center">Returned Books</h3>
     <br>
 		<div class="card card-body">
-			<table class="table table-sm table-hover">
-				<tr>
-					<th>#</th>
-          <th>Book title</th>
-          <th>User</th>
-          <th>checkOut</th>
-          <th>checkIn</th>
-				</tr>
+			<table class="table table-sm table-hover text-center">
+
+      <thead class="thead-light threadText text-center">
+          <tr>
+              <th scope="col">#</th>
+              <th scope="col">Book Title</th>
+              <th scope="col">User</th>
+              <th scope="col">CheckOut</th>
+              <th scope="col">CheckIn</th>
+          </tr>
+        </thead>
 
         {% for i in returnedBooks %}
           <tr>
