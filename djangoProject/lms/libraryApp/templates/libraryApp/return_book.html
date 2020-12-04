@@ -22,17 +22,18 @@
                     <th>dueDate</th>
                 </tr>
 
+                {% for i in borrowedBooks %}
+                    <tr>
+                        <td>{{i.slNo}}</td>
+                        <td><a href="#">{{i.bookTitle}}</a></td>
+                        <td>{{i.authorName}}</td>
+                        <td>{{i.isbn}}</td>
+                        <td>{{i.checkOut}}</td>
+                        <td>{{i.dueDate}}</td>
+                    </tr>
+                {% endfor %}
                 
-                <tr>
-                    <td>1</td>
-                    
-                    <td><a href="#">Unix</a></td>
-                    <td>Abc</td>
-                    <td>978-3-16-148410-0</td>
-                    <td>20/02/2020</td>
-                    <td>30/02/2020</td>
-                </tr>
-
+                
             </table>
         </div>
     </div>

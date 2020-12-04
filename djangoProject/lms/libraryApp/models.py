@@ -130,6 +130,8 @@ class BORROWEDBOOK(models.Model):
 
 
 class defaultValues(models.Model):
+    #coursesAll = models.CharField(max_length=30, null=True)
+    #genreAll = models.CharField(max_length=20, null=True)
     courses = (
         "Information Science Engineering",
         "Computer Science Engineering",

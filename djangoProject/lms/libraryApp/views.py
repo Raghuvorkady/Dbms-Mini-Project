@@ -17,10 +17,12 @@ class tempBook:
 # Create your views here.
 class tempDashboard:
 
-    def __init__(self, slNo, bookTitle, userName, checkOut, checkIn, dueDate):
+    def __init__(self, slNo, bookTitle, userName, authorName, isbn, checkOut, checkIn, dueDate):
         self.slNo = slNo
         self.bookTitle = bookTitle
         self.userName = userName
+        self.authorName = authorName
+        self.isbn = isbn
         self.checkOut = checkOut
         self.checkIn = checkIn
         self.dueDate = dueDate
@@ -57,11 +59,12 @@ def addBookDetails(request):
     bookDetails = 'libraryApp/add_book_details.html'
     authors = AUTHOR.objects.all()
     publishers = PUBLISHER.objects.all()
+    genres = defaultValues.genre
     
     context = {
         'authors': authors,
-        'publishers' : publishers
-
+        'publishers' : publishers,
+        'genres' : genres
     }
     return render(request, bookDetails, context)
 
@@ -90,13 +93,13 @@ def dashboard(request):
         if i.checkIn is None:
             print("borrowed",userName)
             bCount += 1
-            borrowedBooksList.append(tempDashboard(bCount, i.bookID, userName, i.checkOut, None, i.dueDate))
+            borrowedBooksList.append(tempDashboard(bCount, i.bookID, userName, None, None, i.checkOut, None, i.dueDate))
             print("\nBORROWED LIST\n")
             print(borrowedBooksList)
         else:
             print("returned",userName)
             cCount += 1
-            returnedBooksList.append(tempDashboard(cCount, i.bookID, userName, i.checkOut, i.checkIn, None))
+            returnedBooksList.append(tempDashboard(cCount, i.bookID, userName, None, None, i.checkOut, i.checkIn, None))
             print("\nRETURNED LIST\n")
             print(returnedBooksList)
 
@@ -143,7 +146,28 @@ def viewBook(request):
 
 def returnBook(request):
     returnBook = 'libraryApp/return_book.html'
-    return render(request, returnBook)
+    borrowedBooks = BORROWEDBOOK.objects.all()
+    borrowedBooksList = []
+    bCount = 0
+    for i in borrowedBooks:
+        user = USER.objects.filter(email=i.userID).first()
+        wb = WRITTENBY.objects.filter(bookID__bookTitle=i.bookID)
+        book = BOOK.objects.filter(bookTitle = i.bookID).first()
+        userName = user.fName + " " + user.mName + " " + user.lName
+        authorList = []
+        for w in wb.all():
+            for j in w.authorID.all():
+                authorList.append(j)
+        authorString = ', '.join(map(str, authorList))
+        if i.checkIn is None:
+            bCount += 1
+            borrowedBooksList.append(tempDashboard(bCount, i.bookID, userName, authorString, book.isbn, i.checkOut, None, i.dueDate))
+
+    context = {
+        "borrowedBooks" : borrowedBooksList,
+    }
+
+    return render(request, returnBook, context)
 
 
 def signIn(request):
@@ -155,10 +179,8 @@ def signUp(request):
     signUp = 'libraryApp/sign_up.html'
     states = defaultValues.statesInIndia
     courses = defaultValues.courses
-    genres = defaultValues.genre
     context = {
         "states" : states,
         "courses" : courses,
-        "genres" : genres
     }
     return render(request, signUp, context)
