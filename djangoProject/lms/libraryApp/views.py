@@ -85,7 +85,7 @@ def dashboard(request):
     borrowedBooksList = []
     returnedBooksList = []
     bCount = 0
-    cCount = 0
+    rCount = 0
     for i in borrowedBooks:
         user = USER.objects.filter(email=i.userID).first()
         userName = user.fName + " " + user.mName + " " + user.lName
@@ -98,14 +98,16 @@ def dashboard(request):
             print(borrowedBooksList)
         else:
             print("returned",userName)
-            cCount += 1
-            returnedBooksList.append(tempDashboard(cCount, i.bookID, userName, None, None, i.checkOut, i.checkIn, None))
+            rCount += 1
+            returnedBooksList.append(tempDashboard(rCount, i.bookID, userName, None, None, i.checkOut, i.checkIn, None))
             print("\nRETURNED LIST\n")
             print(returnedBooksList)
 
     context = {
         "borrowedBooks" : borrowedBooksList,
-        "returnedBooks" : returnedBooksList
+        "bCount" : bCount,
+        "returnedBooks" : returnedBooksList,
+        "rCount" : rCount
     }
     return render(request, dashboard, context)
 
@@ -165,6 +167,7 @@ def returnBook(request):
 
     context = {
         "borrowedBooks" : borrowedBooksList,
+        "count" : bCount
     }
 
     return render(request, returnBook, context)
