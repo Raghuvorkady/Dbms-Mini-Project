@@ -204,9 +204,9 @@ def signUp(request):
     }
     return render(request, signUp, context)
 
-def searchResult(request):
+def searchResult(request, book):
     searchResult = 'libraryApp/search_result_page.html'
-    books = BOOK.objects.all()
+    books = BOOK.objects.filter(bookTitle__iexact=book)
     booksList = []
     count = 0
     
@@ -227,6 +227,7 @@ def searchResult(request):
 
     context = {
         'books': booksList,
-        'count': count
+        'count': count,
+        'query' : book
     }
     return render(request, searchResult, context)

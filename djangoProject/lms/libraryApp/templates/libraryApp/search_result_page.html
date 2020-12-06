@@ -1,46 +1,137 @@
-{% extends 'libraryApp/main.html' %}
+{% load static %}
 
-{% block content %}
+<!DOCTYPE html>
+<html lang="en">
 
-<div class="container">
-    <div class="col-md-12 text-center">
-        <h1>You have searched for "Unix"</h1>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LMS</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{% static '/css/main.css' %}">
+
+    <style media="screen">
+        .welcomeMsg{
+          font-size: 18px;
+          color: #555555;
+        }
+        .logo{
+          margin: 2px;
+        }
+        .threadText {
+            font-size: 18px;
+            padding: 5px;
+            margin: 5px;
+        }
+    </style>
+    <script>
+        {% comment %} $(document).ready(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        }); {% endcomment %}
+    </script>
+
+</head>
+
+<body>
+    
+<nav class="navbar navbar-expand-lg navbar-light bg-light align-items-end">
+    <img class="logo" src="{% static '/img/lms.png' %}" alt="" >
+    <button class="navbar-toggler ml-auto custom-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+    <div class="navbar-nav navbar-right ml-auto">
+      <a class="nav-item nav-link active welcomeMsg" href="#">Welcome, User<span class="sr-only">(current)</span></a>
+      <a class="nav-item nav-link welcomeMsg" href="early-life.html">Sign out</a>
     </div>
-    <div class="col-md-12 mt-3">
-        <h6 class="form-text text-center text-muted">
-            {{count}} search results
-        </h6>
+  </div>
+  </nav>
+    <nav class="navbar">
+        <div class="navbar-nav mySubMenu ml-auto">
+          <nav>
+            <a href="#">Dashboard</a>
+            <a href="#">Borrow book</a>
+            <a href="#">Return book</a>
+          </nav>
+        </div>
+        <form class="form-inline">
+          <div class="input-group">
+                <input type="text" class="form-control" placeholder="Search for books" value="{{query}}">
+                <div class="input-group-append">
+                    <button class="btn btn-secondary" type="button">
+                        <i class="fa fa-microphone"></i>
+                    </button>
+                </div>
+            </div>
+        </form>
+      </nav>
+
+    <br>
+    <div class="container-fluid">
+        <div class="container">
+            <div class="col-md-12 text-center">
+                <h1>You have searched for "{{query}}"</h1>
+            </div>
+            <div class="col-md-12 mt-3">
+                <h6 class="form-text text-center text-muted">
+                    {{count}} search results
+                </h6>
+            </div>
+            {% if count > 0%}
+            <div class="card card-body col-md-12 mt-4">
+                <table class="table table-sm table-hover text-center">
+                    <thead class="thead-light threadText">
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Book Title</th>
+                            <th scope="col">Genre</th>
+                            <th scope="col">Author</th>
+                            <th scope="col">Publisher</th>
+                            <th scope="col">Pub. Year</th>
+                            <th scope="col">ISBN</th>
+                            <th scope="col">Stock</th>
+                        </tr>
+                    </thead>
+
+                    {% for i in books %}
+                    <tr>
+                        <td>{{i.slNo}}</td>
+                        <td><a href="#">{{i.bookTitle}}</a></td>
+                        <td>{{i.genre}}</td>
+                        <td>{{i.author}}</td>
+                        <td>{{i.pubName}}</td>
+                        <td>{{i.pubYear}}</td>
+                        <td>{{i.isbn}}</td>
+                        <td>{{i.stock}}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+            {% else %}
+            <div class="justify-content-center row mt-5">
+                <h3 class="text-center text-secondary">Sorry☹, Currently there's no book in the library named <strong>{{query}}</strong></h3></div>
+            {% endif %}
+        </div>
     </div>
-    <div class="card card-body col-md-12 mt-4">
-        <table class="table table-sm table-hover text-center">
-            <thead class="thead-light threadText">
-                <tr>
-                  <th scope="col">#</th>
-                  <th scope="col">Book Title</th>
-                  <th scope="col">Genre</th>
-                  <th scope="col">Author</th>
-                  <th scope="col">Publisher</th>
-                  <th scope="col">Pub. Year</th>
-                  <th scope="col">ISBN</th>
-                  <th scope="col">Stock</th>
-                </tr>
-              </thead>
+    <br>
 
-            {% for i in books %}
-                <tr>
-                    <td>{{i.slNo}}</td>
-                    <td><a href="#">{{i.bookTitle}}</a></td>
-                    <td>{{i.genre}}</td>
-                    <td>{{i.author}}</td>
-                    <td>{{i.pubName}}</td>
-                    <td>{{i.pubYear}}</td>
-                    <td>{{i.isbn}}</td>
-                    <td>{{i.stock}}</td>
-                </tr>
-            {% endfor %}
-        </table>
-    </div>
-</div>
+    <footer class="footer">
+        <div class="container text-center">
+            <span class="text-muted">@2020 LMS, BMSIT</span>
+        </div>
+    </footer>
+</body>
 
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+    crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+    crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+    crossorigin="anonymous"></script>
 
-{% endblock content %}
+</html>
