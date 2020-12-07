@@ -14,22 +14,6 @@ class STAFF(models.Model):
 
 
 class USER(models.Model):
-    choicesInCourse = [
-        ("ISE", "Information Science Engineering"),
-        ("CSE", "Computer Science Engineering"),
-        ("ECE", "Electronics and Communication Engineering"),
-        ("ME", "Mechanical Engineering"),
-    ]
-    choicesInSem = [
-        (1, "1"),
-        (2, "2"),
-        (3, "3"),
-        (4, "4"),
-        (5, "5"),
-        (6, "6"),
-        (7, "7"),
-        (8, "8"),
-    ]
     fName = models.CharField(max_length=20)
     mName = models.CharField(max_length=20, blank=True)
     lName = models.CharField(max_length=20, blank=True)
@@ -41,13 +25,8 @@ class USER(models.Model):
     pinCode = models.CharField(max_length=6)
     phoneNum = models.CharField(max_length=10)
     USN = models.CharField(max_length=10)
-    course = models.CharField(
-        max_length=3,
-        choices=choicesInCourse,
-    )
-    sem = models.IntegerField(
-        choices=choicesInSem,
-    )
+    course = models.CharField(max_length=50)
+    sem = models.IntegerField()
 
     def __str__(self):
         return self.email
@@ -55,7 +34,7 @@ class USER(models.Model):
 
 class LIBRARIAN(models.Model):
     fName = models.CharField(max_length=20)
-    #null=True blank=True This means that the field is optional in all circumstances.
+    # null=True blank=True This means that the field is optional in all circumstances.
     mName = models.CharField(max_length=20, blank=True)
     lName = models.CharField(max_length=20, blank=True)
     email = models.CharField(max_length=50)
@@ -91,7 +70,7 @@ class BOOK(models.Model):
     librarianID = models.ForeignKey(
         LIBRARIAN, null=True, on_delete=models.SET_NULL)
     pubID = models.ForeignKey(PUBLISHER, null=True, on_delete=models.CASCADE)
-    #isAvail = models.BooleanField()
+    # isAvail = models.BooleanField()
 
     def __str__(self):
         return self.bookTitle
@@ -130,8 +109,8 @@ class BORROWEDBOOK(models.Model):
 
 
 class defaultValues(models.Model):
-    #coursesAll = models.CharField(max_length=30, null=True)
-    #genreAll = models.CharField(max_length=20, null=True)
+    # coursesAll = models.CharField(max_length=30, null=True)
+    # genreAll = models.CharField(max_length=20, null=True)
     courses = (
         "Information Science Engineering",
         "Computer Science Engineering",
