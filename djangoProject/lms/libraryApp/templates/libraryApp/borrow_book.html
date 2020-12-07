@@ -11,9 +11,11 @@
             Currently, we have {{count}} no. of books in library
         </h1>
         <div class="row justify-content-end addBookBtn">
+        <a href="{% url 'addpublisherdetail' %}">
         <button type="button" class="btn btn-secondary btn-lg" data-toggle="tooltip" data-placement="right"
                 title="Click here to add a book">Add book</button>
         </div>
+        </a>
         <br>
         <div class="card card-body">
             
@@ -36,7 +38,7 @@
                 {% for i in books %}
                     <tr>
                         <td>{{i.slNo}}</td>
-                        <td><a href="#">{{i.bookTitle}}</a></td>
+                        <td><a href="{% url 'viewbook' i.bookID %}">{{i.bookTitle}}</a></td>
                         <td>{{i.genre}}</td>
                         <td>{{i.author}}</td>
                         <td>{{i.pubName}}</td>

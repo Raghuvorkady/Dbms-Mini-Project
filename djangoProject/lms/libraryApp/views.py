@@ -4,9 +4,10 @@ from django.http import HttpResponse
 
 class tempBook:
 
-    def __init__(self, slNo, bookTitle, genre, pubName, pubYear, author, isbn, stock):
+    def __init__(self, slNo, bookTitle, bookID, genre, pubName, pubYear, author, isbn, stock):
         self.slNo = slNo
         self.bookTitle = bookTitle
+        self.bookID = bookID
         self.genre = genre
         self.pubName = pubName
         self.pubYear = pubYear
@@ -17,9 +18,10 @@ class tempBook:
 # Create your views here.
 class tempDashboard:
 
-    def __init__(self, slNo, bookTitle, userName, authorName, isbn, checkOut, checkIn, dueDate):
+    def __init__(self, slNo, bookTitle, bookID, userName, authorName, isbn, checkOut, checkIn, dueDate):
         self.slNo = slNo
         self.bookTitle = bookTitle
+        self.bookID = bookID
         self.userName = userName
         self.authorName = authorName
         self.isbn = isbn
@@ -88,18 +90,19 @@ def dashboard(request):
     rCount = 0
     for i in borrowedBooks:
         user = USER.objects.filter(email=i.userID).first()
+        book = BOOK.objects.filter(bookTitle=i.bookID).first()
         userName = user.fName + " " + user.mName + " " + user.lName
         print(i, "CHECKIN", i.checkIn)
         if i.checkIn is None:
             print("borrowed",userName)
             bCount += 1
-            borrowedBooksList.append(tempDashboard(bCount, i.bookID, userName, None, None, i.checkOut, None, i.dueDate))
+            borrowedBooksList.append(tempDashboard(bCount, i.bookID, book.id, userName, None, None, i.checkOut, None, i.dueDate))
             print("\nBORROWED LIST\n")
             print(borrowedBooksList)
         else:
             print("returned",userName)
             rCount += 1
-            returnedBooksList.append(tempDashboard(rCount, i.bookID, userName, None, None, i.checkOut, i.checkIn, None))
+            returnedBooksList.append(tempDashboard(rCount, i.bookID, book.id, userName, None, None, i.checkOut, i.checkIn, None))
             print("\nRETURNED LIST\n")
             print(returnedBooksList)
 
@@ -131,7 +134,7 @@ def borrowBook(request):
         pub = PUBLISHER.objects.filter(
             book__bookTitle__contains=i.bookTitle).first()
         #print(i.bookTitle, "of genre", i.genre, "of ID:", i.id, "is published by,", pub.pubName,"of id", pub.id, "and authors are: ", authors, "is having:", stock.bookCopies, "copies")
-        booksList.append(tempBook(count, i.bookTitle, i.genre,
+        booksList.append(tempBook(count, i.bookTitle, i.id, i.genre,
                                   pub.pubName, i.pubYear, authorString, i.isbn, stock.bookCopies))
 
     context = {
@@ -153,7 +156,7 @@ def viewBook(request, bookID):
         for j in w.authorID.all():
             authorList.append(j)
     authorString = ', '.join(map(str, authorList))
-    bookObject = tempBook(None, book.bookTitle, book.genre, pub.pubName, book.pubYear, authorString, book.isbn, stock.bookCopies)
+    bookObject = tempBook(None, book.bookTitle, book.id, book.genre, pub.pubName, book.pubYear, authorString, book.isbn, stock.bookCopies)
 
     context = {
         "book" : bookObject,
@@ -179,7 +182,7 @@ def returnBook(request):
         authorString = ', '.join(map(str, authorList))
         if i.checkIn is None:
             bCount += 1
-            borrowedBooksList.append(tempDashboard(bCount, i.bookID, userName, authorString, book.isbn, i.checkOut, None, i.dueDate))
+            borrowedBooksList.append(tempDashboard(bCount, i.bookID, book.id, userName, authorString, book.isbn, i.checkOut, None, i.dueDate))
 
     context = {
         "borrowedBooks" : borrowedBooksList,
@@ -207,6 +210,7 @@ def signUp(request):
 def searchResult(request, book):
     searchResult = 'libraryApp/search_result_page.html'
     books = BOOK.objects.filter(bookTitle__iexact=book)
+
     booksList = []
     count = 0
     
@@ -222,7 +226,7 @@ def searchResult(request, book):
         pub = PUBLISHER.objects.filter(
             book__bookTitle__contains=i.bookTitle).first()
         #print(i.bookTitle, "of genre", i.genre, "of ID:", i.id, "is published by,", pub.pubName,"of id", pub.id, "and authors are: ", authors, "is having:", stock.bookCopies, "copies")
-        booksList.append(tempBook(count, i.bookTitle, i.genre,
+        booksList.append(tempBook(count, i.bookTitle, i.id, i.genre,
                                   pub.pubName, i.pubYear, authorString, i.isbn, stock.bookCopies))
 
     context = {

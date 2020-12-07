@@ -30,7 +30,7 @@
         {% for i in borrowedBooks %}
           <tr>
             <td>{{i.slNo}}</td>
-            <td><a href="#">{{i.bookTitle}}</a></td>
+            <td><a href="{% url 'viewbook' i.bookID %}">{{i.bookTitle}}</a></td>
             <td>{{i.userName}}</td>
             <td>{{i.checkOut}}</td>
             <td>{{i.dueDate}}</td>
@@ -65,7 +65,7 @@
         {% for i in returnedBooks %}
           <tr>
             <td>{{i.slNo}}</td>
-            <td><a href="#">{{i.bookTitle}}</a></td>
+            <td><a href="{% url 'viewbook' i.bookID %}">{{i.bookTitle}}</a></td>
             <td>{{i.userName}}</td>
             <td>{{i.checkOut}}</td>
             <td>{{i.checkIn}}</td>

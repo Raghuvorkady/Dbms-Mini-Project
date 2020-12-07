@@ -78,7 +78,11 @@
             </div>
 
             <div class="row justify-content-end">
-                <button type="submit" class="btn btn-primary" style="margin-right: 10px;">Next</button>
+            <a href="javascript:window.history.back()"><button type="button" class="btn btn-primary" style="margin-right: 10px;">Previous</button></a>
+            
+            <a href="{% url 'addauthordetail' %}">
+                <button type="button" class="btn btn-primary mr-3">Next</button>
+            </a>
             </div>
         </form>
 

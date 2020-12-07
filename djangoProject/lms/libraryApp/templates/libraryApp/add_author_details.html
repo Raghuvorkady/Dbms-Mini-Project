@@ -38,9 +38,9 @@
                 </div>
 
                 <div class="row justify-content-end">
-                    <button type="submit" class="btn btn-primary" style="margin-right: 10px;">Previous</button>
+                    <a href="javascript:window.history.back()"><button type="button" class="btn btn-primary" style="margin-right: 10px;">Previous</button></a>
 
-                    <button type="submit" class="btn btn-primary" style="margin-right: 10px;">Next</button>
+                    <a href="{% url 'addbookdetail' %}"><button type="button" class="btn btn-primary" style="margin-right: 10px;">Next</button></a>
                 </div>
             </form>
 

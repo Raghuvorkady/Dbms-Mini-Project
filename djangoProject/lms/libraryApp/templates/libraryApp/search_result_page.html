@@ -98,7 +98,7 @@
                     {% for i in books %}
                     <tr>
                         <td>{{i.slNo}}</td>
-                        <td><a href="#">{{i.bookTitle}}</a></td>
+                        <td><a href="{% url 'viewbook' i.bookID %}">{{i.bookTitle}}</a></td>
                         <td>{{i.genre}}</td>
                         <td>{{i.author}}</td>
                         <td>{{i.pubName}}</td>
