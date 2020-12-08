@@ -15,5 +15,5 @@ urlpatterns = [
     path('returnbook/', views.returnBook, name="returnbook"),
     path('signup/', views.signUp, name="signup"),
     path('signin/', views.signIn, name="signin"),
-    path('searchtest/<str:book>/', views.searchResult, name="search"),
+    path('search/<str:book>/', views.searchResult, name="search"),
 ]

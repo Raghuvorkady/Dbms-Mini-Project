@@ -1,6 +1,8 @@
+from django.db.models import query
 from libraryApp.models import *
 from django.shortcuts import render
 from django.http import HttpResponse
+from .filters import BookFilter
 
 class tempBook:
 
@@ -110,7 +112,7 @@ def dashboard(request):
         "borrowedBooks" : borrowedBooksList,
         "bCount" : bCount,
         "returnedBooks" : returnedBooksList,
-        "rCount" : rCount
+        "rCount" : rCount,
     }
     return render(request, dashboard, context)
 
@@ -211,6 +213,13 @@ def searchResult(request, book):
     searchResult = 'libraryApp/search_result_page.html'
     books = BOOK.objects.filter(bookTitle__iexact=book)
 
+    myFilter = BookFilter(request.GET, queryset=BOOK.objects.all())
+    books = myFilter.qs
+
+    query = request.GET['bookTitle']
+    if query is None:
+        query = ""
+
     booksList = []
     count = 0
     
@@ -232,6 +241,7 @@ def searchResult(request, book):
     context = {
         'books': booksList,
         'count': count,
-        'query' : book
+        'query' : query,
+        'myFilter' : myFilter
     }
     return render(request, searchResult, context)
