@@ -11,7 +11,7 @@
             Currently, we have {{count}} no. of books in library
         </h1>
         <div class="row justify-content-end addBookBtn">
-        <a href="{% url 'addpublisherdetail' %}">
+        <a href="{% url 'addpublisherdetail' 'Add' %}">
         <button type="button" class="btn btn-secondary btn-lg" data-toggle="tooltip" data-placement="right"
                 title="Click here to add a book">Add book</button>
         </div>
@@ -45,7 +45,7 @@
                         <td>{{i.pubYear}}</td>
                         <td>{{i.isbn}}</td>
                         <td>{{i.stock}}</td>
-                        <td>{% include 'libraryApp/action_btn.html' %}</td>
+                        <td>{% include 'libraryApp/action_btn.html' with bookName=i.bookID %}</td>
                     </tr>
                 {% endfor %}
 

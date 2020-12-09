@@ -1,37 +1,97 @@
 {% extends 'libraryApp/add_book_template.html' %}
 {% load static %}
+{% load widget_tweaks %}
+
 
 {% block content %}
+<h1 class="text-center">{{option}} book</h1>
 
 <br>
 
 <div class="container">
     <div class="card card-body">
 
-        <form>
+        <form method="POST">
+            {% csrf_token %}
             <div class="card-header text-center">
-                <h3 class="text-info">Add publisher details</h3>
+                <h3 class="text-info">{{option}} publisher details</h3>
             </div>
             <br>
 
+
+            <div class="row ml-2 mb-4">
+                <div class="col-md-10 form-control">
+                    <p id="addPub">Click on the toggle switch to add new Publisher</p>
+                    <p id="selPub" style="display: none;">Click on the toggle switch to select existing Publisher</p>
+                </div>
+                <div class="col-md-2">
+                    <input id="toggleState" type="checkbox" data-toggle="toggle" data-onstyle="success" data-offstyle="danger">
+                    <script>
+                        document.getElementById("toggleState").onchange = function() {myFunction()};
+                        function myFunction() {
+                          toggleValue = document.getElementById('toggleState').checked;
+                          addPub = document.getElementById("addPub");
+                          selPub = document.getElementById("selPub");
+                          addPubForm = document.getElementById("addPubForm");
+                          selPubForm = document.getElementById("selPubForm");
+                          str = `toggleState value is ${toggleValue}`;
+                          if(toggleValue){
+                          console.log(str);
+                          addPub.style.display = "none";
+                          selPub.style.display = "inline";
+                          selPubForm.style.display = "none";
+                          addPubForm.style.display = "inline";
+                          } else {
+                          console.log(str);
+                          selPub.style.display = "none";
+                          addPub.style.display = "inline";
+                          addPubForm.style.display = "none";
+                          selPubForm.style.display = "inline";
+                          }
+                    }
+                    </script>
+                </div>
+            </div>
+
+            <div class="" id="selPubForm">
+                {% for hidden_field in selectPublisherForm.hidden_fields %}
+            {{ hidden_field }}
+            {% endfor %}
+            {% for field in selectPublisherForm.visible_fields %}
             <div class="form-group">
-                <label for="pubName">Select publisher</label>
-                <select id="pubName" class="form-control">
-                    {% for i in publishers %}
-                        <option>{{i}}</option>
-                    {% endfor %}
-                </select>
+                {{ field.label_tag }}
+                {% render_field field class="form-control" %}
+                {% if field.help_text %}
+                <small class="form-text text-muted">{{ field.help_text }}</small>
+                {% endif %}
+            </div>
+            {% endfor %}
             </div>
 
 
-            <h6 class="text-muted text-center">If not here, add the details <a data-toggle="collapse"
+            <!-- <h6 class="text-muted text-center">If not here, add the details <a method="post" data-toggle="collapse"
                     href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
                     here
-                </a></h6>
+                </a></h6> -->
 
 
-            <div class="collapse" id="collapseExample">
-                <div class="form-row">
+            <div class="" id="addPubForm" style="display: none;">
+
+                {% for hidden_field in addPublisherForm.hidden_fields %}
+                {{ hidden_field }}
+                {% endfor %}
+                {% for field in addPublisherForm.visible_fields %}
+                <div class="form-group">
+                    {{ field.label_tag }}
+                    {% render_field field class="form-control" %}
+                    {% if field.help_text %}
+                    <small class="form-text text-muted">{{ field.help_text }}</small>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+
+                {% comment %} <div class="form-row">
                     <div class="form-group col-md-12">
                         <label for="firstName">Publisher name</label>
                         <input type="text" class="form-control" id="firstName" placeholder="publisher name">
@@ -40,8 +100,7 @@
 
                 <div class="form-group">
                     <label for="inputAddress">Address</label>
-                    <textarea class="form-control" id="inputAddress" rows="2"
-                        placeholder="1234 Main Street"></textarea>
+                    <textarea class="form-control" id="inputAddress" rows="2" placeholder="1234 Main Street"></textarea>
                 </div>
 
                 <div class="form-row">
@@ -74,15 +133,14 @@
                         <label for="phone">Phone</label>
                         <input type="text" class="form-control" id="phone" placeholder="123456789">
                     </div>
-                </div>
-            </div>
+                </div>{% endcomment %}
 
             <div class="row justify-content-end">
-            <a href="javascript:window.history.back()"><button type="button" class="btn btn-primary" style="margin-right: 10px;">Previous</button></a>
-            
-            <a href="{% url 'addauthordetail' %}">
-                <button type="button" class="btn btn-primary mr-3">Next</button>
-            </a>
+                <a href="javascript:window.history.back()"><button type="button" class="btn btn-primary"
+                        style="margin-right: 10px;">Previous</button></a>
+
+                <button type="submit" class="btn btn-primary mr-3">Next</button>
+
             </div>
         </form>
 

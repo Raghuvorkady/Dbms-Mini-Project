@@ -1,8 +1,9 @@
 from django.db.models import query
 from libraryApp.models import *
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .filters import BookFilter
+from .forms import AddAuthorForm, AddBookForm, AddPublisherForm, SelectAuthorForm, SelectPublisherForm
 
 class tempBook:
 
@@ -37,38 +38,91 @@ def index(request):
     return render(request, main)
 
 
-def addPublisherDetails(request):
+def addPublisherDetails(request, option):
     publisherDetails = 'libraryApp/add_publisher_details.html'
     publishers = PUBLISHER.objects.all()
-    
+
+    selectPublisherForm = SelectPublisherForm()
+    addPublisherForm = AddPublisherForm()
+
+    if request.method == "POST":
+        print("PUB REQUEST:",request.POST)
+        addPub = request.POST['pubName']
+        if addPub == '':
+            selectedPub = request.POST['publisher']
+            print(selectedPub)
+            return redirect(addAuthorDetails, option=option)
+        else:
+            print("add PUB:", addPub)
+            addPublisherForm = AddPublisherForm(request.POST)
+            if addPublisherForm.is_valid():
+                addPublisherForm.save()
+                return redirect(addAuthorDetails, option=option)
+
+
     context = {
-        'publishers' : publishers
+        'publishers' : publishers,
+        'option' : option,
+        'selectPublisherForm' : selectPublisherForm,
+        'addPublisherForm' : addPublisherForm,
     }
     
     return render(request, publisherDetails, context)
 
 
-def addAuthorDetails(request):
+def addAuthorDetails(request, option):
     authorDetails = 'libraryApp/add_author_details.html'
     authors = AUTHOR.objects.all()
 
+    selectAuthorForm = SelectAuthorForm()
+    addAuthorForm = AddAuthorForm()
+
+    if request.method == "POST":
+        print("AUTH REQUEST:",request.POST)
+        addAuthor = request.POST['authorName']
+        if addAuthor == '':
+            selectedAuthor = request.POST['author']
+            print(selectedAuthor)
+            return redirect(addBookDetails, option=option)
+        else:
+            print("add PUB:", addAuthor)
+            addAuthorForm = AddAuthorForm(request.POST)
+            if addAuthorForm.is_valid():
+                addAuthorForm.save()
+                return redirect(addBookDetails, option=option)
+
+
     context = {
-        'authors': authors
+        'authors': authors,
+        'option' : option,
+        'selectAuthorForm' : selectAuthorForm,
+        'addAuthorForm' : addAuthorForm
     }
         
     return render(request, authorDetails, context)
 
 
-def addBookDetails(request):
+def addBookDetails(request, option):
     bookDetails = 'libraryApp/add_book_details.html'
     authors = AUTHOR.objects.all()
     publishers = PUBLISHER.objects.all()
     genres = defaultValues.genre
-    
+
+    addBookForm = AddBookForm()
+
+    if request.method == "POST":
+        print("BOOK REQUEST:",request.POST)
+        addBookForm = AddBookForm(request.POST)
+        if addBookForm.is_valid():
+            addBookForm.save()
+            return redirect(dashboard)
+
     context = {
         'authors': authors,
         'publishers' : publishers,
-        'genres' : genres
+        'genres' : genres,
+        'option' : option,
+        'addBookForm' : addBookForm
     }
     return render(request, bookDetails, context)
 
@@ -86,6 +140,10 @@ def progressive(request):
 def dashboard(request):
     dashboard = 'libraryApp/dashboard.html'
     borrowedBooks = BORROWEDBOOK.objects.all()
+
+    myFilter = BookFilter(request.GET, queryset=BOOK.objects.all())
+
+    dbActive = True
     borrowedBooksList = []
     returnedBooksList = []
     bCount = 0
@@ -113,6 +171,8 @@ def dashboard(request):
         "bCount" : bCount,
         "returnedBooks" : returnedBooksList,
         "rCount" : rCount,
+        "myFilter" : myFilter,
+        "dbActive" : dbActive
     }
     return render(request, dashboard, context)
 
@@ -121,6 +181,11 @@ def borrowBook(request):
     borrowBook = 'libraryApp/borrow_book.html'
     
     books = BOOK.objects.all()
+
+    myFilter = BookFilter(request.GET, queryset=books)
+    books = myFilter.qs
+
+    bbActive = True
     booksList = []
     count = 0
     
@@ -141,13 +206,18 @@ def borrowBook(request):
 
     context = {
         'books': booksList,
-        'count': count
+        'count': count,
+        "myFilter" : myFilter,
+        "bbActive" : bbActive
     }
     return render(request, borrowBook, context)
 
 
 def viewBook(request, bookID):
     viewBook = 'libraryApp/view_book.html'
+
+    myFilter = BookFilter(request.GET, queryset=BOOK.objects.all())
+    books = myFilter.qs
 
     book = BOOK.objects.get(id=bookID)
     pub = PUBLISHER.objects.filter(book__bookTitle__contains=book.bookTitle).first()
@@ -162,7 +232,8 @@ def viewBook(request, bookID):
 
     context = {
         "book" : bookObject,
-        "pub" : pub
+        "pub" : pub,
+        "myFilter" : myFilter
     }
     return render(request, viewBook, context)
 
@@ -170,6 +241,11 @@ def viewBook(request, bookID):
 def returnBook(request):
     returnBook = 'libraryApp/return_book.html'
     borrowedBooks = BORROWEDBOOK.objects.all()
+
+    myFilter = BookFilter(request.GET, queryset=BOOK.objects.all())
+    books = myFilter.qs
+
+    rbActive = True
     borrowedBooksList = []
     bCount = 0
     for i in borrowedBooks:
@@ -188,7 +264,9 @@ def returnBook(request):
 
     context = {
         "borrowedBooks" : borrowedBooksList,
-        "count" : bCount
+        "count" : bCount,
+        "myFilter" : myFilter,
+        "rbActive" : rbActive
     }
 
     return render(request, returnBook, context)

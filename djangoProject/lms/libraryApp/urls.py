@@ -3,9 +3,9 @@ from . import views
 
 urlpatterns = [
     path('', views.index, name="home"),
-    path('addpublisherdetails/', views.addPublisherDetails, name="addpublisherdetail"),
-    path('addauthordetails/', views.addAuthorDetails, name="addauthordetail"),
-    path('addbookdetails/', views.addBookDetails, name="addbookdetail"),
+    path('addpublisherdetails/<str:option>/', views.addPublisherDetails, name="addpublisherdetail"),
+    path('addauthordetails/<str:option>/', views.addAuthorDetails, name="addauthordetail"),
+    path('addbookdetails/<str:option>/', views.addBookDetails, name="addbookdetail"),
     path('addbooktemplate/', views.addBookTemplate, name="addbooktemplate"),
     path('progressive/', views.progressive),
     path('dashboard/', views.dashboard, name="dashboard"),

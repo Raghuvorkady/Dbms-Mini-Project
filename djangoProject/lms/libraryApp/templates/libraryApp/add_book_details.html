@@ -1,20 +1,38 @@
 {% extends 'libraryApp/add_book_template.html' %}
 {% load static %}
+{% load widget_tweaks %}
 
 {% block content %}
 
+<h1 class="text-center">{{option}} book</h1>
 <br>
 
 <div class="container">
   <div class="card card-body">
 
-    <form>
+    <form method="POST">
+    {% csrf_token %}
       <div class="card-header text-center">
-        <h2 class="text-info">Add book details</h2>
+        <h2 class="text-info">{{option}} book details</h2>
       </div>
       <br>
 
-      <div class="form-row">
+            <div class="" id="addBookForm">
+                    {% for hidden_field in addBookForm.hidden_fields %}
+                {{ hidden_field }}
+                {% endfor %}
+                {% for field in addBookForm.visible_fields %}
+                <div class="form-group">
+                    {{ field.label_tag }}
+                    {% render_field field class="form-control" %}
+                    {% if field.help_text %}
+                    <small class="form-text text-muted">{{ field.help_text }}</small>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+
+      {% comment %} <div class="form-row">
         <div class="form-group col-md-12">
           <label for="firstName">Book title</label>
           <input type="text" class="form-control" id="firstName" placeholder="your book title">
@@ -70,13 +88,13 @@
         <div class="form-group col-md-4">
           <label for="stock">Stock</label>
           <input type="number" class="form-control" id="stock" placeholder="no. of books">
-        </div>
-      </div>
+        </div> 
+      </div>{% endcomment %}
 
       <div class="row justify-content-end">
         <a href="javascript:window.history.back()"><button type="button" class="btn btn-primary" style="margin-right: 10px;">Previous</button></a>
 
-        <a href="{% url 'borrowbook' %}"><button type="button" class="btn btn-primary" style="margin-right: 10px;">Submit</button></a>
+        <button type="submit" class="btn btn-primary mr-3">Submit</button>
       </div>
     </form>
 
