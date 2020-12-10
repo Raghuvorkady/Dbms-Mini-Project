@@ -8,32 +8,43 @@
 </head>
 <body>
 
-<style>
+<h1><center>Search for Books</center></h1>
 
+<style>
+      body {
+  font-family: 'Montserrat', sans-serif;
+  background-image: url('https://www.wallpapertip.com/wmimgs/0-3795_wallpaper-books-library-shelves-lighting-hd-book-library.jpg');
+  color: #fff;
+  background-size : cover;
+  background-repeat : no-repeat;
+}
+   
+   
       .speech {
         border: 5.5px solid #000000;
         width:300px;
         padding:10px;
-        background-color: #ffDffS;
-        margin:10px;
+        background-color:lightblue;
+        align : center;
+        margin:auto;
         
       }
-
+     
       .speech input {
         border:10px;
         width:240px;
         display:inline-block;
-        height:30px;
+        height:40px;
         font-size: 20px;
         font-style: italic;
         font-color : black;
-    
+        background-color: lightblue;
       }
 
       .speech img {
         float:right;
-        width:35px
-        
+        width:40px ;
+        filter : brightness(0%);
      }
 
     </style>
@@ -41,7 +52,7 @@
 
     <form id="google" method="get" action="http://www.google.com">
       <div class="speech">
-        <input type="text" name="s" id="transcript" placeholder="we are listening "/>
+        <input type="text" name="s" id="transcript" placeholder="we are listening ...."/>
         <img onclick="startDictation()" src="//i.imgur.com/cHidSVu.gif" />
     
       </div>
@@ -73,6 +84,6 @@
       }
 
     </script>
+    </div>
 </body>
 </html>
-
