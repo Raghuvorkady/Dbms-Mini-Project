@@ -1,25 +1,94 @@
 {% extends 'libraryApp/add_book_template.html' %}
 {% load static %}
+{% load widget_tweaks %}
 
 {% block content %}
+    <h1 class="text-center">{{option}} book</h1>
 
     <br>
 
     <div class="container">
         <div class="card card-body">
 
-            <form>
+            <form method="POST">
+            {% csrf_token %}
                 <div class="card-header text-center">
-                    <h2 class="text-info">Add author details</h2>
+                    <h2 class="text-info">{{option}} author details</h2>
                 </div>
                 <br>
 
+
+                <div class="row ml-2 mb-4">
+                <div class="col-md-10 form-control">
+                    <p id="addAuth">Click on the toggle switch to add new Author</p>
+                    <p id="selAuth" style="display: none;">Click on the toggle switch to select existing Author</p>
+                </div>
+                <div class="col-md-2">
+                    <input id="toggleState" type="checkbox" data-toggle="toggle" data-onstyle="success" data-offstyle="danger">
+                    <script>
+                        document.getElementById("toggleState").onchange = function() {myFunction()};
+                        function myFunction() {
+                          toggleValue = document.getElementById('toggleState').checked;
+                          addAuth = document.getElementById("addAuth");
+                          selAuth = document.getElementById("selAuth");
+                          addAuthForm = document.getElementById("addAuthForm");
+                          selAuthForm = document.getElementById("selAuthForm");
+                          str = `toggleState value is ${toggleValue}`;
+                          if(toggleValue){
+                          console.log(str);
+                          addAuth.style.display = "none";
+                          selAuth.style.display = "inline";
+                          selAuthForm.style.display = "none";
+                          addAuthForm.style.display = "inline";
+                          } else {
+                          console.log(str);
+                          selAuth.style.display = "none";
+                          addAuth.style.display = "inline";
+                          addAuthForm.style.display = "none";
+                          selAuthForm.style.display = "inline";
+                          }
+                    }
+                    </script>
+                </div>
+            </div>
+
+            <div class="" id="selAuthForm">
+                    {% for hidden_field in selectAuthorForm.hidden_fields %}
+                {{ hidden_field }}
+                {% endfor %}
+                {% for field in selectAuthorForm.visible_fields %}
                 <div class="form-group">
+                    {{ field.label_tag }}
+                    {% render_field field class="form-control" %}
+                    {% if field.help_text %}
+                    <small class="form-text text-muted">{{ field.help_text }}</small>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+
+            <div class="" id="addAuthForm" style="display: none;">
+
+                {% for hidden_field in addAuthorForm.hidden_fields %}
+                {{ hidden_field }}
+                {% endfor %}
+                {% for field in addAuthorForm.visible_fields %}
+                <div class="form-group">
+                    {{ field.label_tag }}
+                    {% render_field field class="form-control" %}
+                    {% if field.help_text %}
+                    <small class="form-text text-muted">{{ field.help_text }}</small>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div> 
+
+                {% comment %} <div class="form-group">
                     <label for="authName">Select author</label>
                     <select id="authName" class="selectpicker form-control" multiple data-live-search="true">
-                        <option>Mustard</option>
-                        <option>Ketchup</option>
-                        <option>Relish</option>
+                        {% for i in authors %}
+                            <option>{{i}}</option>
+                        {% endfor %}
                     </select>
                 </div>
 
@@ -28,27 +97,20 @@
                         here
                     </a></h6>
 
-
                 <div class="collapse" id="collapseExample">
                     <div class="form-row">
                         <div class="form-group col-md-12">
                             <label for="firstName">Author name</label>
                             <input type="text" class="form-control" id="firstName" placeholder="author name">
                         </div>
-                    </div>
-                </div>
-
-
-
-
+                    </div>{% endcomment %}
 
                 <div class="row justify-content-end">
-                    <button type="submit" class="btn btn-primary" style="margin-right: 10px;">Previous</button>
+                    <a href="javascript:window.history.back()"><button type="button" class="btn btn-primary" style="margin-right: 10px;">Previous</button></a>
 
-                    <button type="submit" class="btn btn-primary" style="margin-right: 10px;">Next</button>
+                    <button type="submit" class="btn btn-primary mr-3">Next</button>
                 </div>
             </form>
-
 
         </div>
     </div>

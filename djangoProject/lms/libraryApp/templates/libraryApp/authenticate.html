@@ -9,6 +9,11 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="{% static '/css/main.css' %}">
+    <style>
+    a{
+        font-size: 18px;
+    }
+    </style>
 </head>
 
 <body>
@@ -21,10 +26,10 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav navbar-right ml-auto">
               <li class="nav-item active">
-                <a class="nav-link" href="">Sign in</a>
+                <a class="nav-link" href="{% url 'signin' %}">Sign in</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">Sign up</a>
+                <a class="nav-link" href="{% url 'signup' %}">Sign up</a>
               </li>
             </ul>
           </div>

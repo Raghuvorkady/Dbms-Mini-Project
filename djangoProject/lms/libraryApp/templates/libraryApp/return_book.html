@@ -7,32 +7,41 @@
 
 <div class="row text-center booksTable container">
     <div class="col-md-12">
-        <h2 class="text-center">
+        <h1>
            Return book
-        </h2>
-        <br>
-        <div class="card card-body">
+        </h1>
+        <div class="col-md-12 mt-3">
+        <h6 class="form-text text-muted">
+            You have borrowed {{count}} no. of books
+        </h6>
+        </div>
+
+        <div class="card card-body mt-4">
             <table class="table table-sm table-hover">
-                <tr>
-                    <th>#</th>
-                    <th>Book title</th>
-                    <th>Author</th>
-                    <th>ISBN</th>
-                    <th>checkOut</th>
-                    <th>dueDate</th>
-                </tr>
-
                 
+            <thead class="thead-light threadText">
                 <tr>
-                    <td>1</td>
-                    
-                    <td><a href="#">Unix</a></td>
-                    <td>Abc</td>
-                    <td>978-3-16-148410-0</td>
-                    <td>20/02/2020</td>
-                    <td>30/02/2020</td>
+                    <th scope="col">#</th>
+                    <th scope="col">Book Title</th>
+                    <th scope="col">Author</th>
+                    <th scope="col">ISBN</th>
+                    <th scope="col">CheckOut</th>
+                    <th scope="col">DueDate</th>
                 </tr>
-
+            </thead>
+    
+                {% for i in borrowedBooks %}
+                    <tr>
+                        <td>{{i.slNo}}</td>
+                        <td><a href="{% url 'viewbook' i.bookID %}">{{i.bookTitle}}</a></td>
+                        <td>{{i.authorName}}</td>
+                        <td>{{i.isbn}}</td>
+                        <td>{{i.checkOut}}</td>
+                        <td>{{i.dueDate}}</td>
+                    </tr>
+                {% endfor %}
+                
+                
             </table>
         </div>
     </div>

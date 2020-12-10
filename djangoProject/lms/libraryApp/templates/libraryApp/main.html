@@ -9,19 +9,40 @@
   <title>LMS</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
     integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="{% static '/css/main.css' %}">
-  
-<script>
-    {% comment %} $(document).ready(function(){
-      $('[data-toggle="tooltip"]').tooltip();   
+
+  <style>
+    .threadText {
+      font-size: 18px;
+      padding: 5px;
+      margin: 5px;
+    }
+  </style>
+  <script>
+    {% comment %} $(document).ready(function () {
+      $('[data-toggle="tooltip"]').tooltip();
     }); {% endcomment %}
-</script>
+  </script>
 
 </head>
 
 <body>
   {% include 'libraryApp/navbar.html' %}
+
+  <!-- Alert message which can be used for:
+  Book Add successful
+  Book Update successful
+  Book Delete successful
+  Borrow successful
+  Return successful -->
+
+  <div class="alert alert-success alert-dismissible fade show ml-5 mr-5 mt-3" role="alert">
+    <strong>Update successful!..</strong><br> You have successfully updated the book ""
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
 
   <br>
   <div class="container-fluid">

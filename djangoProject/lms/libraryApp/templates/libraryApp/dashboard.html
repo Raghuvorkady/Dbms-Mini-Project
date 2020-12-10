@@ -7,44 +7,35 @@
   
 <div class="row">
 	<div class="col-md-6 cardMargin">
-    <h5 class="text-center">Borrowed Books</h5>
-    <br>
-		<div class="card card-body">
-			<table class="table table-sm table-hover">
-				<tr>
-					<th>#</th>
-					<th>Book title</th>
-          
-          <!-- TODO  CHECK IF STAFF OR NOT-->
-          
-          <th>User</th>
-          <th>checkOut</th>
-          <th>checkIn</th>
-				</tr>
+    <h2 class="text-center">Borrowed Books</h2>
+    <div class="col-md-12 mt-3">
+        <h6 class="form-text text-center text-muted">
+            Till date you have borrowed {{bCount}} no. of books
+        </h6>
+        </div>
 
-        <tr>
-          <td>1</td>
-          <td>Unix</td>
-          <td></td>
-          <td>12/01/2020</td>
-          <td>15/01/2020</td>
-        </tr>
+		<div class="card card-body mt-4">
+			<table class="table table-sm table-hover text-center">
 
-        <tr>
-          <td>2</td>
-          <td>Atc</td>
-          <td></td>
-          <td>12/04/2020</td>
-          <td>15/05/2020</td>
-        </tr>
+        <thead class="thead-light threadText">
+          <tr>
+              <th scope="col">#</th>
+              <th scope="col">Book Title</th>
+              <th scope="col">User</th>
+              <th scope="col">CheckOut</th>
+              <th scope="col">DueDate</th>
+          </tr>
+        </thead>
 
-        <tr>
-          <td>3</td>
-          <td>Unix</td>
-          <td></td>
-          <td>12/01/2020</td>
-          <td>15/01/2020</td>
-        </tr>
+        {% for i in borrowedBooks %}
+          <tr>
+            <td>{{i.slNo}}</td>
+            <td><a href="{% url 'viewbook' i.bookID %}">{{i.bookTitle}}</a></td>
+            <td>{{i.userName}}</td>
+            <td>{{i.checkOut}}</td>
+            <td>{{i.dueDate}}</td>
+          </tr>
+        {% endfor %}
 			</table>
 		</div>
 	</div>
@@ -52,26 +43,36 @@
   <br>
 
 	<div class="col-md-6 cardMargin">
-    <h5 class="text-center">Returned Books</h5>
-    <br>
-		<div class="card card-body">
-			<table class="table table-sm table-hover">
-				<tr>
-					<th>#</th>
-          <th>Book title</th>
-          <th>User</th>
-          <th>checkOut</th>
-          <th>checkIn</th>
-				</tr>
+    <h2 class="text-center">Returned Books</h2>
+    <div class="col-md-12 mt-3">
+        <h6 class="form-text text-center text-muted">
+            Till date you have returned {{rCount}} no. of books
+        </h6>
+        </div>
+		<div class="card card-body mt-4">
+			<table class="table table-sm table-hover text-center">
 
-        <tr>
-          <td>1</td>
-          <td>CNS</td>
-          <td></td>
-          <td>12/01/2020</td>
-          <td>15/01/2020</td>
-        </tr>
-			</table>
+      <thead class="thead-light threadText text-center">
+          <tr>
+              <th scope="col">#</th>
+              <th scope="col">Book Title</th>
+              <th scope="col">User</th>
+              <th scope="col">CheckOut</th>
+              <th scope="col">CheckIn</th>
+          </tr>
+        </thead>
+
+        {% for i in returnedBooks %}
+          <tr>
+            <td>{{i.slNo}}</td>
+            <td><a href="{% url 'viewbook' i.bookID %}">{{i.bookTitle}}</a></td>
+            <td>{{i.userName}}</td>
+            <td>{{i.checkOut}}</td>
+            <td>{{i.checkIn}}</td>
+          </tr>
+        {% endfor %}
+
+        </table>
 		</div>
 	</div>
 

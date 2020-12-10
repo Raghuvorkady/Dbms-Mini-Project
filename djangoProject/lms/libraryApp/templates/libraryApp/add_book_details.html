@@ -1,41 +1,73 @@
 {% extends 'libraryApp/add_book_template.html' %}
 {% load static %}
+{% load widget_tweaks %}
 
 {% block content %}
 
+<h1 class="text-center">{{option}} book</h1>
 <br>
 
 <div class="container">
   <div class="card card-body">
 
-    <form>
+    <form method="POST">
+    {% csrf_token %}
       <div class="card-header text-center">
-        <h2 class="text-info">Add book details</h2>
+        <h2 class="text-info">{{option}} book details</h2>
       </div>
       <br>
 
-      <div class="form-row">
+            <div class="" id="addBookForm">
+                    {% for hidden_field in addBookForm.hidden_fields %}
+                {{ hidden_field }}
+                {% endfor %}
+                {% for field in addBookForm.visible_fields %}
+                <div class="form-group">
+                    {{ field.label_tag }}
+                    {% render_field field class="form-control" %}
+                    {% if field.help_text %}
+                    <small class="form-text text-muted">{{ field.help_text }}</small>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+
+      {% comment %} <div class="form-row">
         <div class="form-group col-md-12">
           <label for="firstName">Book title</label>
           <input type="text" class="form-control" id="firstName" placeholder="your book title">
         </div>
       </div>
 
-      <div class="form-group">
-        <label for="authName">Select author</label>
-        <select id="authName" class="selectpicker form-control" multiple data-live-search="true">
-            <option>Mustard</option>
-            <option>Ketchup</option>
-            <option>Relish</option>
-        </select>
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="genre">Select Genre</label>
+          <select id="genre" class="form-control" data-dropup-auto="false">
+            {% for i in genres %}
+              <option>{{i}}</option>
+            {% endfor %}
+          </select>
+        </div>
+        
+        <div class="form-group col-md-6">
+          <label for="authName">Select author</label>
+          <select id="authName" class="selectpicker form-control" multiple data-live-search="true">
+              {% for i in authors %}
+                  <option>{{i}}</option>
+              {% endfor %}
+          </select>
+        </div>
       </div>
+
+      
 
       <div class="form-row">
         <div class="form-group col-md-9">
           <label for="pubName">Select publisher</label>
           <select id="pubName" class="form-control">
-            <option selected>SBC</option>
-            <option>Ksd</option>
+            {% for i in publishers %}
+                <option>{{i}}</option>
+            {% endfor %}
           </select>
         </div>
 
@@ -46,14 +78,6 @@
         </div>
       </div>
 
-      <div class="form-group">
-        <label for="genre">Select Genre</label>
-        <select id="genre" class="form-control">
-          <option selected>Choose... </option>
-          <option>Math</option>
-          <option>Science</option>
-        </select>
-      </div>
 
       <div class="form-row">
         <div class="form-group col-md-8">
@@ -64,16 +88,15 @@
         <div class="form-group col-md-4">
           <label for="stock">Stock</label>
           <input type="number" class="form-control" id="stock" placeholder="no. of books">
-        </div>
-      </div>
+        </div> 
+      </div>{% endcomment %}
 
       <div class="row justify-content-end">
-        <button type="submit" class="btn btn-primary" style="margin-right: 10px;">Previous</button>
+        <a href="javascript:window.history.back()"><button type="button" class="btn btn-primary" style="margin-right: 10px;">Previous</button></a>
 
-        <button type="submit" class="btn btn-primary" style="margin-right: 10px;">Submit</button>
+        <button type="submit" class="btn btn-primary mr-3">Submit</button>
       </div>
     </form>
-
 
   </div>
 </div>

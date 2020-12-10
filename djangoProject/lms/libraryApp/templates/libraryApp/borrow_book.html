@@ -7,43 +7,46 @@
 
 <div class="row text-center booksTable">
     <div class="col-md-12">
-        <h2 class="text-center">
+        <h1 class="text-center">
             Currently, we have {{count}} no. of books in library
-        </h2>
+        </h1>
         <div class="row justify-content-end addBookBtn">
+        <a href="{% url 'addpublisherdetail' 'Add' %}">
         <button type="button" class="btn btn-secondary btn-lg" data-toggle="tooltip" data-placement="right"
                 title="Click here to add a book">Add book</button>
         </div>
+        </a>
         <br>
         <div class="card card-body">
+            
             <table class="table table-sm table-hover">
-                <tr>
-                    <th>#</th>
-                    <th>Book title</th>
-                    <th>Genre</th>
-                    <th>Author</th>
-                    <th>Publisher</th>
-                    <th>Pub. year</th>
-                    <th>ISBN</th>
-                    <th>Stock</th>
-                    <th>Manage</th>
-                </tr>
-
+                
+                <thead class="thead-light threadText">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Book Title</th>
+                        <th scope="col">Genre</th>
+                        <th scope="col">Author</th>
+                        <th scope="col">Publisher</th>
+                        <th scope="col">Pub. Year</th>
+                        <th scope="col">ISBN</th>
+                        <th scope="col">Stock</th>
+                        <th scope="col">Manage</th>
+                    </tr>
+               </thead>
+                
                 {% for i in books %}
                     <tr>
                         <td>{{i.slNo}}</td>
-                        <td><a href="#">{{i.bookTitle}}</a></td>
+                        <td><a href="{% url 'viewbook' i.bookID %}">{{i.bookTitle}}</a></td>
                         <td>{{i.genre}}</td>
                         <td>{{i.author}}</td>
                         <td>{{i.pubName}}</td>
                         <td>{{i.pubYear}}</td>
                         <td>{{i.isbn}}</td>
                         <td>{{i.stock}}</td>
-                        <td>{% include 'libraryApp/action_btn.html' %}</td>
+                        <td>{% include 'libraryApp/action_btn.html' with bookName=i.bookID %}</td>
                     </tr>
-                    
-
-                
                 {% endfor %}
 
             </table>

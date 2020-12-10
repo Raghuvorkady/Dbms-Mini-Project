@@ -58,8 +58,10 @@
       <div class="form-group col-md-4">
         <label for="inputState">State</label>
         <select id="inputState" class="form-control">
-          <option selected>Choose...</option>
-          <option>Kerala</option>
+        <option selected>Choose your state</option>
+        {% for i in states %}
+          <option>{{i}}</option>
+        {% endfor %}
         </select>
       </div>
 
@@ -87,7 +89,7 @@
     <button type="submit" class="btn btn-primary btn-lg btn-block">Sign up</button>
 
     <br>
-    <h6 class="mt-5 mb-3 text-muted text-center">Already having a account, <a href="">Sign in</a> here</h6>
+    <h6 class="mt-5 mb-3 text-muted text-center">Already having a account, <a href="{% url 'signin' %}">Sign in</a> here</h6>
   </form>
 
 
