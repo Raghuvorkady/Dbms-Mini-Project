@@ -3,11 +3,11 @@ from libraryApp.models import *
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .filters import BookFilter
-from .forms import AddAuthorForm, AddBookForm, AddPublisherForm, SelectAuthorForm, SelectPublisherForm
+from .forms import AddAuthorForm, AddBookForm, AddPublisherForm
 
 class tempBook:
 
-    def __init__(self, slNo, bookTitle, bookID, genre, pubID, pubName, pubYear, author, isbn, stock):
+    def __init__(self, slNo, bookTitle, bookID, genre, pubID, pubName, pubYear, authID, author, isbn, stock):
         self.slNo = slNo
         self.bookTitle = bookTitle
         self.bookID = bookID
@@ -15,6 +15,7 @@ class tempBook:
         self.genre = genre
         self.pubName = pubName
         self.pubYear = pubYear
+        self.authID = authID
         self.author = author
         self.isbn = isbn
         self.stock = stock
@@ -133,15 +134,15 @@ def addBookDetails(request, option):
             authorID = request.POST['author']
 
             STOCK.objects.create(bookID=bookID, bookCopies=stock, librarianID=LIBRARIAN.objects.get(id=librarianID))
-            wb = WRITTENBY.objects.create()
+            #wb = WRITTENBY.objects.create()
             authorList = []
             authorList = request.POST.getlist('author')
             print("\nls AUTHORS", authorList)
             for i in authorList:
                 print("\nAUTHOR",i)
                 authorID=AUTHOR.objects.get(id=i)
-                wb.authorID.add(authorID)
-            wb.bookID.add(bookID)
+                #wb.authorID.add(authorID)
+            #wb.bookID.add(bookID)
             
             return redirect(borrowBook)
 
@@ -160,6 +161,12 @@ def updatePublisherDetails(request, pk):
 
     #selectPublisherForm = SelectPublisherForm(instance=publishers)
     addPublisherForm = AddPublisherForm(instance=publishers)
+    if request.method == "POST":
+        addPublisherForm = AddPublisherForm(request.POST, instance=publishers)
+        if addPublisherForm.is_valid():
+            addPublisherForm.save()
+            print("REQUEST:", request.POST)
+            return redirect(updateAuthorDetails, option="update")
 
     context = {
         'publishers' : publishers,
@@ -169,6 +176,23 @@ def updatePublisherDetails(request, pk):
     }
     return render(request, publisherDetails, context)
 
+def updateAuthorDetails(request, option):
+    authorDetails = 'libraryApp/add_author_details.html'
+
+    if request.method == "POST":
+        addAuthorForm = AddAuthorForm(request.POST)
+        if addAuthorForm.is_valid():
+            addAuthorForm.save()
+            return redirect(addBookDetails)
+
+    context = {
+        #'authors': authors,
+        'option' : 'Update',
+        #'selectAuthorForm' : selectAuthorForm,
+        #'addAuthorForm' : addAuthorForm
+    }
+
+    return render(request, authorDetails, context)
 
 def addBookTemplate(request):
     addBookTemplate = 'libraryApp/add_book_template.html'
@@ -235,18 +259,20 @@ def borrowBook(request):
     for i in books:
         count += 1
         stock = STOCK.objects.filter(bookID__id=i.id).first()
-        wb = WRITTENBY.objects.filter(bookID__id=i.id)
+        authors = AUTHOR.objects.filter(book__id=i.id)
         authorList = []
-        for w in wb.all():
-            for j in w.authorID.all():
-                if j not in authorList: #loic to check redundancy
-                    authorList.append(j)
+        authorIDList = []
+        for a in authors.all():
+            print("AUTH ID",a.id)
+            if a not in authorList: #loic to check redundancy
+                authorList.append(a)
+                authorIDList.append(a.id)
         authorString = ', '.join(map(str, authorList))
         pub = PUBLISHER.objects.filter(
             book__id=i.id).first()
         #print(i.bookTitle, "of genre", i.genre, "of ID:", i.id, "is published by,", pub.pubName,"of id", pub.id, "and authors are: ", authors, "is having:", stock.bookCopies, "copies")
         booksList.append(tempBook(count, i.bookTitle, i.id, i.genre, pub.id,
-                                  pub.pubName, i.pubYear, authorString, i.isbn, stock.bookCopies))
+                                  pub.pubName, i.pubYear, authorIDList, authorString, i.isbn, stock.bookCopies))
         print("BOOK ID",i.id)
         print("PUB ID",pub.id)
 
@@ -266,15 +292,17 @@ def viewBook(request, bookID):
     books = myFilter.qs
 
     book = BOOK.objects.get(id=bookID)
-    pub = PUBLISHER.objects.filter(book__bookTitle__contains=book.bookTitle).first()
-    stock = STOCK.objects.filter(bookID__bookTitle=book.bookTitle).first()
-    wb = WRITTENBY.objects.filter(bookID__bookTitle=book.bookTitle)
+    pub = PUBLISHER.objects.filter(book__id__contains=book.id).first()
+    stock = STOCK.objects.filter(bookID__id=book.id).first()
+    authors = AUTHOR.objects.filter(book__id=book.id)
     authorList = []
-    for w in wb.all():
-        for j in w.authorID.all():
-            authorList.append(j)
+    authorIDList = []
+    for a in authors.all():
+        if a not in authorList: #loic to check redundancy
+            authorList.append(a)
+            authorIDList.append(a.id)
     authorString = ', '.join(map(str, authorList))
-    bookObject = tempBook(None, book.bookTitle, book.id, book.genre, pub.pubName, book.pubYear, authorString, book.isbn, stock.bookCopies)
+    bookObject = tempBook(None, book.bookTitle, book.id, book.genre, pub.id, pub.pubName, book.pubYear, authorIDList, authorString, book.isbn, stock.bookCopies)
 
     context = {
         "book" : bookObject,
@@ -296,13 +324,13 @@ def returnBook(request):
     bCount = 0
     for i in borrowedBooks:
         user = USER.objects.filter(email=i.userID).first()
-        wb = WRITTENBY.objects.filter(bookID__bookTitle=i.bookID)
+        authors = AUTHOR.objects.filter(book__id=i.id)
         book = BOOK.objects.filter(bookTitle = i.bookID).first()
         userName = user.fName + " " + user.mName + " " + user.lName
         authorList = []
-        for w in wb.all():
-            for j in w.authorID.all():
-                authorList.append(j)
+        for a in authors.all():
+            if a not in authorList: #loic to check redundancy
+                authorList.append(a)
         authorString = ', '.join(map(str, authorList))
         if i.checkIn is None:
             bCount += 1
@@ -350,17 +378,19 @@ def searchResult(request, book):
     for i in books:
         count += 1
         stock = STOCK.objects.filter(bookID__bookTitle=i.bookTitle).first()
-        wb = WRITTENBY.objects.filter(bookID__bookTitle=i.bookTitle)
+        authors = AUTHOR.objects.filter(book__id=i.id)
         authorList = []
-        for w in wb.all():
-            for j in w.authorID.all():
-                authorList.append(j)
+        authorIDList = []
+        for a in authors.all():
+            if a not in authorList: #loic to check redundancy
+                authorList.append(a)
+                authorIDList.append(a.id)
         authorString = ', '.join(map(str, authorList))
         pub = PUBLISHER.objects.filter(
             book__bookTitle__contains=i.bookTitle).first()
         #print(i.bookTitle, "of genre", i.genre, "of ID:", i.id, "is published by,", pub.pubName,"of id", pub.id, "and authors are: ", authors, "is having:", stock.bookCopies, "copies")
-        booksList.append(tempBook(count, i.bookTitle, i.id, i.genre,
-                                  pub.pubName, i.pubYear, authorString, i.isbn, stock.bookCopies))
+        booksList.append(tempBook(count, i.bookTitle, i.id, i.genre, pub.id,
+                                  pub.pubName, i.pubYear, authorIDList, authorString, i.isbn, stock.bookCopies))
 
     context = {
         'books': booksList,

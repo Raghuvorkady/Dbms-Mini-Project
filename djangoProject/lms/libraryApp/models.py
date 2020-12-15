@@ -61,6 +61,11 @@ class PUBLISHER(models.Model):
     def __str__(self):
         return self.pubName
 
+class AUTHOR(models.Model):
+    authorName = models.CharField(max_length=30)
+
+    def __str__(self):
+        return self.authorName
 
 class BOOK(models.Model):
     bookTitle = models.CharField(max_length=50)
@@ -70,17 +75,11 @@ class BOOK(models.Model):
     librarianID = models.ForeignKey(
         LIBRARIAN, null=True, on_delete=models.SET_NULL)
     pubID = models.ForeignKey(PUBLISHER, null=True, on_delete=models.CASCADE)
+    authorID = models.ManyToManyField(AUTHOR)
     # isAvail = models.BooleanField()
 
     def __str__(self):
         return self.bookTitle
-
-
-class AUTHOR(models.Model):
-    authorName = models.CharField(max_length=30)
-
-    def __str__(self):
-        return self.authorName
 
 
 class STOCK(models.Model):
@@ -90,9 +89,9 @@ class STOCK(models.Model):
         LIBRARIAN, null=True, on_delete=models.SET_NULL)
 
 
-class WRITTENBY(models.Model):
-    bookID = models.ManyToManyField(BOOK)
-    authorID = models.ManyToManyField(AUTHOR)
+# class WRITTENBY(models.Model):
+#     bookID = models.ManyToManyField(BOOK)
+#     authorID = models.ManyToManyField(AUTHOR)
 
 
 class BORROWEDBOOK(models.Model):
