@@ -2,25 +2,30 @@ from django.forms import ModelForm, fields, models
 from .models import AUTHOR, BOOK, PUBLISHER, STOCK, WRITTENBY
 from django import forms
 
-class SelectPublisherForm(forms.Form):
-    publishers = PUBLISHER.objects.all()
-    publishersChoice = []
-    for i in publishers:
-        name = i.pubName
-        publishersChoice.append((name, name))
+class SelectPublisherForm(forms.ModelForm):
+    # publishers = PUBLISHER.objects.all()
+    # publishersChoice = []
+    # for i in publishers:
+    #     name = i.pubName
+    #     publishersChoice.append((name, name))
 
-    publisher = forms.ChoiceField(choices=publishersChoice)
+    #publisher = forms.ChoiceField(choices=publishersChoice)
+    publisher = forms.ModelChoiceField(queryset=PUBLISHER.objects.all())
+    
+    class Meta:
+        model = PUBLISHER
+        fields = ['pubName']
     #your_name = forms.CharField(label='Your name', max_length=100)
 
 class AddPublisherForm(ModelForm):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['pubName'].required = False
-        self.fields['streetAddr'].required = False
-        self.fields['district'].required = False
-        self.fields['state'].required = False
-        self.fields['pinCode'].required = False
-        self.fields['phoneNum'].required = False
+    # def __init__(self, *args, **kwargs):
+    #     super().__init__(*args, **kwargs)
+    #     self.fields['pubName'].required = False
+    #     self.fields['streetAddr'].required = False
+    #     self.fields['district'].required = False
+    #     self.fields['state'].required = False
+    #     self.fields['pinCode'].required = False
+    #     self.fields['phoneNum'].required = False
         
     class Meta:
         model = PUBLISHER

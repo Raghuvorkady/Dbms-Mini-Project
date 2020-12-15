@@ -7,10 +7,11 @@ from .forms import AddAuthorForm, AddBookForm, AddPublisherForm, SelectAuthorFor
 
 class tempBook:
 
-    def __init__(self, slNo, bookTitle, bookID, genre, pubName, pubYear, author, isbn, stock):
+    def __init__(self, slNo, bookTitle, bookID, genre, pubID, pubName, pubYear, author, isbn, stock):
         self.slNo = slNo
         self.bookTitle = bookTitle
         self.bookID = bookID
+        self.pubID = pubID
         self.genre = genre
         self.pubName = pubName
         self.pubYear = pubYear
@@ -42,29 +43,34 @@ def addPublisherDetails(request, option):
     publisherDetails = 'libraryApp/add_publisher_details.html'
     publishers = PUBLISHER.objects.all()
 
-    selectPublisherForm = SelectPublisherForm()
+    #selectPublisherForm = SelectPublisherForm()
     addPublisherForm = AddPublisherForm()
 
     if request.method == "POST":
-        print("PUB REQUEST:",request.POST)
-        addPub = request.POST['pubName']
-        if addPub == '':
-            selectedPub = request.POST['publisher']
-            print(selectedPub)
+        addPublisherForm = AddPublisherForm(request.POST)
+        if addPublisherForm.is_valid():
+            addPublisherForm.save()
             return redirect(addAuthorDetails, option=option)
-        else:
-            print("add PUB:", addPub)
-            addPublisherForm = AddPublisherForm(request.POST)
-            if addPublisherForm.is_valid():
-                addPublisherForm.save()
-                return redirect(addAuthorDetails, option=option)
+
+        # print("PUB REQUEST:",request.POST)
+        # addPub = request.POST['pubName']
+        # if addPub == '':
+        #     selectedPub = request.POST['publisher']
+        #     print(selectedPub)
+        #     return redirect(addAuthorDetails, option=option)
+        # else:
+        #     print("add PUB:", addPub)
+        #     addPublisherForm = AddPublisherForm(request.POST)
+        #     if addPublisherForm.is_valid():
+        #         addPublisherForm.save()
+        #         return redirect(addAuthorDetails, option=option)
 
 
     context = {
         'publishers' : publishers,
         'option' : option,
-        'selectPublisherForm' : selectPublisherForm,
-        'addPublisherForm' : addPublisherForm,
+        #'selectPublisherForm' : selectPublisherForm,
+        'addPublisherForm' : addPublisherForm
     }
     
     return render(request, publisherDetails, context)
@@ -74,28 +80,33 @@ def addAuthorDetails(request, option):
     authorDetails = 'libraryApp/add_author_details.html'
     authors = AUTHOR.objects.all()
 
-    selectAuthorForm = SelectAuthorForm()
+    #selectAuthorForm = SelectAuthorForm()
     addAuthorForm = AddAuthorForm()
 
     if request.method == "POST":
-        print("AUTH REQUEST:",request.POST)
-        addAuthor = request.POST['authorName']
-        if addAuthor == '':
-            selectedAuthor = request.POST['author']
-            print(selectedAuthor)
+        addAuthorForm = AddAuthorForm(request.POST)
+        if addAuthorForm.is_valid():
+            addAuthorForm.save()
             return redirect(addBookDetails, option=option)
-        else:
-            print("add PUB:", addAuthor)
-            addAuthorForm = AddAuthorForm(request.POST)
-            if addAuthorForm.is_valid():
-                addAuthorForm.save()
-                return redirect(addBookDetails, option=option)
+
+        # print("AUTH REQUEST:",request.POST)
+        # addAuthor = request.POST['authorName']
+        # if addAuthor == '':
+        #     selectedAuthor = request.POST['author']
+        #     print(selectedAuthor)
+        #     return redirect(addBookDetails, option=option)
+        # else:
+        #     print("add PUB:", addAuthor)
+        #     addAuthorForm = AddAuthorForm(request.POST)
+        #     if addAuthorForm.is_valid():
+        #         addAuthorForm.save()
+        #         return redirect(addBookDetails, option=option)
 
 
     context = {
         'authors': authors,
         'option' : option,
-        'selectAuthorForm' : selectAuthorForm,
+        #'selectAuthorForm' : selectAuthorForm,
         'addAuthorForm' : addAuthorForm
     }
         
@@ -142,6 +153,21 @@ def addBookDetails(request, option):
         'addBookForm' : addBookForm
     }
     return render(request, bookDetails, context)
+
+def updatePublisherDetails(request, pk):
+    publisherDetails = 'libraryApp/add_publisher_details.html'
+    publishers = PUBLISHER.objects.get(id=pk)
+
+    #selectPublisherForm = SelectPublisherForm(instance=publishers)
+    addPublisherForm = AddPublisherForm(instance=publishers)
+
+    context = {
+        'publishers' : publishers,
+        #'selectPublisherForm' : selectPublisherForm,
+        'addPublisherForm' : addPublisherForm,
+        'option' : 'Update'
+    }
+    return render(request, publisherDetails, context)
 
 
 def addBookTemplate(request):
@@ -208,18 +234,21 @@ def borrowBook(request):
     
     for i in books:
         count += 1
-        stock = STOCK.objects.filter(bookID__bookTitle=i.bookTitle).first()
-        wb = WRITTENBY.objects.filter(bookID__bookTitle=i.bookTitle)
+        stock = STOCK.objects.filter(bookID__id=i.id).first()
+        wb = WRITTENBY.objects.filter(bookID__id=i.id)
         authorList = []
         for w in wb.all():
             for j in w.authorID.all():
-                authorList.append(j)
+                if j not in authorList: #loic to check redundancy
+                    authorList.append(j)
         authorString = ', '.join(map(str, authorList))
         pub = PUBLISHER.objects.filter(
-            book__bookTitle__contains=i.bookTitle).first()
+            book__id=i.id).first()
         #print(i.bookTitle, "of genre", i.genre, "of ID:", i.id, "is published by,", pub.pubName,"of id", pub.id, "and authors are: ", authors, "is having:", stock.bookCopies, "copies")
-        booksList.append(tempBook(count, i.bookTitle, i.id, i.genre,
+        booksList.append(tempBook(count, i.bookTitle, i.id, i.genre, pub.id,
                                   pub.pubName, i.pubYear, authorString, i.isbn, stock.bookCopies))
+        print("BOOK ID",i.id)
+        print("PUB ID",pub.id)
 
     context = {
         'books': booksList,

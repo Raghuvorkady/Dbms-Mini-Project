@@ -18,7 +18,7 @@
                 <br>
 
 
-                <div class="row ml-2 mb-4">
+                {% comment %} <div class="row ml-2 mb-4">
                 <div class="col-md-10 form-control">
                     <p id="addAuth">Click on the toggle switch to add new Author</p>
                     <p id="selAuth" style="display: none;">Click on the toggle switch to select existing Author</p>
@@ -65,9 +65,9 @@
                     {% endif %}
                 </div>
                 {% endfor %}
-            </div>
+            </div> {% endcomment %}
 
-            <div class="" id="addAuthForm" style="display: none;">
+            <div class="" id="addAuthForm">
 
                 {% for hidden_field in addAuthorForm.hidden_fields %}
                 {{ hidden_field }}

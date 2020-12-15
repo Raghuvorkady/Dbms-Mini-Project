@@ -45,7 +45,7 @@
                         <td>{{i.pubYear}}</td>
                         <td>{{i.isbn}}</td>
                         <td>{{i.stock}}</td>
-                        <td>{% include 'libraryApp/action_btn.html' with bookName=i.bookID %}</td>
+                        <td>{% include 'libraryApp/action_btn.html' with pubID=i.pubID %}</td>
                     </tr>
                 {% endfor %}
 
