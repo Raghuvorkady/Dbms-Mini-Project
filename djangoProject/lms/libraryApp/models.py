@@ -17,7 +17,7 @@ class USER(models.Model):
     fName = models.CharField(max_length=20)
     mName = models.CharField(max_length=20, blank=True)
     lName = models.CharField(max_length=20, blank=True)
-    email = models.CharField(max_length=50)
+    email = models.EmailField(help_text='A valid email address, please.')
     pwd = models.CharField(max_length=20)
     streetAddr = models.CharField(max_length=50)
     district = models.CharField(max_length=20)
@@ -37,7 +37,7 @@ class LIBRARIAN(models.Model):
     # null=True blank=True This means that the field is optional in all circumstances.
     mName = models.CharField(max_length=20, blank=True)
     lName = models.CharField(max_length=20, blank=True)
-    email = models.CharField(max_length=50)
+    email = models.EmailField()
     pwd = models.CharField(max_length=20)
     streetAddr = models.CharField(max_length=50)
     district = models.CharField(max_length=20)
@@ -91,7 +91,6 @@ class STOCK(models.Model):
 
 
 class WRITTENBY(models.Model):
-    dateAdded = models.DateTimeField(auto_now_add=True, null=True)
     bookID = models.ManyToManyField(BOOK)
     authorID = models.ManyToManyField(AUTHOR)
 

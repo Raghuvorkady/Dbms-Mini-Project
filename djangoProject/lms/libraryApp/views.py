@@ -109,13 +109,30 @@ def addBookDetails(request, option):
     genres = defaultValues.genre
 
     addBookForm = AddBookForm()
-
     if request.method == "POST":
         print("BOOK REQUEST:",request.POST)
         addBookForm = AddBookForm(request.POST)
+
         if addBookForm.is_valid():
-            addBookForm.save()
-            return redirect(dashboard)
+            bookID = addBookForm.save()
+            print("\nBOOK ID: ", bookID)
+
+            stock = request.POST['noc']
+            librarianID = request.POST['librarianID']
+            authorID = request.POST['author']
+
+            STOCK.objects.create(bookID=bookID, bookCopies=stock, librarianID=LIBRARIAN.objects.get(id=librarianID))
+            wb = WRITTENBY.objects.create()
+            authorList = []
+            authorList = request.POST.getlist('author')
+            print("\nls AUTHORS", authorList)
+            for i in authorList:
+                print("\nAUTHOR",i)
+                authorID=AUTHOR.objects.get(id=i)
+                wb.authorID.add(authorID)
+            wb.bookID.add(bookID)
+            
+            return redirect(borrowBook)
 
     context = {
         'authors': authors,
@@ -152,19 +169,19 @@ def dashboard(request):
         user = USER.objects.filter(email=i.userID).first()
         book = BOOK.objects.filter(bookTitle=i.bookID).first()
         userName = user.fName + " " + user.mName + " " + user.lName
-        print(i, "CHECKIN", i.checkIn)
+        #print(i, "CHECKIN", i.checkIn)
         if i.checkIn is None:
-            print("borrowed",userName)
+            #print("borrowed",userName)
             bCount += 1
             borrowedBooksList.append(tempDashboard(bCount, i.bookID, book.id, userName, None, None, i.checkOut, None, i.dueDate))
-            print("\nBORROWED LIST\n")
-            print(borrowedBooksList)
+            #print("\nBORROWED LIST\n")
+            #print(borrowedBooksList)
         else:
-            print("returned",userName)
+            #print("returned",userName)
             rCount += 1
             returnedBooksList.append(tempDashboard(rCount, i.bookID, book.id, userName, None, None, i.checkOut, i.checkIn, None))
-            print("\nRETURNED LIST\n")
-            print(returnedBooksList)
+            #print("\nRETURNED LIST\n")
+            #print(returnedBooksList)
 
     context = {
         "borrowedBooks" : borrowedBooksList,
