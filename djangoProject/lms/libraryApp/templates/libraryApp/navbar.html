@@ -28,20 +28,20 @@
       <nav>
       {% if dbActive == True %}
         <a class="text-muted" href="{% url 'dashboard' %}">Dashboard</a>
-        <a href="{% url 'borrowbook' %}">Borrow book</a>
+        <a href="{% url 'borrowbook' %}">Manage</a>
         <a href="{% url 'returnbook' %}">Return book</a>
       {% elif bbActive == True %}
         <a href="{% url 'dashboard' %}">Dashboard</a>
-        <a class="text-muted" href="{% url 'borrowbook' %}">Borrow book</a>
+        <a class="text-muted" href="{% url 'borrowbook' %}">Manage</a>
         {% comment %} Manage book {% endcomment %}
         <a href="{% url 'returnbook' %}">Return book</a>
       {% elif rbActive == True %}
         <a href="{% url 'dashboard' %}">Dashboard</a>
-        <a href="{% url 'borrowbook' %}">Borrow book</a>
+        <a href="{% url 'borrowbook' %}">Manage</a>
         <a class="text-muted" href="{% url 'returnbook' %}">Return book</a>
       {% else %}
         <a href="{% url 'dashboard' %}">Dashboard</a>
-        <a href="{% url 'borrowbook' %}">Borrow book</a>
+        <a href="{% url 'borrowbook' %}">Manage</a>
         <a href="{% url 'returnbook' %}">Return book</a>
       {% endif %}
       </nav>

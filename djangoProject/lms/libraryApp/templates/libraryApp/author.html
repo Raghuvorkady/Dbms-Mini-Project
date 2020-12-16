@@ -1,0 +1,50 @@
+
+<div class="container-fluid">
+    <div class="row text-center booksTable mt-5">
+        <div class="col-md-12">
+
+            {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+
+            <h1 class="text-center">
+                Currently, we have {{authCount}} no. of Authors in the Library database
+            </h1>
+            <div class="row justify-content-end addBookBtn">
+                <a href="{% url 'addauthordetail' 'Add' %}">
+                    <button type="button" class="btn btn-secondary btn-lg" data-toggle="tooltip" data-placement="right"
+                        title="Click here to add a book">Add Author</button>
+            </div>
+            </a>
+            <br>
+            <div class="card card-body">
+
+                <table class="table table-sm table-hover">
+
+                    <thead class="thead-light threadText">
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Author name</th>
+                            <th scope="col">Update</th>
+                            <th scope="col">Delete</th>
+                        </tr>
+                    </thead>
+
+                    {% for i in allAuthors %}
+                    <tr>
+                        <td>{{forloop.counter}}</td>
+                        <td>{{i.authorName}}</td>
+                        <td><a class="btn btn-sm btn-info" href="{% url 'updateauthordetail' i.id %}">Update</a></td>
+						<td><a class="btn btn-sm btn-warning" href="{% url 'deleteauthordetail' i.id %}">Delete</a></td>
+                    </tr>
+                    {% endfor %}
+
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

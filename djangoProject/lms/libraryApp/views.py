@@ -1,3 +1,5 @@
+from typing import ContextManager
+from django.contrib import messages
 from django.db.models import query
 from libraryApp.models import *
 from django.shortcuts import render, redirect
@@ -88,7 +90,7 @@ def addAuthorDetails(request, option):
         addAuthorForm = AddAuthorForm(request.POST)
         if addAuthorForm.is_valid():
             addAuthorForm.save()
-            return redirect(addBookDetails, option=option)
+            return redirect(manage)
 
         # print("AUTH REQUEST:",request.POST)
         # addAuthor = request.POST['authorName']
@@ -178,20 +180,23 @@ def updatePublisherDetails(request, pubID, bookID):
     }
     return render(request, publisherDetails, context)
 
-def updateAuthorDetails(request, option):
+def updateAuthorDetails(request, pk):
     authorDetails = 'libraryApp/add_author_details.html'
 
+    authors = AUTHOR.objects.get(id=pk)
+
+    addAuthorForm = AddAuthorForm(instance=authors)
+
     if request.method == "POST":
-        addAuthorForm = AddAuthorForm(request.POST)
+        addAuthorForm = AddAuthorForm(request.POST, instance=authors)
         if addAuthorForm.is_valid():
             addAuthorForm.save()
-            return redirect(addBookDetails)
+            return redirect(manage)
 
     context = {
         #'authors': authors,
         'option' : 'Update',
-        #'selectAuthorForm' : selectAuthorForm,
-        #'addAuthorForm' : addAuthorForm
+        'addAuthorForm' : addAuthorForm
     }
 
     return render(request, authorDetails, context)
@@ -432,3 +437,60 @@ def searchResult(request, book):
         'myFilter' : myFilter
     }
     return render(request, searchResult, context)
+
+def manage(request):
+    manage = 'libraryApp/manage_tab.html'
+    books = BOOK.objects.all()
+
+    myFilter = BookFilter(request.GET, queryset=books)
+    books = myFilter.qs
+
+    allAuthors = AUTHOR.objects.all()
+    allPublishers = PUBLISHER.objects.all()
+
+    booksList = []
+    bookCount = 0
+    authCount = AUTHOR.objects.count()
+    pubCount = PUBLISHER.objects.count()
+    
+    for i in books:
+        bookCount += 1
+        stock = STOCK.objects.filter(bookID__id=i.id).first()
+        authors = AUTHOR.objects.filter(book__id=i.id)
+
+        authorList = []
+        authorIDList = []
+        for a in authors.all():
+            print("AUTH ID",a.id)
+            if a not in authorList: #loic to check redundancy
+                authorList.append(a)
+                authorIDList.append(a.id)
+        authorString = ', '.join(map(str, authorList))
+        pub = PUBLISHER.objects.filter(
+            book__id=i.id).first()
+        #print(i.bookTitle, "of genre", i.genre, "of ID:", i.id, "is published by,", pub.pubName,"of id", pub.id, "and authors are: ", authors, "is having:", stock.bookCopies, "copies")
+        booksList.append(tempBook(bookCount, i.bookTitle, i.id, i.genre, pub.id,
+                                  pub.pubName, i.pubYear, authorIDList, authorString, i.isbn, stock.bookCopies))
+        print("BOOK ID",i.id)
+        print("PUB ID",pub.id)
+
+    context = {
+        'books': booksList,
+        'bookCount': bookCount,
+        'myFilter' : myFilter,
+        'allAuthors' : allAuthors,
+        'authCount' : authCount,
+        'allPublishers' : allPublishers,
+        'pubCount' : pubCount
+    }
+    return render(request, manage, context)
+
+def deleteAuthorDetails(request, pk):
+    authActionBtn = 'libraryApp/manage_tab.html'
+
+    author = AUTHOR.objects.get(id=pk)
+    name = author.authorName
+    author.delete()
+    
+    messages.success(request, 'Author', name,'deleted successfully!')
+    return redirect(manage)
