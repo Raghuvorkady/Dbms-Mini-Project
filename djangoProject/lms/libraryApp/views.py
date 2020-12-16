@@ -3,7 +3,7 @@ from libraryApp.models import *
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .filters import BookFilter
-from .forms import AddAuthorForm, AddBookForm, AddPublisherForm
+from .forms import AddAuthorForm, AddBookForm, AddPublisherForm, AddStockForm
 
 class tempBook:
 
@@ -121,6 +121,7 @@ def addBookDetails(request, option):
     genres = defaultValues.genre
 
     addBookForm = AddBookForm()
+    addStockForm = AddStockForm()
     if request.method == "POST":
         print("BOOK REQUEST:",request.POST)
         addBookForm = AddBookForm(request.POST)
@@ -129,9 +130,9 @@ def addBookDetails(request, option):
             bookID = addBookForm.save()
             print("\nBOOK ID: ", bookID)
 
-            stock = request.POST['noc']
+            stock = request.POST['bookCopies']
             librarianID = request.POST['librarianID']
-            authorID = request.POST['author']
+            authorID = request.POST['authorID']
 
             STOCK.objects.create(bookID=bookID, bookCopies=stock, librarianID=LIBRARIAN.objects.get(id=librarianID))
             #wb = WRITTENBY.objects.create()
@@ -151,26 +152,27 @@ def addBookDetails(request, option):
         'publishers' : publishers,
         'genres' : genres,
         'option' : option,
-        'addBookForm' : addBookForm
+        'addBookForm' : addBookForm,
+        'addStockForm' : addStockForm
     }
     return render(request, bookDetails, context)
 
-def updatePublisherDetails(request, pk):
+def updatePublisherDetails(request, pubID, bookID):
     publisherDetails = 'libraryApp/add_publisher_details.html'
-    publishers = PUBLISHER.objects.get(id=pk)
+    publishers = PUBLISHER.objects.get(id=pubID)
 
-    #selectPublisherForm = SelectPublisherForm(instance=publishers)
+    print("BOOKID", bookID)
+    print("PUBID", pubID)
     addPublisherForm = AddPublisherForm(instance=publishers)
     if request.method == "POST":
         addPublisherForm = AddPublisherForm(request.POST, instance=publishers)
         if addPublisherForm.is_valid():
             addPublisherForm.save()
             print("REQUEST:", request.POST)
-            return redirect(updateAuthorDetails, option="update")
+            return redirect(updateBookDetails, pubID=pubID, bookID=bookID)
 
     context = {
         'publishers' : publishers,
-        #'selectPublisherForm' : selectPublisherForm,
         'addPublisherForm' : addPublisherForm,
         'option' : 'Update'
     }
@@ -193,6 +195,37 @@ def updateAuthorDetails(request, option):
     }
 
     return render(request, authorDetails, context)
+
+def updateBookDetails(request, bookID):
+    bookDetails = 'libraryApp/add_book_details.html'
+
+    books = BOOK.objects.get(id=bookID)
+    stocks = STOCK.objects.filter(bookID__id=bookID).first()
+    addBookForm = AddBookForm(instance=books)
+    addStockForm = AddStockForm(instance=stocks)
+    if request.method == "POST":
+        print("BOOK REQUEST:",request.POST)
+        addBookForm = AddBookForm(request.POST, instance=books)
+
+        if addBookForm.is_valid():
+            bookID = addBookForm.save()
+            print("\nBOOK ID: ", bookID)
+
+            stock = request.POST['bookCopies']
+            librarianID = request.POST['librarianID']
+            authorID = request.POST['authorID']
+
+            stocks.bookCopies = stock
+            stocks.save()
+            return redirect(borrowBook)
+
+    context = {
+        'option' : 'Update',
+        'addBookForm' : addBookForm,
+        'addStockForm' : addStockForm
+    }
+    return render(request, bookDetails, context)
+
 
 def addBookTemplate(request):
     addBookTemplate = 'libraryApp/add_book_template.html'

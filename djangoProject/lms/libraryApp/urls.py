@@ -3,9 +3,11 @@ from . import views
 
 urlpatterns = [
     path('', views.index, name="home"),
+    #url(r'^emp_detail/(?P<user_name>\w+)/(?P<mobile_number>\d{10,18})/$', views.emp_detail, name='emp_detail'),
     path('addpublisherdetails/<str:option>/', views.addPublisherDetails, name="addpublisherdetail"),
-    path('updatepublisherdetails/<str:pk>/', views.updatePublisherDetails, name="updatepublisherdetail"),
+    path('updatepublisherdetails/<str:pubID><str:bookID>/', views.updatePublisherDetails, name="updatepublisherdetail"),
     path('updateauthordetails/<str:option>/', views.updateAuthorDetails, name="updateauthordetail"),
+    path('updatebookdetails/<str:bookID>/', views.updateBookDetails, name="updatebookdetail"),
     path('addauthordetails/<str:option>/', views.addAuthorDetails, name="addauthordetail"),
     path('addbookdetails/<str:option>/', views.addBookDetails, name="addbookdetail"),
     path('addbooktemplate/', views.addBookTemplate, name="addbooktemplate"),

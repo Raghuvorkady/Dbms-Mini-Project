@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.validators import MinValueValidator
 import datetime
 # Create your models here.
 # null = True is only for testing
@@ -83,7 +84,7 @@ class BOOK(models.Model):
 
 
 class STOCK(models.Model):
-    bookCopies = models.IntegerField()
+    bookCopies = models.PositiveIntegerField()
     bookID = models.OneToOneField(BOOK, null=True, on_delete=models.CASCADE)
     librarianID = models.ForeignKey(
         LIBRARIAN, null=True, on_delete=models.SET_NULL)

@@ -1,5 +1,5 @@
 from django.forms import ModelForm, fields, models
-from .models import AUTHOR, BOOK, PUBLISHER
+from .models import AUTHOR, BOOK, PUBLISHER, STOCK
 from django import forms
 
 class SelectPublisherForm(forms.ModelForm):
@@ -50,7 +50,7 @@ class AddAuthorForm(ModelForm):
         fields = '__all__'
 
 class AddBookForm(ModelForm):
-    noc = forms.IntegerField(min_value=0, help_text="Enter number of book copies")
+    #noc = forms.IntegerField(min_value=0, help_text="Enter number of book copies")
     class Meta:
         model = BOOK
         fields = '__all__'
@@ -60,7 +60,7 @@ class AddBookForm(ModelForm):
 #         model = WRITTENBY
 #         fields = ['bookID', 'authorID']
 
-# class AddStockForm(ModelForm):
-#     class Meta:
-#         model = STOCK
-#         fields = '__all__'
+class AddStockForm(ModelForm):
+    class Meta:
+        model = STOCK
+        fields = ['bookCopies']

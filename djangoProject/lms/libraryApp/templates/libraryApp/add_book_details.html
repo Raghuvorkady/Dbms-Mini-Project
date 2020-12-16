@@ -31,6 +31,20 @@
                 </div>
                 {% endfor %}
             </div>
+            <div class="" id="addStockForm">
+                    {% for hidden_field in addStockForm.hidden_fields %}
+                {{ hidden_field }}
+                {% endfor %}
+                {% for field in addStockForm.visible_fields %}
+                <div class="form-group">
+                    {{ field.label_tag }}
+                    {% render_field field class="form-control" %}
+                    {% if field.help_text %}
+                    <small class="form-text text-muted">{{ field.help_text }}</small>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
 
       {% comment %} <div class="form-row">
         <div class="form-group col-md-12">
