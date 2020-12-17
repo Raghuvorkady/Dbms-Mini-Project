@@ -37,7 +37,7 @@
 
                 {% for i in books %}
                 <tr>
-                    <td>{{i.slNo}}</td>
+                    <td>{{forloop.counter}}</td>
                     <td><a href="{% url 'viewbook' i.bookID %}">{{i.bookTitle}}</a></td>
                     <td>{{i.genre}}</td>
                     <td>{{i.author}}</td>
@@ -45,7 +45,7 @@
                     <td>{{i.pubYear}}</td>
                     <td>{{i.isbn}}</td>
                     <td>{{i.stock}}</td>
-                    <td>{% include 'libraryApp/action_btn.html' with pubID=i.pubID authID=i.authID bookID=i.bookID%}
+                    <td>{% include 'libraryApp/book_action_btn.html' with bookID=i.bookID%}
                     </td>
                 </tr>
                 {% endfor %}

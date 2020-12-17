@@ -6,6 +6,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .filters import BookFilter
 from .forms import AddAuthorForm, AddBookForm, AddPublisherForm, AddStockForm
+import time
 
 class tempBook:
 
@@ -291,16 +292,15 @@ def borrowBook(request):
 
     bbActive = True
     booksList = []
-    count = 0
+    bookCount = BOOK.objects.count()
     
     for i in books:
-        count += 1
         stock = STOCK.objects.filter(bookID__id=i.id).first()
         authors = AUTHOR.objects.filter(book__id=i.id)
         authorList = []
         authorIDList = []
         for a in authors.all():
-            print("AUTH ID",a.id)
+            #print("AUTH ID",a.id)
             if a not in authorList: #loic to check redundancy
                 authorList.append(a)
                 authorIDList.append(a.id)
@@ -308,14 +308,14 @@ def borrowBook(request):
         pub = PUBLISHER.objects.filter(
             book__id=i.id).first()
         #print(i.bookTitle, "of genre", i.genre, "of ID:", i.id, "is published by,", pub.pubName,"of id", pub.id, "and authors are: ", authors, "is having:", stock.bookCopies, "copies")
-        booksList.append(tempBook(count, i.bookTitle, i.id, i.genre, pub.id,
+        booksList.append(tempBook(None, i.bookTitle, i.id, i.genre, pub.id,
                                   pub.pubName, i.pubYear, authorIDList, authorString, i.isbn, stock.bookCopies))
-        print("BOOK ID",i.id)
-        print("PUB ID",pub.id)
+        #print("BOOK ID",i.id)
+        #print("PUB ID",pub.id)
 
     context = {
         'books': booksList,
-        'count': count,
+        'count': bookCount,
         "myFilter" : myFilter,
         "bbActive" : bbActive
     }
@@ -352,30 +352,55 @@ def viewBook(request, bookID):
 def returnBook(request):
     returnBook = 'libraryApp/return_book.html'
     borrowedBooks = BORROWEDBOOK.objects.all()
+    borrowedBooksCount = BORROWEDBOOK.objects.count()
+    books = BOOK.objects.all()
 
     myFilter = BookFilter(request.GET, queryset=BOOK.objects.all())
     books = myFilter.qs
 
     rbActive = True
     borrowedBooksList = []
+    bbList = []
     bCount = 0
-    for i in borrowedBooks:
-        user = USER.objects.filter(email=i.userID).first()
-        authors = AUTHOR.objects.filter(book__id=i.id)
-        book = BOOK.objects.filter(bookTitle = i.bookID).first()
-        userName = user.fName + " " + user.mName + " " + user.lName
-        authorList = []
-        for a in authors.all():
-            if a not in authorList: #loic to check redundancy
-                authorList.append(a)
-        authorString = ', '.join(map(str, authorList))
-        if i.checkIn is None:
-            bCount += 1
-            borrowedBooksList.append(tempDashboard(bCount, i.bookID, book.id, userName, authorString, book.isbn, i.checkOut, None, i.dueDate))
+
+    start_time = time.time()
+    for i in books:
+        bb = i.borrowedbook_set.all()
+        if bb.exists():
+            for j in bb:
+                bookid = j.bookID.id
+                authors = AUTHOR.objects.filter(book__id=bookid)
+                userName = j.userID.fName + " " + j.userID.mName + " " + j.userID.lName
+                authorList = []
+                for a in authors.all():
+                    if a not in authorList: #loic to check redundancy
+                        authorList.append(a)
+                authorString = ', '.join(map(str, authorList))
+                if j.checkIn is None:
+                    bbList.append(tempDashboard(None, j.bookID, bookid, userName, authorString, j.bookID.isbn, j.checkOut, None, j.dueDate))
+                print(bookid, authorString)
+    print("--- %s seconds ---" % (time.time() - start_time))
+
+    start_time = time.time()
+    # for i in borrowedBooks:
+    #     user = USER.objects.filter(email=i.userID).first()
+    #     authors = AUTHOR.objects.filter(book__id=i.id)
+    #     book = BOOK.objects.filter(bookTitle = i.bookID).first()
+    #     userName = user.fName + " " + user.mName + " " + user.lName
+    #     authorList = []
+    #     for a in authors.all():
+    #         if a not in authorList: #loic to check redundancy
+    #             authorList.append(a)
+    #     authorString = ', '.join(map(str, authorList))
+    #     print(i.bookID, ":" , authorString)
+    #     if i.checkIn is None:
+    #         bCount += 1
+    #         borrowedBooksList.append(tempDashboard(bCount, i.bookID, book.id, userName, authorString, book.isbn, i.checkOut, None, i.dueDate))
+    print("--- %s seconds ---" % (time.time() - start_time))
 
     context = {
-        "borrowedBooks" : borrowedBooksList,
-        "count" : bCount,
+        "borrowedBooks" : bbList,
+        "count" : borrowedBooksCount,
         "myFilter" : myFilter,
         "rbActive" : rbActive
     }
@@ -461,7 +486,7 @@ def manage(request):
         authorList = []
         authorIDList = []
         for a in authors.all():
-            print("AUTH ID",a.id)
+            #print("AUTH ID",a.id)
             if a not in authorList: #loic to check redundancy
                 authorList.append(a)
                 authorIDList.append(a.id)
@@ -471,8 +496,8 @@ def manage(request):
         #print(i.bookTitle, "of genre", i.genre, "of ID:", i.id, "is published by,", pub.pubName,"of id", pub.id, "and authors are: ", authors, "is having:", stock.bookCopies, "copies")
         booksList.append(tempBook(bookCount, i.bookTitle, i.id, i.genre, pub.id,
                                   pub.pubName, i.pubYear, authorIDList, authorString, i.isbn, stock.bookCopies))
-        print("BOOK ID",i.id)
-        print("PUB ID",pub.id)
+        #print("BOOK ID",i.id)
+        #print("PUB ID",pub.id)
 
     context = {
         'books': booksList,

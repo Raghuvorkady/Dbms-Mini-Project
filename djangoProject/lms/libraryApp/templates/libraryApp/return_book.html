@@ -32,7 +32,7 @@
     
                 {% for i in borrowedBooks %}
                     <tr>
-                        <td>{{i.slNo}}</td>
+                        <td>{{forloop.counter}}</td>
                         <td><a href="{% url 'viewbook' i.bookID %}">{{i.bookTitle}}</a></td>
                         <td>{{i.authorName}}</td>
                         <td>{{i.isbn}}</td>
