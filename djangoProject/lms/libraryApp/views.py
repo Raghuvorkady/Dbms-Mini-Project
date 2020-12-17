@@ -53,7 +53,7 @@ def addPublisherDetails(request, option):
         addPublisherForm = AddPublisherForm(request.POST)
         if addPublisherForm.is_valid():
             addPublisherForm.save()
-            return redirect(addAuthorDetails, option=option)
+            return redirect(manage)
 
         # print("PUB REQUEST:",request.POST)
         # addPub = request.POST['pubName']
@@ -147,7 +147,7 @@ def addBookDetails(request, option):
                 #wb.authorID.add(authorID)
             #wb.bookID.add(bookID)
             
-            return redirect(borrowBook)
+            return redirect(manage)
 
     context = {
         'authors': authors,
@@ -159,11 +159,10 @@ def addBookDetails(request, option):
     }
     return render(request, bookDetails, context)
 
-def updatePublisherDetails(request, pubID, bookID):
+def updatePublisherDetails(request, pubID):
     publisherDetails = 'libraryApp/add_publisher_details.html'
     publishers = PUBLISHER.objects.get(id=pubID)
 
-    print("BOOKID", bookID)
     print("PUBID", pubID)
     addPublisherForm = AddPublisherForm(instance=publishers)
     if request.method == "POST":
@@ -171,7 +170,7 @@ def updatePublisherDetails(request, pubID, bookID):
         if addPublisherForm.is_valid():
             addPublisherForm.save()
             print("REQUEST:", request.POST)
-            return redirect(updateBookDetails, pubID=pubID, bookID=bookID)
+            return redirect(manage)
 
     context = {
         'publishers' : publishers,
@@ -222,7 +221,7 @@ def updateBookDetails(request, bookID):
 
             stocks.bookCopies = stock
             stocks.save()
-            return redirect(borrowBook)
+            return redirect(manage)
 
     context = {
         'option' : 'Update',
@@ -448,6 +447,7 @@ def manage(request):
     allAuthors = AUTHOR.objects.all()
     allPublishers = PUBLISHER.objects.all()
 
+    mActive = True
     booksList = []
     bookCount = 0
     authCount = AUTHOR.objects.count()
@@ -481,16 +481,31 @@ def manage(request):
         'allAuthors' : allAuthors,
         'authCount' : authCount,
         'allPublishers' : allPublishers,
-        'pubCount' : pubCount
+        'pubCount' : pubCount,
+        'mActive' : mActive
     }
     return render(request, manage, context)
 
 def deleteAuthorDetails(request, pk):
-    authActionBtn = 'libraryApp/manage_tab.html'
-
     author = AUTHOR.objects.get(id=pk)
     name = author.authorName
     author.delete()
     
-    messages.success(request, 'Author', name,'deleted successfully!')
+    #messages.success(request, 'Author', name,'deleted successfully!')
+    return redirect(manage)
+
+def deletePublisherDetails(request, pk):
+    pub = PUBLISHER.objects.get(id=pk)
+    name = pub.pubName
+    pub.delete()
+    
+    #messages.success(request, 'Author', name,'deleted successfully!')
+    return redirect(manage)
+
+def deleteBookDetails(request, bookID):
+    book = BOOK.objects.get(id=bookID)
+    name = book.bookTitle
+    book.delete()
+    
+    #messages.success(request, 'Author', name,'deleted successfully!')
     return redirect(manage)

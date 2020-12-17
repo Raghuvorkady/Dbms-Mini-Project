@@ -39,7 +39,7 @@
                         <td>{{forloop.counter}}</td>
                         <td>{{i.authorName}}</td>
                         <td><a class="btn btn-sm btn-info" href="{% url 'updateauthordetail' i.id %}">Update</a></td>
-						<td><a class="btn btn-sm btn-warning" href="{% url 'deleteauthordetail' i.id %}">Delete</a></td>
+						<td><a class="btn btn-sm btn-danger" href="{% url 'deleteauthordetail' i.id %}">Delete</a></td>
                     </tr>
                     {% endfor %}
 

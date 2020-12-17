@@ -37,7 +37,7 @@
                         <td>{{i.state}}</td>
                         <td>{{i.pinCode}}</td>
                         <td>{{i.phoneNum}}</td>
-                        <td>{% include 'libraryApp/pub_action_btn.html' %}</td>
+                        <td>{% include 'libraryApp/pub_action_btn.html' with pubID=i.id %}</td>
                     </tr>
                     {% endfor %}
 
