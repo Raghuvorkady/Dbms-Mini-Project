@@ -21,6 +21,7 @@ urlpatterns = [
     path('viewbook/<str:bookID>/', views.viewBook, name="viewbook"),
     path('returnbook/', views.returnBook, name="returnbook"),
     path('manage/', views.manage, name="manage"),
+    path('quicksearch/<str:book>', views.quickSearch, name="quicksearch"),
     path('signup/', views.signUp, name="signup"),
     path('signin/', views.signIn, name="signin"),
     path('search/<str:book>/', views.searchResult, name="search"),

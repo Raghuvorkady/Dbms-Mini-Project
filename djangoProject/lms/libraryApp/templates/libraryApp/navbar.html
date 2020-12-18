@@ -11,19 +11,19 @@
 
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light align-items-end">
-  <img class="logo" src="{% static '/img/lms.png' %}" alt="" >
-  <button class="navbar-toggler ml-auto custom-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-  <span class="navbar-toggler-icon"></span>
-</button>
-<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-  <div class="navbar-nav navbar-right ml-auto">
-    <a class="nav-item nav-link active welcomeMsg" href="#">Welcome, User<span class="sr-only">(current)</span></a>
-    <a class="nav-item nav-link welcomeMsg" href="{% url 'signin' %}">Sign out</a>
+    <img class="logo" src="{% static '/img/lms.png' %}" alt="" >
+    <button class="navbar-toggler ml-auto custom-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+    <div class="navbar-nav navbar-right ml-auto">
+      <a class="nav-item nav-link active welcomeMsg" href="#">Welcome, User<span class="sr-only">(current)</span></a>
+      <a class="nav-item nav-link welcomeMsg" href="{% url 'signin' %}">Sign out</a>
+    </div>
   </div>
-</div>
 </nav>
 
-<nav class="navbar">
+{% comment %} <nav class="navbar">
     <div class="navbar-nav mySubMenu ml-auto">
       <nav>
       {% if dbActive == True %}
@@ -35,7 +35,7 @@
         <a href="{% url 'dashboard' %}">Dashboard</a>
         <a class="text-muted" href="{% url 'borrowbook' %}">Borrow book</a>
         <a href="{% url 'manage' %}">Manage</a>
-        {% comment %} Manage book {% endcomment %}
+        {% comment %} Manage book 
         <a href="{% url 'returnbook' %}">Return book</a>
       {% elif rbActive == True %}
         <a href="{% url 'dashboard' %}">Dashboard</a>
@@ -57,14 +57,17 @@
     </div>
     <form class="form-inline">
       {% comment %} <input class="form-control mr-sm-2" type="search" placeholder="Search for books" aria-label="Search">
-      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button> {% endcomment %}
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button> 
       <div class="input-group">
-            <input type="text" class="form-control" placeholder="Search for books">
-            <div class="input-group-append">
-                <button class="btn btn-secondary" type="button">
+              <button class="btn btn-secondary" type="button">
                     <i class="fa fa-microphone"></i>
+                </button>
+            <input type="text" class="form-control" placeholder="Search for books" id="searchInput">
+            <div class="input-group-append">
+                <button onclick="location.href='{% url 'search' 'atc' %}'" id="searchButton" class="btn btn-outline-success" type="button">
+                            <i class="fa fa-search"></i>
                 </button>
             </div>
         </div>
     </form>
-  </nav>
+  </nav> {% endcomment %}

@@ -228,6 +228,11 @@ def dashboard(request):
 
     myFilter = BookFilter(request.GET, queryset=BOOK.objects.all())
 
+    if request.method == "POST":
+        print(request.POST)
+        return redirect(quickSearch, book=request.POST['bookTitle'])
+        
+
     dbActive = True
     bCount = 0
     rCount = 0
@@ -260,14 +265,52 @@ def dashboard(request):
     }
     return render(request, dashboard, context)
 
+def quickSearch(request, book):
+    searchResult = 'libraryApp/search_result_page.html'
+    books = BOOK.objects.filter(bookTitle__icontains=book)
+
+    myFilter = BookFilter(request.POST, queryset=books)
+    if request.method == "POST":
+        print(request.POST)
+        return redirect(quickSearch, book=request.POST['bookTitle'])
+    
+    print(books)
+    booksList = []
+    count = 0
+    
+    for i in books:
+        count += 1
+        stock = STOCK.objects.filter(bookID__id=i.id).first()
+        authors = AUTHOR.objects.filter(book__id=i.id)
+        authorList = []
+        authorIDList = []
+        for a in authors.all():
+            if a not in authorList: #loic to check redundancy
+                authorList.append(a)
+                authorIDList.append(a.id)
+        authorString = ', '.join(map(str, authorList))
+        #print(i.bookTitle, "of genre", i.genre, "of ID:", i.id, "is published by,", pub.pubName,"of id", pub.id, "and authors are: ", authors, "is having:", stock.bookCopies, "copies")
+        booksList.append(tempBook(count, i.bookTitle, i.id, i.genre, i.pubID.id,
+                                  i.pubID.pubName, i.pubYear, authorIDList, authorString, i.isbn, stock.bookCopies))
+
+    context = {
+        'books': booksList,
+        'count': count,
+        'query' : book,
+        'myFilter' : myFilter
+    }
+    return render(request, searchResult, context)
 
 def borrowBook(request):
     borrowBook = 'libraryApp/borrow_book.html'
     
     books = BOOK.objects.all()
 
-    myFilter = BookFilter(request.GET, queryset=books)
-    books = myFilter.qs
+    myFilter = BookFilter(request.GET, queryset=BOOK.objects.all())
+
+    if request.method == "POST":
+        print(request.POST)
+        return redirect(quickSearch, book=request.POST['bookTitle'])
 
     bbActive = True
     booksList = []
@@ -301,7 +344,10 @@ def viewBook(request, bookID):
     viewBook = 'libraryApp/view_book.html'
 
     myFilter = BookFilter(request.GET, queryset=BOOK.objects.all())
-    books = myFilter.qs
+
+    if request.method == "POST":
+        print(request.POST)
+        return redirect(quickSearch, book=request.POST['bookTitle'])
 
     book = BOOK.objects.get(id=bookID)
     pub = PUBLISHER.objects.filter(book__id=book.id).first()
@@ -330,7 +376,10 @@ def returnBook(request):
     books = BOOK.objects.all()
 
     myFilter = BookFilter(request.GET, queryset=BOOK.objects.all())
-    books = myFilter.qs
+
+    if request.method == "POST":
+        print(request.POST)
+        return redirect(quickSearch, book=request.POST['bookTitle'])
 
     rbActive = True
     bbList = []
@@ -382,9 +431,11 @@ def searchResult(request, book):
     searchResult = 'libraryApp/search_result_page.html'
     books = BOOK.objects.filter(bookTitle__icontains=book)
 
+    print(books, book)
     myFilter = BookFilter(request.GET, queryset=BOOK.objects.all())
     books = myFilter.qs
 
+    print(books)
     booksList = []
     count = 0
     
@@ -415,8 +466,11 @@ def manage(request):
     manage = 'libraryApp/manage_tab.html'
     books = BOOK.objects.all()
 
-    myFilter = BookFilter(request.GET, queryset=books)
-    books = myFilter.qs
+    myFilter = BookFilter(request.GET, queryset=BOOK.objects.all())
+
+    if request.method == "POST":
+        print(request.POST)
+        return redirect(quickSearch, book=request.POST['bookTitle'])
 
     allAuthors = AUTHOR.objects.all()
     allPublishers = PUBLISHER.objects.all()
