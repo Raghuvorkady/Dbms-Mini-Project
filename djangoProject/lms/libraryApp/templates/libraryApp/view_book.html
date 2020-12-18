@@ -7,23 +7,29 @@
     .viewBook {
         margin: 10px;
     }
-    .bookTitle{
+
+    .bookTitle {
         font-size: 34px;
         color: #444444;
     }
-    .center{
+
+    .center {
         margin: auto;
     }
-    .cardHead{
+
+    .cardHead {
         background-color: lightsteelblue;
     }
-    .bookCopy{
+
+    .bookCopy {
         color: #fffffff6;
     }
-    .small{
+
+    .small {
         font-size: 20px;
     }
-    .bodyText{
+
+    .bodyText {
         font-size: 18px;
     }
 </style>
@@ -31,7 +37,7 @@
 <div>
     <h1 class="text-center">
         View book
-     </h1> 
+    </h1>
 </div>
 
 <div class="row align-items-center viewBook mt-4">
@@ -43,43 +49,56 @@
                     {{book.bookTitle}} <span class="small">({{book.stock}}*)</span>
                 </h3>
             </div>
-            <div class="row justify-content-center">
-                <div class="bookCopy mr-4">
-                    {{book.genre}}
-                </div>
-            </div>
         </div>
 
 
-        <div class="card-body text-center bodyText">
-            <div class="row justify-content-center">
-                <strong class="pr-1">Author:</strong> {{book.author}}
-            </div>
-            <div class="row justify-content-center pt-1">
-                <strong class="pr-1">ISBN:</strong> {{book.isbn}}
-            </div>
-            <div class="row justify-content-center pt-1">
-                <strong class="pr-1">Publisher:</strong> {{book.pubName}},
-                {{book.pubYear}}
-            </div>
-            <div class="row justify-content-center pt-1">
-                <strong class="pr-1">Address:</strong> {{pub.streetAddr}},<br> {{pub.district}},<br> {{pub.state}}, {{pub.pinCode}}
-            </div>
-            <div class="row justify-content-center pt-1">
-                <strong class="pr-1">Phone:</strong> {{pub.phoneNum}}
-            </div>
+        <div>
+            <table class="table table-bordered">
+                <tbody>
+                    <tr>
+                        <th scope="row">Author</th>
+                        <td>{{book.author}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Genre</th>
+                        <td>{{book.genre}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">ISBN</th>
+                        <td>{{book.isbn}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Publisher</th>
+                        <td>{{book.pubName}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Year of pub.</th>
+                        <td>{{book.pubYear}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Address</th>
+                        <td>{{pub.streetAddr}},<br> {{pub.district}},<br> {{pub.state}},{{pub.pinCode}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Phone</th>
+                        <td>{{pub.phoneNum}}</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
 
     </div>
     <div class="col-md-4 mt-5">
         <div class="row justify-content-center">
-            <a href="{% url 'dashboard' %}"><button type="button" class="btn btn-outline-success btn-lg" data-toggle="tooltip" data-placement="right"
-                title="Click here to borrow the book">Borrow</button></a>
+            <a href="{% url 'dashboard' %}"><button type="button" class="btn btn-outline-success btn-lg"
+                    data-toggle="tooltip" data-placement="right"
+                    title="Click here to borrow the book">Borrow</button></a>
         </div>
         <br>
         <div class="row justify-content-center">
-            <a href="{% url 'dashboard' %}"><button type="button" class="btn btn-outline-danger btn-lg" data-toggle="tooltip" data-placement="right"
-                title="Click here to return the book">Return</button></a>
+            <a href="{% url 'dashboard' %}"><button type="button" class="btn btn-outline-danger btn-lg"
+                    data-toggle="tooltip" data-placement="right"
+                    title="Click here to return the book">Return</button></a>
         </div>
     </div>
 </div>

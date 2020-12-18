@@ -29,7 +29,7 @@
                         </tr>
                     </thead>
 
-                    {% for i in books %}
+                    {% for i in allBooks %}
                     <tr>
                         <td>{{i.slNo}}</td>
                         <td><a href="{% url 'viewbook' i.bookID %}">{{i.bookTitle}}</a></td>
