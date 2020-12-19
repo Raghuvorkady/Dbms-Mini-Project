@@ -27,6 +27,30 @@
             padding: 5px;
             margin: 5px;
         }
+
+            .pulse-ring {
+        content: '';
+        width: 22px;
+        height: 22px;
+        border: 2px solid red;
+        border-radius: 20%;
+        position: absolute;
+        top: 8px;
+        left: 7px;
+        animation: pulsate infinite 1s;
+    }
+
+    @-webkit-keyframes pulsate {
+        0% {
+        -webkit-transform: scale(1, 1);
+        opacity: 1;
+        }
+
+        100% {
+        -webkit-transform: scale(1.5, 1.5);
+        opacity: 0;
+        }
+    }
     </style>
 
 
@@ -49,32 +73,31 @@
             </div>
         </div>
     </nav>
+   
     <nav class="navbar">
-        <div class="navbar-nav mySubMenu ml-auto">
-            <nav>
-                <a href="{% url 'dashboard' %}">Dashboard</a>
-                <a href="{% url 'borrowbook' %}">Borrow book</a>
-                <a href="{% url 'manage' %}">Manage</a>
-                <a href="{% url 'returnbook' %}">Return book</a>
-            </nav>
+    <div class="navbar-nav mySubMenu ml-auto">
+        <nav>
+            <a href="{% url 'dashboard' %}">Dashboard</a>
+            <a href="{% url 'borrowbook' %}">Borrow book</a>
+            <a href="{% url 'manage' %}">Manage</a>
+            <a href="{% url 'returnbook' %}">Return book</a>
+        </nav>
+    </div>
+    <form class="form-inline" method="POST">
+        {% csrf_token %}
+        <div class="input-group">
+        <div id="speech" class="btn btn-light" title="Click the Mic to speak">
+            <i class="fa fa-microphone" aria-hidden="true"></i>
+            <div class="pulse-ring" id="pulseRing"></div>
         </div>
-        <form class="form-inline" method="POST">
-                    {% csrf_token %}
-            <div class="input-group">
-                <button class="btn btn-secondary" type="button">
-                    <i class="fa fa-microphone"></i>
-                </button>
-                <div class="input-group-append">
-                        {{myFilter.form}}
-                        <button id="searchButton" class="btn btn-success" type="submit">
-                            <i class="fa fa-search"></i>
-                        </button>
-                        <!-- </form>    <form action="" method="POST">
-                        <input type="text" id="searchBox" class="form-control" onkeypress="handle(event)"
-                    placeholder="Search for books" value="{{query}}"> -->
-                </div>
-            </div>
-        </form>
+        {{myFilter.form}}
+        <div class="input-group-append">
+            <button id="searchButton" class="btn btn-outline-success" type="submit">
+            <i class="fa fa-search"></i>
+            </button>
+        </div>
+        </div>
+    </form>
     </nav>
 
     <br>
@@ -151,12 +174,65 @@
         searchQuery = document.getElementById("searchBox").value;
         searchButton = document.getElementById("searchButton");
         if (e.keyCode === 13) {
-            //alert("You are searching: " + searchQuery);
             searchButton.click();
         }
         return false;
     }
 
+</script>
+
+<script>
+  pulse = false;
+  speech = document.getElementById("speech");
+  pulseRing = document.getElementById("pulseRing");
+  pulseRing.style.display = "none";
+  speech.onclick = function () { mySearch() };
+
+  function mySearch() {
+    if (window.hasOwnProperty('webkitSpeechRecognition')) {
+      if (pulse == false) {
+        pulse = true;
+        msg = `your mic is ON now, PULSE: ${pulse}`;
+        console.log(msg);
+        pulseRing.style.display = "block";
+
+
+        var recognition = new webkitSpeechRecognition();
+
+        recognition.continuous = false;
+        recognition.interimResults = false;
+        recognition.lang = "en-IN";
+        recognition.start();
+
+        recognition.onresult = function (e) {
+          document.getElementById('id_bookTitle').value = e.results[0][0].transcript;
+          recognition.stop();
+          pulseRing.style.display = "none";
+        };
+        recognition.onerror = function (e) {
+          recognition.stop();
+          pulseRing.style.display = "none";
+        }
+        recognition.onend = function(){
+          console.log("STOPPED");
+          pulse = false;
+          msg = `your mic is OFF now, PULSE: ${pulse}`;
+          console.log(msg);
+          pulseRing.style.display = "none";
+        }
+
+      }
+      else if (pulse == true) {
+        pulse = false;
+        msg = `your mic is OFF now, PULSE: ${pulse}`;
+        console.log(msg);
+        pulseRing.style.display = "none";
+        //recognition.stop();
+      }
+    } else{
+      console.log("webkitSpeechRecognition not found");
+    }
+  }
 </script>
 
 </html>

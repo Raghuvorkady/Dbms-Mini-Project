@@ -3,32 +3,6 @@
 
 {% block content %}
 
-<style>
-  .pulse-ring1 {
-    content: '';
-    width: 22px;
-    height: 22px;
-    border: 2px solid red;
-    border-radius: 20%;
-    position: absolute;
-    top: 8px;
-    left: 7px;
-    animation: pulsate infinite 1s;
-  }
-
-  @-webkit-keyframes pulsate {
-    0% {
-      -webkit-transform: scale(1, 1);
-      opacity: 1;
-    }
-
-    100% {
-      -webkit-transform: scale(1.5, 1.5);
-      opacity: 0;
-    }
-  }
-</style>
-
 <nav class="navbar">
   <div class="navbar-nav mySubMenu ml-auto">
     <nav>
@@ -41,9 +15,9 @@
   <form class="form-inline" method="POST">
     {% csrf_token %}
     <div class="input-group">
-      <div id="speech1" class="btn btn-light" title="Click the mic to speak">
+      <div id="speech" class="btn btn-light" title="Click the mic to speak">
         <i class="fa fa-microphone" aria-hidden="true"></i>
-        <div class="pulse-ring1" id="pulseRing1"></div>
+        <div class="pulse-ring" id="pulseRing"></div>
       </div>
       {{myFilter.form}}
       <div class="input-group-append">
@@ -54,102 +28,8 @@
     </div>
   </form>
 </nav>
-<script>
-  pulse = false;
-  speech1 = document.getElementById("speech1");
-  pulseRing1 = document.getElementById("pulseRing1");
-  pulseRing1.style.display = "none";
-  speech1.onclick = function () { mySearch() };
-
-  /*var recognition = new webkitSpeechRecognition();
-
-  recognition.continuous = false;
-  recognition.interimResults = false;
-  recognition.lang = "en-US";
-
-  var recognizing = false;
-
-  function test() {
-    if (recognizing == false && pulse == false) {
-      pulse = true;
-      recognition.start();
-    } else if(recognizing == true || pulse == true) {
-      pulse = false;
-      recognition.stop();
-    }
-  }
-
-  recognition.onstart = function () {
-    recognizing = true;
-    pulseRing1.style.display = "block";
-    console.log("STARTED");
-    if (window.hasOwnProperty('webkitSpeechRecognition')) {
-
-        var recognition = new webkitSpeechRecognition();
-
-        recognition.onresult = function (e) {
-        document.getElementById('id_bookTitle').value = e.results[0][0].transcript;
-        recognition.stop();
-        };
-        recognition.onerror = function (e) {
-        recognition.stop();
-        }
-      }
-  };
-
-  recognition.onend = function () {
-    recognizing = false;
-    pulseRing1.style.display = "none";
-    console.log("STOPPED");
-  };*/
 
 
-  function mySearch() {
-    if (window.hasOwnProperty('webkitSpeechRecognition')) {
-      if (pulse == false) {
-        pulse = true;
-        msg = `your mic is ON now, PULSE: ${pulse}`;
-        console.log(msg);
-        pulseRing1.style.display = "block";
-
-
-        var recognition = new webkitSpeechRecognition();
-
-        recognition.continuous = false;
-        recognition.interimResults = false;
-        recognition.lang = "en-IN";
-        recognition.start();
-
-        recognition.onresult = function (e) {
-          document.getElementById('id_bookTitle').value = e.results[0][0].transcript;
-          recognition.stop();
-          pulseRing1.style.display = "none";
-        };
-        recognition.onerror = function (e) {
-          recognition.stop();
-          pulseRing1.style.display = "none";
-        }
-        recognition.onend = function(){
-          console.log("STOPPED");
-          pulse = false;
-          msg = `your mic is OFF now, PULSE: ${pulse}`;
-          console.log(msg);
-          pulseRing1.style.display = "none";
-        }
-
-      }
-      else if (pulse == true) {
-        pulse = false;
-        msg = `your mic is OFF now, PULSE: ${pulse}`;
-        console.log(msg);
-        pulseRing1.style.display = "none";
-        //recognition.stop();
-      }
-    } else{
-      console.log("webkitSpeechRecognition not found");
-    }
-  }
-</script>
 <br>
 
 <div class="row">

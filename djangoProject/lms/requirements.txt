@@ -1,3 +1,2 @@
 django-filter
-django
 django-widget-tweaks
