@@ -6,3 +6,6 @@ def index(request):
     main = 'srt/main.html'
     return render(request, main)
 
+def test(request):
+    test = 'srt/test.html'
+    return render(request, test)

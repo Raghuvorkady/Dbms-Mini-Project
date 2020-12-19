@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>test</title>
+    <meta name="ROBOTS" content="NOINDEX, NOFOLLOW" />
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <style>
+        
+        body {
+            margin: 0;
+            font-size: 150px/8;
+        }
+
+        #speech.btn {
+            border: none;
+            padding: 0;
+            border-radius: 100%;
+            width: 150px;
+            height: 150px;
+            font-size: 1.5em;
+            color: #fff;
+            padding: 0;
+            margin: 0;
+            background: #FF3D7F;
+            position: relative;
+            display: inline-block;
+            line-height: 50px;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: middle;
+            -ms-touch-action: manipulation;
+            touch-action: manipulation;
+            cursor: pointer;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            background-image: none;
+        }
+
+        .pulse-ring {
+            content: '';
+            width: 150px;
+            height: 150px;
+            border: 5px solid #FF3D7F;
+            border-radius: 50%;
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            animation: pulsate infinite 1s;
+        }
+
+        .pulse-ring1 {
+            content: '';
+            width: 25px;
+            height: 25px;
+            border: 2px solid red;
+            border-radius: 20%;
+            position: absolute;
+            top: 6px;
+            left: 6px;
+            animation: pulsate infinite 1s;
+        }
+
+        @-webkit-keyframes pulsate {
+            0% {
+                -webkit-transform: scale(1, 1);
+                opacity: 1;
+            }
+
+            100% {
+                -webkit-transform: scale(1.4, 1.4);
+                opacity: 0;
+            }
+        }
+
+        .container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #3FB8AF;
+        }
+    </style>
+
+</head>
+
+<body>
+    <nav class="navbar m-2">
+        <div class="navbar-nav mySubMenu ml-auto m-1">
+          <nav>
+            <a >Dashboard</a>
+              <a >Borrow book</a>
+              <a >Manage</a>
+              <a >Return book</a>
+          </nav>
+        </div>
+        <form>
+          <div class="input-group">
+            <button id="speech1" class="btn btn-light">
+                <i class="fa fa-microphone" aria-hidden="true"></i>
+                <div class="pulse-ring1" id="pulseRing1"></div>
+            </button>
+            
+            <input type="text" class="form-control" placeholder="Search for books" id="searchInput">
+            <div class="input-group-append">
+              <button id="searchButton" class="btn btn-outline-success" type="button">
+                <i class="fa fa-search"></i>
+              </button>
+            </div>
+          </div>
+        </form>
+      </nav>
+
+
+        <div class="container">
+            <button id="speech" class="btn">
+              <i class="fa fa-microphone" aria-hidden="true"></i>
+              <div class="pulse-ring" id="pulseRing"></div>
+        </div>
+
+
+
+</body>
+<script>
+    pulse = false;
+    speech = document.getElementById("speech");
+    pulseRing = document.getElementById("pulseRing");
+    pulseRing.style.display = "none";
+    
+    speech1 = document.getElementById("speech1");
+    pulseRing1 = document.getElementById("pulseRing1");
+    pulseRing1.style.display = "none";
+
+    speech.onclick = function(){mySearch()};
+    speech1.onclick = function(){mySearch()};
+
+    function mySearch(){
+        if (pulse == false)
+            {
+                console.log("your mic is ON now");
+                pulseRing.style.display = "block"
+                pulseRing1.style.display = "block"
+                pulse = true;
+            }
+        else if(pulse == true) {
+            console.log("your mic is OFF now");
+            pulseRing.style.display = "none"
+            pulseRing1.style.display = "none"
+            pulse = false;
+        }
+    }
+</script>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+    crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+    crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+    crossorigin="anonymous"></script>
+
+</html>

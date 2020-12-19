@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>test</title>
+    <meta name="ROBOTS" content="NOINDEX, NOFOLLOW" />
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <style>
+        .frame {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 400px;
+  height: 400px;
+  margin-top: -200px;
+  margin-left: -200px;
+  border-radius: 2px;
+	box-shadow: 4px 8px 16px 0 rgba(0,0,0,0.1);
+	overflow: hidden;
+  background: purple;
+  color: #333;
+	font-family: 'Open Sans', Helvetica, sans-serif;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+.center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+}
+
+.mic {
+  &_container {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    margin: 50vh auto;
+    border-radius: 50%;
+    border: 5px solid white;
+  }
+  
+  &_body {
+    position: relative;
+    top: 17%;
+    left: 38%;
+    transform-origin: 20px 50px;
+  }
+  
+  &_pill {
+    position: absolute;
+    height: 80px;
+    width: 35px;
+    background: white;
+    border-radius: 20px;
+  }
+  
+  &_hole {
+    position: absolute;
+    height: 25px;
+    width: 8px;
+    top: 12px;
+    left: 14px;
+    background: purple;
+    border-radius: 20px;
+  }
+  
+  &_stand {
+    position: absolute;
+    top: 70px;
+    left: 10%;
+    background: white;
+    height: 30px;
+    width: 5px;
+    border-radius: 5px;
+  }
+  
+  &_bottom {
+    position: absolute;
+    background: white;
+    border-radius: 5px;
+    height: 5px;
+    width: 35px;
+    top: 95px;
+  }
+  
+  &_animate {
+    animation: mic 1s forwards;
+  }
+}
+
+.dots {
+  height: 100%;
+  width: 80%;
+  opacity: 0;
+  transform: scale(0);
+  position: absolute;
+  left: 10%;
+  
+  &.animate {
+    animation: dots 0.5s 0.5s forwards;
+  }
+  
+  &_left, &_middle, &_right {
+    height: 20px;
+    width: 20px;
+    position: absolute;
+    top: 50%;
+    background: white;
+    border-radius: 50%;
+    margin: auto auto;
+  }
+  
+  &_left {
+    left: 12%;
+    
+    &.animate {
+      animation: dot 1s ease infinite;
+    }
+  }
+  
+  &_middle {
+    left: 42%;
+    
+    &.animate {
+      animation: dot 1s ease 0.1s infinite;
+    }
+  }
+  
+  &_right {
+    left: 72%;
+    
+    &.animate {
+      animation: dot 1s ease 0.2s infinite;
+    }
+  }
+}
+
+@keyframes dots {
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes dot {
+  50% {
+    top: 35%;
+  }
+}
+
+@keyframes mic {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  30% {
+    transform: scale(1.1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0);
+    opacity: 0;
+  }
+}
+    </style>
+
+</head>
+
+<body>
+
+      <div class="frame">
+  <div class="center">
+     <div class="mic_container">
+       <div class="mic_body">
+         <div class="mic_pill">
+         </div>
+         <div class="mic_hole">
+         </div>
+         <div class="mic_stand">
+         </div>
+         <div class="mic_bottom">
+         </div>
+       </div>
+       <div class="dots">
+         <div class="dots_left">
+         </div>
+         <div class="dots_middle">
+         </div>
+         <div class="dots_right">
+         </div>
+       </div>
+     </div>
+  </div>
+</div>
+
+
+</body>
+
+<script>var micContainer = $(".mic_container");
+var mic = $(".mic_body");
+var dots = $(".dots");
+var L = $('.dots_left');
+var M = $('.dots_middle');
+var R = $('.dots_right');
+
+micContainer.click(function() {
+  mic.toggleClass('mic_animate');
+  dots.toggleClass('animate');
+  L.toggleClass('animate');
+  M.toggleClass('animate');
+  R.toggleClass('animate');
+});</script>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+    crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+    crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+    crossorigin="anonymous"></script>
+
+</html>
