@@ -9,6 +9,13 @@
         <img class="mb-4" src="{% static '/img/lms.png' %}" alt="" >
         <h1 class="h3 mb-3 font-weight-normal">Library Management System</h1>
       </div>
+
+      <form action="" method="POST">
+          {% csrf_token %}
+          {{form.as_p}}
+          <input type="submit" name="Create User">
+      </form>
+
         <br>
         <br>
         <br>

@@ -5,7 +5,8 @@ from libraryApp.models import *
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .filters import BookFilter
-from .forms import AddAuthorForm, AddBookForm, AddPublisherForm, AddStockForm
+from .forms import AddAuthorForm, AddBookForm, AddPublisherForm, AddStockForm, CreateUserForm
+from django.contrib.auth.forms import UserCreationForm
 import time
 
 class tempBook:
@@ -421,9 +422,18 @@ def signUp(request):
     signUp = 'libraryApp/sign_up.html'
     states = defaultValues.statesInIndia
     courses = defaultValues.courses
+
+    signUpForm = CreateUserForm()
+
+    if request.method == 'POST':
+        signUpForm = CreateUserForm(request.POST)
+        if signUpForm.is_valid():
+            signUpForm.save()
+
     context = {
         "states" : states,
         "courses" : courses,
+        "form" : signUpForm
     }
     return render(request, signUp, context)
 

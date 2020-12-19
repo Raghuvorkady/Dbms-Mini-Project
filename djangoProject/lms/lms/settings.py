@@ -41,6 +41,7 @@ INSTALLED_APPS = [
 
     'libraryApp',
     'widget_tweaks',
+    'account',
 ]
 
 MIDDLEWARE = [
@@ -70,6 +71,8 @@ TEMPLATES = [
         },
     },
 ]
+
+AUTH_USER_MODEL = 'account.Account'
 
 WSGI_APPLICATION = 'lms.wsgi.application'
 
