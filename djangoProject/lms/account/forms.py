@@ -4,12 +4,6 @@ from django.forms import fields
 from django.forms.models import ModelForm
 from account.models import Account
 
-class RegistrationForm(UserCreationForm):
-    class Meta:
-        model = Account
-        fields = ['email', 'username', 'fName', 'mName', 'lName', 'streetAddr', 
-        'district', 'state', 'pinCode', 'phoneNum']
-
 class StudentRegistrationForm(UserCreationForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

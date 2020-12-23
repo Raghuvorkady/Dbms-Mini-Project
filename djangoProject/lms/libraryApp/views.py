@@ -1,16 +1,10 @@
-from account.forms import RegistrationForm, StaffRegistrationForm, StudentRegistrationForm
-from typing import ContextManager
-from django.contrib import messages
-from django.db.models import query
+from account.forms import StaffRegistrationForm, StudentRegistrationForm
 from libraryApp.models import *
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
 from .filters import BookFilter
-from .forms import AddAuthorForm, AddBookForm, AddPublisherForm, AddStockForm, CreateUserForm
-from django.contrib.auth.forms import UserCreationForm
-from account.models import Account
+from .forms import AddAuthorForm, AddBookForm, AddPublisherForm, AddStockForm
+from django.contrib.auth import authenticate, login, logout
 import time
-
 
 class tempBook:
     def __init__(self, slNo, bookTitle, bookID, genre, pubID, pubName, pubYear, authID, author, isbn, stock):
@@ -444,6 +438,10 @@ def signUp(request):
                 staff = staffSignUpForm.save()
                 staff.is_staff = True
                 staff.save()
+
+                account = authenticate(email=staff.email, password=staff.password)
+                login(request, account)
+                return redirect(dashboard)
         else:
             data = {
                 "USN": request.POST['USN'],
@@ -455,7 +453,11 @@ def signUp(request):
 
             if studentSignUpForm.is_valid():
                 studentSignUpForm.save()
-
+                email = studentSignUpForm.cleaned_data.get('email')
+                password1 = studentSignUpForm.cleaned_data.get('password1')
+                account = authenticate(email=email, password=password1)
+                login(request, account)
+                return redirect(dashboard)
         print("SIGNUP REQUEST", request.POST)
 
     context = {
