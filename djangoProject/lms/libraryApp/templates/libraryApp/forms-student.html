@@ -1,7 +1,36 @@
+{% load widget_tweaks %}
 
 <div class="container">
+  <h2 class="text-center text-info">Student</h2>
+  <br>
+  <form action="" method="POST">
+    {% csrf_token %}
 
-  <form>
+    <div class="container">
+      {% for hidden_field in studentForm.hidden_fields %}
+      {{ hidden_field }}
+      {% endfor %}
+      {% for field in studentForm.visible_fields %}
+      <div class="form-group">
+        {{ field.label_tag }}
+        {% render_field field class="form-control" %}
+        {% if field.help_text %}
+        <small class="form-text text-muted">{{ field.help_text }}</small>
+        {% endif %}
+      </div>
+      {% endfor %}
+    </div>
+
+    <input type="submit" class="btn btn-primary btn-lg btn-block" name="STUDENT" value="Sign up"></input>
+
+    <br>
+    <h6 class="mt-5 mb-3 text-muted text-center">Already having a account, <a href="{% url 'signin' %}">Sign in</a> here
+    </h6>
+  </form>
+
+
+
+  {% comment %} <form>
     <h2 class="text-center text-info">Student</h2>
     <br>
     <div class="form-row">
@@ -57,10 +86,10 @@
       <div class="form-group col-md-4">
         <label for="inputState">State</label>
         <select id="inputState" class="form-control">
-        <option selected>Choose your state</option>
-        {% for i in states %}
+          <option selected>Choose your state</option>
+          {% for i in states %}
           <option>{{i}}</option>
-        {% endfor %}
+          {% endfor %}
         </select>
       </div>
 
@@ -89,9 +118,9 @@
       <div class="form-group col-md-12">
         <label for="course">Course</label>
         <select id="course" class="form-control">
-        <option selected>Choose your branch</option>
+          <option selected>Choose your branch</option>
           {% for i in courses %}
-            <option>{{i}}</option>
+          <option>{{i}}</option>
           {% endfor %}
         </select>
       </div>
@@ -116,8 +145,9 @@
     <button type="submit" class="btn btn-primary btn-lg btn-block">Sign up</button>
 
     <br>
-    <h6 class="mt-5 mb-3 text-muted text-center">Already having a account, <a href="{% url 'signin' %}">Sign in</a> here</h6>
-  </form>
+    <h6 class="mt-5 mb-3 text-muted text-center">Already having a account, <a href="{% url 'signin' %}">Sign in</a> here
+    </h6>
+  </form> {% endcomment %}
 
 
 </div>

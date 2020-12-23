@@ -1,3 +1,4 @@
+from account.models import Account
 from django.forms import ModelForm, fields, models
 from .models import AUTHOR, BOOK, PUBLISHER, STOCK
 from django.contrib.auth.forms import UserCreationForm
@@ -5,12 +6,9 @@ from django.contrib.auth.models import User
 from django import forms
 
 class CreateUserForm(UserCreationForm):
-    fName = forms.CharField(max_length=20, label='first name')
-    mName = forms.CharField(max_length=20, label='middle  name')
-    lName = forms.CharField(max_length=20, label='last name')
     class Meta:
-        model = User
-        fields = ['username', 'email', 'password1', 'password2']
+        model = Account
+        fields = '__all__'
 
 class SelectPublisherForm(forms.ModelForm):
     # publishers = PUBLISHER.objects.all()

@@ -1,3 +1,4 @@
+from account.forms import RegistrationForm, StaffRegistrationForm, StudentRegistrationForm
 from typing import ContextManager
 from django.contrib import messages
 from django.db.models import query
@@ -7,10 +8,10 @@ from django.http import HttpResponse
 from .filters import BookFilter
 from .forms import AddAuthorForm, AddBookForm, AddPublisherForm, AddStockForm, CreateUserForm
 from django.contrib.auth.forms import UserCreationForm
+from account.models import Account
 import time
 
 class tempBook:
-
     def __init__(self, slNo, bookTitle, bookID, genre, pubID, pubName, pubYear, authID, author, isbn, stock):
         self.slNo = slNo
         self.bookTitle = bookTitle
@@ -26,7 +27,6 @@ class tempBook:
 
 # Create your views here.
 class tempDashboard:
-
     def __init__(self, slNo, bookTitle, bookID, userName, authorName, isbn, checkOut, checkIn, dueDate):
         self.slNo = slNo
         self.bookTitle = bookTitle
@@ -423,17 +423,25 @@ def signUp(request):
     states = defaultValues.statesInIndia
     courses = defaultValues.courses
 
-    signUpForm = CreateUserForm()
+    studentSignUpForm = StudentRegistrationForm()
+    staffSignUpForm = StaffRegistrationForm()
 
-    if request.method == 'POST':
-        signUpForm = CreateUserForm(request.POST)
-        if signUpForm.is_valid():
-            signUpForm.save()
+    if request.method == "POST":
+
+        if 'STAFF' in request.POST:
+            isStaff = True
+        else:
+            isStaff = False
+
+        print('is staff', isStaff)
+        print("\nSIGNUP REQUEST",request.POST)
+
 
     context = {
         "states" : states,
         "courses" : courses,
-        "form" : signUpForm
+        "studentForm" : studentSignUpForm,
+        "staffForm" : staffSignUpForm
     }
     return render(request, signUp, context)
 

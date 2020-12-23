@@ -1,8 +1,35 @@
 {% load static %}
+{% load widget_tweaks %}
 
 <div class="container">
-  
-  <form>
+    <h2 class="text-center text-info">Staff</h2>
+  <br>
+  <form action="" method="POST">
+    {% csrf_token %}
+
+    <div class="container">
+      {% for hidden_field in staffForm.hidden_fields %}
+      {{ hidden_field }}
+      {% endfor %}
+      {% for field in staffForm.visible_fields %}
+      <div class="form-group">
+        {{ field.label_tag }}
+        {% render_field field class="form-control" %}
+        {% if field.help_text %}
+        <small class="form-text text-muted">{{ field.help_text }}</small>
+        {% endif %}
+      </div>
+      {% endfor %}
+    </div>
+
+    <input type="submit" class="btn btn-primary btn-lg btn-block" name="STAFF" value="Sign up"></input>
+
+    <br>
+    <h6 class="mt-5 mb-3 text-muted text-center">Already having a account, <a href="{% url 'signin' %}">Sign in</a> here
+    </h6>
+  </form>
+
+  {% comment %} <form>
     <h2 class="text-center text-info">Staff</h2>
     <br>
     <div class="form-row">
@@ -90,7 +117,7 @@
 
     <br>
     <h6 class="mt-5 mb-3 text-muted text-center">Already having a account, <a href="{% url 'signin' %}">Sign in</a> here</h6>
-  </form>
+  </form> {% endcomment %}
 
 
 </div>
