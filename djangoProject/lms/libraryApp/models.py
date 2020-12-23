@@ -52,18 +52,18 @@ class LIBRARIAN(models.Model):
 
 
 class PUBLISHER(models.Model):
-    pubName = models.CharField(max_length=30)
-    streetAddr = models.CharField(max_length=50)
-    district = models.CharField(max_length=20)
-    state = models.CharField(max_length=20)
-    pinCode = models.CharField(max_length=6)
-    phoneNum = models.CharField(max_length=10)
+    pubName = models.CharField(max_length=30, help_text="Publisher name", null=True)
+    streetAddr = models.CharField(max_length=50, help_text="Street Address", null=True)
+    district = models.CharField(max_length=20, help_text="District", null=True)
+    state = models.CharField(max_length=20, help_text="State", null=True)
+    pinCode = models.CharField(max_length=6, help_text="PIN Code", null=True)
+    phoneNum = models.CharField(max_length=10, help_text="Phone number", null=True)
 
     def __str__(self):
         return self.pubName
 
 class AUTHOR(models.Model):
-    authorName = models.CharField(max_length=30)
+    authorName = models.CharField(max_length=30, help_text="Author name")
 
     def __str__(self):
         return self.authorName
@@ -81,14 +81,14 @@ class BOOK(models.Model):
         ("BIO", "Bioengineering"),
         ("BUS", "Business Skills"),
     )
-    bookTitle = models.CharField(max_length=50)
-    genre = models.CharField(max_length=30, null=True, choices=GENRE)
-    pubYear = models.CharField(max_length=4, null=True)
-    isbn = models.CharField(max_length=13, null=True)
+    bookTitle = models.CharField(max_length=50, help_text="Book Title")
+    genre = models.CharField(max_length=30, null=True, choices=GENRE, help_text="Category")
+    pubYear = models.CharField(max_length=4, null=True, help_text="Year of publication")
+    isbn = models.CharField(max_length=13, null=True, help_text="International Standard Book Number")
     librarianID = models.ForeignKey(
-        LIBRARIAN, null=True, on_delete=models.SET_NULL)
-    pubID = models.ForeignKey(PUBLISHER, null=True, on_delete=models.CASCADE)
-    authorID = models.ManyToManyField(AUTHOR)
+        LIBRARIAN, null=True, on_delete=models.SET_NULL, help_text="Librarian ID")
+    pubID = models.ForeignKey(PUBLISHER, null=True, on_delete=models.CASCADE, help_text="Publisher ID")
+    authorID = models.ManyToManyField(AUTHOR, help_text="Authors")
     # isAvail = models.BooleanField()
 
     def __str__(self):
@@ -96,10 +96,10 @@ class BOOK(models.Model):
 
 
 class STOCK(models.Model):
-    bookCopies = models.PositiveIntegerField()
-    bookID = models.OneToOneField(BOOK, null=True, on_delete=models.CASCADE)
+    bookCopies = models.PositiveSmallIntegerField(null=True, help_text="Number of the Book copies")
+    bookID = models.OneToOneField(BOOK, null=True, on_delete=models.CASCADE, help_text="Book ID")
     librarianID = models.ForeignKey(
-        LIBRARIAN, null=True, on_delete=models.SET_NULL)
+        LIBRARIAN, null=True, on_delete=models.SET_NULL, help_text="Librarian ID")
 
 
 # class WRITTENBY(models.Model):
@@ -108,11 +108,11 @@ class STOCK(models.Model):
 
 
 class BORROWEDBOOK(models.Model):
-    checkOut = models.DateTimeField(auto_now_add=True, null=True)
-    dueDate = models.DateTimeField(null=True, blank=True)
-    checkIn = models.DateTimeField(auto_now_add=False, null=True, blank=True)
-    userID = models.ForeignKey(USER, null=True, on_delete=models.SET_NULL)
-    bookID = models.ForeignKey(BOOK, null=True, on_delete=models.SET_NULL)
+    checkOut = models.DateTimeField(auto_now_add=True, null=True, help_text="Check out date")
+    dueDate = models.DateTimeField(null=True, blank=True, help_text="Due date")
+    checkIn = models.DateTimeField(auto_now_add=False, null=True, blank=True, help_text="Check in date")
+    userID = models.ForeignKey(USER, null=True, on_delete=models.SET_NULL, help_text="User ID")
+    bookID = models.ForeignKey(BOOK, null=True, on_delete=models.SET_NULL, help_text="Book ID")
 
     def save(self, *args, **kwargs):
         self.dueDate = datetime.datetime.now()+datetime.timedelta(days=14) # original answer used this line: self.created + datetime.timedelta(365).isoformat()
