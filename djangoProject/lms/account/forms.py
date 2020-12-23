@@ -11,12 +11,22 @@ class RegistrationForm(UserCreationForm):
         'district', 'state', 'pinCode', 'phoneNum']
 
 class StudentRegistrationForm(UserCreationForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['USN'].required = True
+        self.fields['course'].required = True
+        self.fields['sem'].required = True
+    
     class Meta:
         model = Account
         fields = ['email', 'username', 'fName', 'mName', 'lName', 'streetAddr', 
         'district', 'state', 'pinCode', 'phoneNum', 'USN', 'course', 'sem']
 
 class StaffRegistrationForm(UserCreationForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['salary'].required = True
+
     class Meta:
         model = Account
         fields = ['email', 'username', 'fName', 'mName', 'lName', 'streetAddr', 

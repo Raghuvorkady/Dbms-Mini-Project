@@ -24,8 +24,7 @@ class UserCreationForm(forms.ModelForm):
     """A form for creating new users. Includes all the required
     fields, plus a repeated password."""
     password1 = forms.CharField(label='Password', widget=forms.PasswordInput)
-    password2 = forms.CharField(
-        label='Password confirmation', widget=forms.PasswordInput)
+    password2 = forms.CharField(label='Password confirmation', widget=forms.PasswordInput)
 
     class Meta:
         model = Account
@@ -74,7 +73,7 @@ class AccountAdmin(UserAdmin):
     filter_horizontal = ()
     ordering = ('email',)
     fieldsets = ()
-    list_filter = ('is_admin',)
+    list_filter = ('is_admin','is_staff')
 
     fieldsets = (
         (None, {'fields': ('email', 'password')}),

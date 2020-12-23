@@ -11,6 +11,7 @@ from django.contrib.auth.forms import UserCreationForm
 from account.models import Account
 import time
 
+
 class tempBook:
     def __init__(self, slNo, bookTitle, bookID, genre, pubID, pubName, pubYear, authID, author, isbn, stock):
         self.slNo = slNo
@@ -26,6 +27,8 @@ class tempBook:
         self.stock = stock
 
 # Create your views here.
+
+
 class tempDashboard:
     def __init__(self, slNo, bookTitle, bookID, userName, authorName, isbn, checkOut, checkIn, dueDate):
         self.slNo = slNo
@@ -70,14 +73,13 @@ def addPublisherDetails(request, option):
         #         addPublisherForm.save()
         #         return redirect(addAuthorDetails, option=option)
 
-
     context = {
-        'publishers' : publishers,
-        'option' : option,
-        #'selectPublisherForm' : selectPublisherForm,
-        'addPublisherForm' : addPublisherForm
+        'publishers': publishers,
+        'option': option,
+        # 'selectPublisherForm' : selectPublisherForm,
+        'addPublisherForm': addPublisherForm
     }
-    
+
     return render(request, publisherDetails, context)
 
 
@@ -109,11 +111,11 @@ def addAuthorDetails(request, option):
 
     context = {
         'authors': authors,
-        'option' : option,
-        #'selectAuthorForm' : selectAuthorForm,
-        'addAuthorForm' : addAuthorForm
+        'option': option,
+        # 'selectAuthorForm' : selectAuthorForm,
+        'addAuthorForm': addAuthorForm
     }
-        
+
     return render(request, authorDetails, context)
 
 
@@ -124,7 +126,7 @@ def addBookDetails(request, option):
     addStockForm = AddStockForm()
 
     if request.method == "POST":
-        print("BOOK REQUEST:",request.POST)
+        print("BOOK REQUEST:", request.POST)
         addBookForm = AddBookForm(request.POST)
 
         if addBookForm.is_valid():
@@ -134,16 +136,18 @@ def addBookDetails(request, option):
             stock = request.POST['bookCopies']
             librarianID = LIBRARIAN.objects.get(id=bookID.librarianID.id)
 
-            STOCK.objects.create(bookID=bookID, bookCopies=stock, librarianID=librarianID)
-           
+            STOCK.objects.create(
+                bookID=bookID, bookCopies=stock, librarianID=librarianID)
+
             return redirect(manage)
 
     context = {
-        'option' : option,
-        'addBookForm' : addBookForm,
-        'addStockForm' : addStockForm
+        'option': option,
+        'addBookForm': addBookForm,
+        'addStockForm': addStockForm
     }
     return render(request, bookDetails, context)
+
 
 def updatePublisherDetails(request, pubID):
     publisherDetails = 'libraryApp/add_publisher_details.html'
@@ -159,11 +163,12 @@ def updatePublisherDetails(request, pubID):
             return redirect(manage)
 
     context = {
-        'publishers' : publishers,
-        'addPublisherForm' : addPublisherForm,
-        'option' : 'Update'
+        'publishers': publishers,
+        'addPublisherForm': addPublisherForm,
+        'option': 'Update'
     }
     return render(request, publisherDetails, context)
+
 
 def updateAuthorDetails(request, pk):
     authorDetails = 'libraryApp/add_author_details.html'
@@ -178,12 +183,13 @@ def updateAuthorDetails(request, pk):
             return redirect(manage)
 
     context = {
-        #'authors': authors,
-        'option' : 'Update',
-        'addAuthorForm' : addAuthorForm
+        # 'authors': authors,
+        'option': 'Update',
+        'addAuthorForm': addAuthorForm
     }
 
     return render(request, authorDetails, context)
+
 
 def updateBookDetails(request, bookID):
     bookDetails = 'libraryApp/add_book_details.html'
@@ -193,7 +199,7 @@ def updateBookDetails(request, bookID):
     addBookForm = AddBookForm(instance=books)
     addStockForm = AddStockForm(instance=stocks)
     if request.method == "POST":
-        print("BOOK REQUEST:",request.POST)
+        print("BOOK REQUEST:", request.POST)
         addBookForm = AddBookForm(request.POST, instance=books)
 
         if addBookForm.is_valid():
@@ -207,9 +213,9 @@ def updateBookDetails(request, bookID):
             return redirect(manage)
 
     context = {
-        'option' : 'Update',
-        'addBookForm' : addBookForm,
-        'addStockForm' : addStockForm
+        'option': 'Update',
+        'addBookForm': addBookForm,
+        'addStockForm': addStockForm
     }
     return render(request, bookDetails, context)
 
@@ -232,7 +238,6 @@ def dashboard(request):
     if request.method == "POST":
         print(request.POST)
         return redirect(searchBook, book=request.POST['bookTitle'])
-        
 
     dbActive = True
     bCount = 0
@@ -250,21 +255,24 @@ def dashboard(request):
                 userName = j.userID.fName + " " + j.userID.mName + " " + j.userID.lName
                 if j.checkIn is None:
                     bCount += 1
-                    bbList.append(tempDashboard(None, j.bookID, j.bookID.id, userName, None, None, j.checkOut, None, j.dueDate))
+                    bbList.append(tempDashboard(
+                        None, j.bookID, j.bookID.id, userName, None, None, j.checkOut, None, j.dueDate))
                 else:
                     rCount += 1
-                    rbList.append(tempDashboard(None, j.bookID, j.bookID.id, userName, None, None, j.checkOut, j.checkIn, None))
+                    rbList.append(tempDashboard(
+                        None, j.bookID, j.bookID.id, userName, None, None, j.checkOut, j.checkIn, None))
     print("--- %s seconds SET---" % (time.time() - start_time))
 
     context = {
-        "borrowedBooks" : bbList,
-        "bCount" : bCount,
-        "returnedBooks" : rbList,
-        "rCount" : rCount,
-        "myFilter" : myFilter,
-        "dbActive" : dbActive
+        "borrowedBooks": bbList,
+        "bCount": bCount,
+        "returnedBooks": rbList,
+        "rCount": rCount,
+        "myFilter": myFilter,
+        "dbActive": dbActive
     }
     return render(request, dashboard, context)
+
 
 def searchBook(request, book):
     searchResult = 'libraryApp/search_result_page.html'
@@ -274,11 +282,11 @@ def searchBook(request, book):
     if request.method == "POST":
         print(request.POST)
         return redirect(searchBook, book=request.POST['bookTitle'])
-    
+
     print(books)
     booksList = []
     count = 0
-    
+
     for i in books:
         count += 1
         stock = STOCK.objects.filter(bookID__id=i.id).first()
@@ -286,7 +294,7 @@ def searchBook(request, book):
         authorList = []
         authorIDList = []
         for a in authors.all():
-            if a not in authorList: #loic to check redundancy
+            if a not in authorList:  # loic to check redundancy
                 authorList.append(a)
                 authorIDList.append(a.id)
         authorString = ', '.join(map(str, authorList))
@@ -297,14 +305,15 @@ def searchBook(request, book):
     context = {
         'books': booksList,
         'count': count,
-        'query' : book,
-        'myFilter' : myFilter
+        'query': book,
+        'myFilter': myFilter
     }
     return render(request, searchResult, context)
 
+
 def borrowBook(request):
     borrowBook = 'libraryApp/borrow_book.html'
-    
+
     books = BOOK.objects.all()
 
     myFilter = BookFilter(request.GET, queryset=BOOK.objects.all())
@@ -316,14 +325,14 @@ def borrowBook(request):
     bbActive = True
     booksList = []
     bookCount = BOOK.objects.count()
-    
+
     for i in books:
         stock = STOCK.objects.filter(bookID__id=i.id).first()
         authors = AUTHOR.objects.filter(book__id=i.id)
         authorList = []
         authorIDList = []
         for a in authors.all():
-            if a not in authorList: #loic to check redundancy
+            if a not in authorList:  # loic to check redundancy
                 authorList.append(a)
                 authorIDList.append(a.id)
         authorString = ', '.join(map(str, authorList))
@@ -335,8 +344,8 @@ def borrowBook(request):
     context = {
         'books': booksList,
         'count': bookCount,
-        "myFilter" : myFilter,
-        "bbActive" : bbActive
+        "myFilter": myFilter,
+        "bbActive": bbActive
     }
     return render(request, borrowBook, context)
 
@@ -357,16 +366,17 @@ def viewBook(request, bookID):
     authorList = []
     authorIDList = []
     for a in authors.all():
-        if a not in authorList: #loic to check redundancy
+        if a not in authorList:  # loic to check redundancy
             authorList.append(a)
             authorIDList.append(a.id)
     authorString = ', '.join(map(str, authorList))
-    bookObject = tempBook(None, book.bookTitle, book.id, book.genre, pub.id, pub.pubName, book.pubYear, authorIDList, authorString, book.isbn, stock.bookCopies)
+    bookObject = tempBook(None, book.bookTitle, book.id, book.genre, pub.id, pub.pubName,
+                          book.pubYear, authorIDList, authorString, book.isbn, stock.bookCopies)
 
     context = {
-        "book" : bookObject,
-        "pub" : pub,
-        "myFilter" : myFilter
+        "book": bookObject,
+        "pub": pub,
+        "myFilter": myFilter
     }
     return render(request, viewBook, context)
 
@@ -395,19 +405,20 @@ def returnBook(request):
                 userName = j.userID.fName + " " + j.userID.mName + " " + j.userID.lName
                 authorList = []
                 for a in authors.all():
-                    if a not in authorList: #loic to check redundancy
+                    if a not in authorList:  # loic to check redundancy
                         authorList.append(a)
                 authorString = ', '.join(map(str, authorList))
                 if j.checkIn is None:
-                    bbList.append(tempDashboard(None, j.bookID, bookid, userName, authorString, j.bookID.isbn, j.checkOut, None, j.dueDate))
+                    bbList.append(tempDashboard(None, j.bookID, bookid, userName,
+                                                authorString, j.bookID.isbn, j.checkOut, None, j.dueDate))
                 print(bookid, authorString)
     print("--- %s seconds ---" % (time.time() - start_time))
 
     context = {
-        "borrowedBooks" : bbList,
-        "count" : borrowedBooksCount,
-        "myFilter" : myFilter,
-        "rbActive" : rbActive
+        "borrowedBooks": bbList,
+        "count": borrowedBooksCount,
+        "myFilter": myFilter,
+        "rbActive": rbActive
     }
 
     return render(request, returnBook, context)
@@ -420,30 +431,39 @@ def signIn(request):
 
 def signUp(request):
     signUp = 'libraryApp/sign_up.html'
-    states = defaultValues.statesInIndia
-    courses = defaultValues.courses
 
     studentSignUpForm = StudentRegistrationForm()
     staffSignUpForm = StaffRegistrationForm()
 
     if request.method == "POST":
-
         if 'STAFF' in request.POST:
-            isStaff = True
+            data = {"salary": request.POST['salary']}
+            staffSignUpForm = StaffRegistrationForm(request.POST, initial=data)
+
+            if staffSignUpForm.is_valid():
+                staff = staffSignUpForm.save()
+                staff.is_staff = True
+                staff.save()
         else:
-            isStaff = False
+            data = {
+                "USN": request.POST['USN'],
+                "course": request.POST['course'], 
+                "sem": request.POST['sem']}
 
-        print('is staff', isStaff)
-        print("\nSIGNUP REQUEST",request.POST)
+            studentSignUpForm = StudentRegistrationForm(
+                request.POST, initial=data)
 
+            if studentSignUpForm.is_valid():
+                studentSignUpForm.save()
+
+        print("SIGNUP REQUEST", request.POST)
 
     context = {
-        "states" : states,
-        "courses" : courses,
-        "studentForm" : studentSignUpForm,
-        "staffForm" : staffSignUpForm
+        "studentForm": studentSignUpForm,
+        "staffForm": staffSignUpForm
     }
     return render(request, signUp, context)
+
 
 def manage(request):
     manage = 'libraryApp/manage_tab.html'
@@ -463,7 +483,7 @@ def manage(request):
     bookCount = 0
     authCount = AUTHOR.objects.count()
     pubCount = PUBLISHER.objects.count()
-    
+
     for i in books:
         bookCount += 1
         stock = STOCK.objects.filter(bookID__id=i.id).first()
@@ -473,7 +493,7 @@ def manage(request):
         authorIDList = []
         for a in authors.all():
             #print("AUTH ID",a.id)
-            if a not in authorList: #loic to check redundancy
+            if a not in authorList:  # loic to check redundancy
                 authorList.append(a)
                 authorIDList.append(a.id)
         authorString = ', '.join(map(str, authorList))
@@ -488,35 +508,38 @@ def manage(request):
     context = {
         'allBooks': booksList,
         'bookCount': bookCount,
-        'myFilter' : myFilter,
-        'allAuthors' : allAuthors,
-        'authCount' : authCount,
-        'allPublishers' : allPublishers,
-        'pubCount' : pubCount,
-        'mActive' : mActive
+        'myFilter': myFilter,
+        'allAuthors': allAuthors,
+        'authCount': authCount,
+        'allPublishers': allPublishers,
+        'pubCount': pubCount,
+        'mActive': mActive
     }
     return render(request, manage, context)
+
 
 def deleteAuthorDetails(request, pk):
     author = AUTHOR.objects.get(id=pk)
     name = author.authorName
     author.delete()
-    
+
     #messages.success(request, 'Author', name,'deleted successfully!')
     return redirect(manage)
+
 
 def deletePublisherDetails(request, pk):
     pub = PUBLISHER.objects.get(id=pk)
     name = pub.pubName
     pub.delete()
-    
+
     #messages.success(request, 'Author', name,'deleted successfully!')
     return redirect(manage)
+
 
 def deleteBookDetails(request, bookID):
     book = BOOK.objects.get(id=bookID)
     name = book.bookTitle
     book.delete()
-    
+
     #messages.success(request, 'Author', name,'deleted successfully!')
     return redirect(manage)

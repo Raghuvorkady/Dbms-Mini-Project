@@ -69,8 +69,20 @@ class AUTHOR(models.Model):
         return self.authorName
 
 class BOOK(models.Model):
+    GENRE = (
+        ("CS", "Computer Science"),
+        ("MATH", "Mathematics"),
+        ("ELE", "Electronics"),
+        ("TC", "Telecommunication"),
+        ("CHE", "Chemistry"),
+        ("PHY", "Physics"),
+        ("MEC", "Mechanics"),
+        ("EVS", "Environmental Science"),
+        ("BIO", "Bioengineering"),
+        ("BUS", "Business Skills"),
+    )
     bookTitle = models.CharField(max_length=50)
-    genre = models.CharField(max_length=30, null=True)
+    genre = models.CharField(max_length=30, null=True, choices=GENRE)
     pubYear = models.CharField(max_length=4, null=True)
     isbn = models.CharField(max_length=13, null=True)
     librarianID = models.ForeignKey(

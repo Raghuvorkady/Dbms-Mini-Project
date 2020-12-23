@@ -37,12 +37,7 @@
         <h1 class="text-center">
             Currently, we have {{count}} no. of books in library
         </h1>
-        <div class="row justify-content-end addBookBtn">
-            <a href="{% url 'addpublisherdetail' 'Add' %}">
-                <button type="button" class="btn btn-secondary btn-lg" data-toggle="tooltip" data-placement="right"
-                    title="Click here to add a book">Add book</button>
-        </div>
-        </a>
+        
         <br>
         <div class="card card-body">
 
@@ -58,7 +53,6 @@
                         <th scope="col">Pub. Year</th>
                         <th scope="col">ISBN</th>
                         <th scope="col">Stock</th>
-                        <th scope="col">Manage</th>
                     </tr>
                 </thead>
 
@@ -72,8 +66,6 @@
                     <td>{{i.pubYear}}</td>
                     <td>{{i.isbn}}</td>
                     <td>{{i.stock}}</td>
-                    <td>{% include 'libraryApp/book_action_btn.html' with bookID=i.bookID%}
-                    </td>
                 </tr>
                 {% endfor %}
 
