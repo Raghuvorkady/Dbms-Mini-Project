@@ -10,41 +10,96 @@
 <div class="container">
   <div class="card card-body">
 
-    <form method="POST">
-    {% csrf_token %}
-      <div class="card-header text-center">
+
+<form method="POST" novalidate>
+  {% csrf_token %}
+
+ <div class="card-header text-center">
         <h2 class="text-info">{{option}} book details</h2>
       </div>
       <br>
 
-            <div class="" id="addBookForm">
-                    {% for hidden_field in addBookForm.hidden_fields %}
-                {{ hidden_field }}
-                {% endfor %}
-                {% for field in addBookForm.visible_fields %}
-                <div class="form-group">
-                    {{ field.label_tag }}
-                    {% render_field field class="form-control" %}
-                    {% if field.help_text %}
-                    <small class="form-text text-muted">{{ field.help_text }}</small>
-                    {% endif %}
-                </div>
-                {% endfor %}
+  {% for hidden_field in addBookForm.hidden_fields %}
+    {{ hidden_field }}
+  {% endfor %}
+
+  {% if addBookForm.non_field_errors %}
+    <div class="alert alert-danger" role="alert">
+      {% for error in addBookForm.non_field_errors %}
+        {{ error }}
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  {% for field in addBookForm.visible_fields %}
+    <div class="form-group">
+      {{ field.label_tag }}
+
+      {% if addBookForm.is_bound %}
+        {% if field.errors %}
+          {% render_field field class="form-control is-invalid" %}
+          {% for error in field.errors %}
+            <div class="invalid-feedback">
+              {{ error }}
             </div>
-            <div class="" id="addStockForm">
-                    {% for hidden_field in addStockForm.hidden_fields %}
-                {{ hidden_field }}
-                {% endfor %}
-                {% for field in addStockForm.visible_fields %}
-                <div class="form-group">
-                    {{ field.label_tag }}
-                    {% render_field field class="form-control" %}
-                    {% if field.help_text %}
-                    <small class="form-text text-muted">{{ field.help_text }}</small>
-                    {% endif %}
-                </div>
-                {% endfor %}
+          {% endfor %}
+        {% else %}
+          {% render_field field class="form-control is-valid" %}
+        {% endif %}
+      {% else %}
+        {% render_field field class="form-control" %}
+      {% endif %}
+
+      {% if field.help_text %}
+        <small class="form-text text-muted">{{ field.help_text }}</small>
+      {% endif %}
+    </div>
+  {% endfor %}
+  
+  {% comment %} addStockForm {% endcomment %}
+  {% for hidden_field in addStockForm.hidden_fields %}
+    {{ hidden_field }}
+  {% endfor %}
+
+  {% if addStockForm.non_field_errors %}
+    <div class="alert alert-danger" role="alert">
+      {% for error in addStockForm.non_field_errors %}
+        {{ error }}
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  {% for field in addStockForm.visible_fields %}
+    <div class="form-group">
+      {{ field.label_tag }}
+
+      {% if addStockForm.is_bound %}
+        {% if field.errors %}
+          {% render_field field class="form-control is-invalid" %}
+          {% for error in field.errors %}
+            <div class="invalid-feedback">
+              {{ error }}
             </div>
+          {% endfor %}
+        {% else %}
+          {% render_field field class="form-control is-valid" %}
+        {% endif %}
+      {% else %}
+        {% render_field field class="form-control" %}
+      {% endif %}
+
+      {% if field.help_text %}
+        <small class="form-text text-muted">{{ field.help_text }}</small>
+      {% endif %}
+    </div>
+  {% endfor %}
+
+   <div class="row justify-content-end">
+        <a href="javascript:window.history.back()"><button type="button" class="btn btn-primary" style="margin-right: 10px;">Previous</button></a>
+
+        <button type="submit" class="btn btn-primary mr-3">Submit</button>
+      </div>
+</form>
 
       {% comment %} <div class="form-row">
         <div class="form-group col-md-12">
@@ -105,14 +160,7 @@
         </div> 
       </div>{% endcomment %}
 
-      <div class="row justify-content-end">
-        <a href="javascript:window.history.back()"><button type="button" class="btn btn-primary" style="margin-right: 10px;">Previous</button></a>
-
-        <button type="submit" class="btn btn-primary mr-3">Submit</button>
-      </div>
-    </form>
-
-  </div>
+  
 </div>
 
 <br>

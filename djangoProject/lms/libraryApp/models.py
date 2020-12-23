@@ -84,7 +84,7 @@ class BOOK(models.Model):
     bookTitle = models.CharField(max_length=50, help_text="Book Title")
     genre = models.CharField(max_length=30, null=True, choices=GENRE, help_text="Category")
     pubYear = models.CharField(max_length=4, null=True, help_text="Year of publication")
-    isbn = models.CharField(max_length=13, null=True, help_text="International Standard Book Number")
+    isbn = models.CharField(max_length=13, null=True, unique=True, help_text="International Standard Book Number")
     librarianID = models.ForeignKey(
         LIBRARIAN, null=True, on_delete=models.SET_NULL, help_text="Librarian ID")
     pubID = models.ForeignKey(PUBLISHER, null=True, on_delete=models.CASCADE, help_text="Publisher ID")
@@ -96,7 +96,7 @@ class BOOK(models.Model):
 
 
 class STOCK(models.Model):
-    bookCopies = models.PositiveSmallIntegerField(null=True, help_text="Number of the Book copies")
+    bookCopies = models.PositiveSmallIntegerField(default=0, help_text="Number of the Book copies")
     bookID = models.OneToOneField(BOOK, null=True, on_delete=models.CASCADE, help_text="Book ID")
     librarianID = models.ForeignKey(
         LIBRARIAN, null=True, on_delete=models.SET_NULL, help_text="Librarian ID")
