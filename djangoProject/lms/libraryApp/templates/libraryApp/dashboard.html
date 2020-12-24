@@ -7,9 +7,15 @@
   <div class="navbar-nav mySubMenu ml-auto">
     <nav>
       <a class="text-muted" href="{% url 'dashboard' %}">Dashboard</a>
-      <a href="{% url 'borrowbook' %}">Borrow book</a>
-      <a href="{% url 'manage' %}">Manage</a>
-      <a href="{% url 'returnbook' %}">Return book</a>
+      {% if not request.user.is_staff %}
+        <a href="{% url 'borrowbook' %}">Borrow book</a>
+      {% endif %}
+      {% if request.user.is_staff %}
+        <a href="{% url 'manage' %}">Manage</a>
+      {% endif %}
+      {% if not request.user.is_staff %}
+        <a href="{% url 'returnbook' %}">Return book</a>
+      {% endif %}
     </nav>
   </div>
   <form class="form-inline" method="POST">
@@ -48,7 +54,9 @@
           <tr>
             <th scope="col">#</th>
             <th scope="col">Book Title</th>
-            <th scope="col">User</th>
+            {% if request.user.is_staff %}
+              <th scope="col">User</th>
+            {% endif %}
             <th scope="col">CheckOut</th>
             <th scope="col">DueDate</th>
           </tr>
@@ -58,7 +66,9 @@
         <tr>
           <td>{{forloop.counter}}</td>
           <td><a href="{% url 'viewbook' i.bookID %}">{{i.bookTitle}}</a></td>
-          <td>{{i.userName}}</td>
+          {% if request.user.is_staff %}
+            <td>{{i.userName}}</td>
+          {% endif %}
           <td>{{i.checkOut}}</td>
           <td>{{i.dueDate}}</td>
         </tr>
@@ -83,7 +93,9 @@
           <tr>
             <th scope="col">#</th>
             <th scope="col">Book Title</th>
-            <th scope="col">User</th>
+            {% if request.user.is_staff %}
+              <th scope="col">User</th>
+            {% endif %}
             <th scope="col">CheckOut</th>
             <th scope="col">CheckIn</th>
           </tr>
@@ -93,7 +105,9 @@
         <tr>
           <td>{{forloop.counter}}</td>
           <td><a href="{% url 'viewbook' i.bookID %}">{{i.bookTitle}}</a></td>
-          <td>{{i.userName}}</td>
+          {% if request.user.is_staff %}
+            <td>{{i.userName}}</td>
+          {% endif %}
           <td>{{i.checkOut}}</td>
           <td>{{i.checkIn}}</td>
         </tr>

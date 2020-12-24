@@ -1,4 +1,6 @@
+from account.models import Account
 from django.db import models
+from django.conf import settings
 from django.core.validators import MinValueValidator
 import datetime
 # Create your models here.
@@ -111,7 +113,7 @@ class BORROWEDBOOK(models.Model):
     checkOut = models.DateTimeField(auto_now_add=True, null=True, help_text="Check out date")
     dueDate = models.DateTimeField(null=True, blank=True, help_text="Due date")
     checkIn = models.DateTimeField(auto_now_add=False, null=True, blank=True, help_text="Check in date")
-    userID = models.ForeignKey(USER, null=True, on_delete=models.SET_NULL, help_text="User ID")
+    userID = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL, help_text="User ID")
     bookID = models.ForeignKey(BOOK, null=True, on_delete=models.SET_NULL, help_text="Book ID")
 
     def save(self, *args, **kwargs):

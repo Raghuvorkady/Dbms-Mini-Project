@@ -1,4 +1,4 @@
-from account.forms import StaffRegistrationForm, StudentRegistrationForm
+from account.forms import AccountLoginForm, StaffRegistrationForm, StudentRegistrationForm
 from libraryApp.models import *
 from django.shortcuts import render, redirect
 from .filters import BookFilter
@@ -241,21 +241,35 @@ def dashboard(request):
     bbList = []
     rbList = []
 
-    start_time = time.time()
-    for i in books:
-        bb = i.borrowedbook_set.all()
-        if bb.exists():
-            for j in bb:
-                userName = j.userID.fName + " " + j.userID.mName + " " + j.userID.lName
-                if j.checkIn is None:
-                    bCount += 1
-                    bbList.append(tempDashboard(
-                        None, j.bookID, j.bookID.id, userName, None, None, j.checkOut, None, j.dueDate))
-                else:
-                    rCount += 1
-                    rbList.append(tempDashboard(
-                        None, j.bookID, j.bookID.id, userName, None, None, j.checkOut, j.checkIn, None))
-    print("--- %s seconds SET---" % (time.time() - start_time))
+    # start_time = time.time()
+    # print("--- %s seconds SET---" % (time.time() - start_time))
+
+    user = request.user
+    if user.is_staff:
+        for i in books:
+            bb = i.borrowedbook_set.all()
+            if bb.exists():
+                for j in bb:
+                    userName = j.userID.fName + " " + j.userID.mName + " " + j.userID.lName
+                    if j.checkIn is None:
+                        bCount += 1
+                        bbList.append(tempDashboard(
+                            None, j.bookID, j.bookID.id, userName, None, None, j.checkOut, None, j.dueDate))
+                    else:
+                        rCount += 1
+                        rbList.append(tempDashboard(
+                            None, j.bookID, j.bookID.id, userName, None, None, j.checkOut, j.checkIn, None))
+    else:
+        borroedBooks = user.borrowedbook_set.all()
+        for i in borroedBooks:
+            if i.checkIn is None:
+                bCount += 1
+                bbList.append(tempDashboard(
+                            None, i.bookID.bookTitle, i.bookID.id, None, None, None, i.checkOut, None, i.dueDate))
+            else:
+                rCount += 1
+                rbList.append(tempDashboard(
+                            None, i.bookID.bookTitle, i.bookID.id, None, None, None, i.checkOut, i.checkIn, None))
 
     context = {
         "borrowedBooks": bbList,
@@ -420,8 +434,30 @@ def returnBook(request):
 
 def signIn(request):
     signIn = 'libraryApp/sign_in.html'
-    return render(request, signIn)
+    context = {}
+    user = request.user
+    if user.is_authenticated:
+        return redirect(dashboard)
+    if request.POST:
+        signInForm = AccountLoginForm(request.POST)
+        if signInForm.is_valid():
+            email = request.POST['email']
+            password = request.POST['password']
+            user = authenticate(email=email, password=password)
 
+            if user:
+                login(request, user)
+                return redirect(dashboard)
+    else:
+        signInForm = AccountLoginForm()
+    
+    context['signInForm'] = signInForm
+
+    return render(request, signIn, context)
+
+def signOut(request):
+    logout(request)
+    return redirect(signIn)
 
 def signUp(request):
     signUp = 'libraryApp/sign_up.html'
@@ -438,8 +474,9 @@ def signUp(request):
                 staff = staffSignUpForm.save()
                 staff.is_staff = True
                 staff.save()
-
-                account = authenticate(email=staff.email, password=staff.password)
+                email = staffSignUpForm.cleaned_data.get('email')
+                password = staffSignUpForm.cleaned_data.get('password1')
+                account = authenticate(email=email, password=password)
                 login(request, account)
                 return redirect(dashboard)
         else:
@@ -454,8 +491,8 @@ def signUp(request):
             if studentSignUpForm.is_valid():
                 studentSignUpForm.save()
                 email = studentSignUpForm.cleaned_data.get('email')
-                password1 = studentSignUpForm.cleaned_data.get('password1')
-                account = authenticate(email=email, password=password1)
+                password = studentSignUpForm.cleaned_data.get('password1')
+                account = authenticate(email=email, password=password)
                 login(request, account)
                 return redirect(dashboard)
         print("SIGNUP REQUEST", request.POST)

@@ -67,9 +67,9 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav navbar-right ml-auto">
-                <a class="nav-item nav-link active welcomeMsg" href="#">Welcome, User<span
+                <a class="nav-item nav-link active welcomeMsg">Welcome, {{request.user.username}}<span
                         class="sr-only">(current)</span></a>
-                <a class="nav-item nav-link welcomeMsg" href="early-life.html">Sign out</a>
+                <a class="nav-item nav-link welcomeMsg" href="{% url 'signout' %}">Sign out</a>
             </div>
         </div>
     </nav>
@@ -78,9 +78,15 @@
     <div class="navbar-nav mySubMenu ml-auto">
         <nav>
             <a href="{% url 'dashboard' %}">Dashboard</a>
-            <a href="{% url 'borrowbook' %}">Borrow book</a>
-            <a href="{% url 'manage' %}">Manage</a>
-            <a href="{% url 'returnbook' %}">Return book</a>
+            {% if not request.user.is_staff %}
+                <a href="{% url 'borrowbook' %}">Borrow book</a>
+            {% endif %}
+            {% if request.user.is_staff %}
+                <a href="{% url 'manage' %}">Manage</a>
+            {% endif %}
+            {% if not request.user.is_staff %}
+                <a href="{% url 'returnbook' %}">Return book</a>
+            {% endif %}
         </nav>
     </div>
     <form class="form-inline" method="POST">

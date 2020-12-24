@@ -66,7 +66,7 @@ class AccountAdmin(UserAdmin):
     form = UserChangeForm
     add_form = UserCreationForm
 
-    list_display = ('email', 'username', 'date_joined', 'is_admin', 'is_staff')
+    list_display = ('email', 'username', 'date_joined', 'last_login', 'is_admin', 'is_staff')
     search_fields = ('email', 'username')
     readonly_fields = ('date_joined', 'last_login')
 
@@ -98,4 +98,4 @@ class AccountAdmin(UserAdmin):
 admin.site.register(Account, AccountAdmin)
 # ... and, since we're not using Django's built-in permissions,
 # unregister the Group model from admin.
-# admin.site.unregister(Group)
+#admin.site.unregister(Group)

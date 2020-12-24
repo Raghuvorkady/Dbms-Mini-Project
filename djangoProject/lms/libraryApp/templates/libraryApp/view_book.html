@@ -36,11 +36,17 @@
 
 <nav class="navbar">
   <div class="navbar-nav mySubMenu ml-auto">
-    <nav>
+   <nav>
         <a href="{% url 'dashboard' %}">Dashboard</a>
-        <a href="{% url 'borrowbook' %}">Borrow book</a>
-        <a href="{% url 'manage' %}">Manage</a>
-        <a href="{% url 'returnbook' %}">Return book</a>
+        {% if not request.user.is_staff %}
+            <a href="{% url 'borrowbook' %}">Borrow book</a>
+        {% endif %}
+        {% if request.user.is_staff %}
+            <a href="{% url 'manage' %}">Manage</a>
+        {% endif %}
+        {% if not request.user.is_staff %}
+            <a href="{% url 'returnbook' %}">Return book</a>
+        {% endif %}
     </nav>
   </div>
   <form class="form-inline" method="POST">
@@ -119,15 +125,17 @@
     </div>
     <div class="col-md-4 mt-5">
         <div class="row justify-content-center">
-            <a href="{% url 'dashboard' %}"><button type="button" class="btn btn-outline-success btn-lg"
+            <button type="button" onclick="location.href='{% url 'dashboard' %}'" class="btn btn-outline-success btn-lg" 
+            {% if request.user.is_staff %}disabled{% endif %}
                     data-toggle="tooltip" data-placement="right"
-                    title="Click here to borrow the book">Borrow</button></a>
+                    title="Click here to borrow the book">Borrow book</button>
         </div>
         <br>
         <div class="row justify-content-center">
-            <a href="{% url 'dashboard' %}"><button type="button" class="btn btn-outline-danger btn-lg"
+            <button type="button" onclick="location.href='{% url 'dashboard' %}'" class="btn btn-outline-danger btn-lg"
+            {% if request.user.is_staff %}disabled{% endif %}
                     data-toggle="tooltip" data-placement="right"
-                    title="Click here to return the book">Return</button></a>
+                    title="Click here to return the book">Return book</button>
         </div>
     </div>
 </div>

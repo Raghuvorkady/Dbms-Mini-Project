@@ -17,8 +17,8 @@
     </button>
   <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
     <div class="navbar-nav navbar-right ml-auto">
-      <a class="nav-item nav-link active welcomeMsg" href="#">Welcome, User<span class="sr-only">(current)</span></a>
-      <a class="nav-item nav-link welcomeMsg" href="{% url 'signin' %}">Sign out</a>
+      <a class="nav-item nav-link active welcomeMsg">Welcome, {{request.user.username}}<span class="sr-only">(current)</span></a>
+      <a class="nav-item nav-link welcomeMsg" href="{% url 'signout' %}">Sign out</a>
     </div>
   </div>
 </nav>

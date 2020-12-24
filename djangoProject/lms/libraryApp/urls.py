@@ -3,7 +3,6 @@ from . import views
 
 urlpatterns = [
     path('', views.index, name="home"),
-    #url(r'^emp_detail/(?P<user_name>\w+)/(?P<mobile_number>\d{10,18})/$', views.emp_detail, name='emp_detail'),
     path('addpublisherdetails/<str:option>/', views.addPublisherDetails, name="addpublisherdetail"),
     path('updatepublisherdetails/<str:pubID>/', views.updatePublisherDetails, name="updatepublisherdetail"),
     path('updateauthordetails/<str:pk>/', views.updateAuthorDetails, name="updateauthordetail"),
@@ -24,4 +23,5 @@ urlpatterns = [
     path('search/<str:book>', views.searchBook, name="search"),
     path('signup/', views.signUp, name="signup"),
     path('signin/', views.signIn, name="signin"),
+    path('signout/', views.signOut, name="signout"),
 ]
