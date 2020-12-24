@@ -24,4 +24,6 @@ urlpatterns = [
     path('signup/', views.signUp, name="signup"),
     path('signin/', views.signIn, name="signin"),
     path('signout/', views.signOut, name="signout"),
+    path('requestborrowbook/<int:bookid>/', views.requestBorrowBook, name="requestBorrowBook"),
+    path('requestreturnbook/<int:bookid>/', views.requestReturnBook, name="requestReturnBook"),
 ]

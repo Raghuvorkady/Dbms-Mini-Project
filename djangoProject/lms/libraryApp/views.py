@@ -5,6 +5,7 @@ from .filters import BookFilter
 from .forms import AddAuthorForm, AddBookForm, AddPublisherForm, AddStockForm
 from django.contrib.auth import authenticate, login, logout
 import time
+import datetime
 
 class tempBook:
     def __init__(self, slNo, bookTitle, bookID, genre, pubID, pubName, pubYear, authID, author, isbn, stock):
@@ -391,12 +392,14 @@ def viewBook(request, bookID):
     user = request.user
     isBookBorrowed = False
     bb = user.borrowedbook_set.filter(bookID__id=bookID)
-    if bb.count() == 1:
-        bb = bb.first()
-        if bb.checkIn is None:
-            isBookBorrowed = True
-        else:
-            isBookBorrowed = False
+    if bb.count() > 0:
+        bb = bb.all()
+        for i in bb:
+            if i.checkIn is None:
+                isBookBorrowed = True
+                break
+            else:
+                isBookBorrowed = False
     
     context = {
         "book": bookObject,
@@ -406,6 +409,28 @@ def viewBook(request, bookID):
     }
     return render(request, viewBook, context)
 
+def requestBorrowBook(request, bookid):
+    userID = request.user
+    bookID = BOOK.objects.get(id=bookid)
+    BORROWEDBOOK.objects.create(userID=userID, bookID=bookID)
+    stock = STOCK.objects.filter(bookID=bookID).first()
+    stock.bookCopies -= 1
+    stock.save()
+    #stock updation
+    return redirect(dashboard)
+
+def requestReturnBook(request, bookid):
+    userID = request.user
+    bookID = BOOK.objects.get(id=bookid)
+    rb = userID.borrowedbook_set.filter(bookID__id=bookid).all()
+    for i in rb:
+        if i.checkIn is None:
+            i.checkIn = datetime.datetime.now()
+            i.save()
+    stock = STOCK.objects.filter(bookID=bookID).first()
+    stock.bookCopies += 1
+    stock.save()
+    return redirect(dashboard)
 
 def returnBook(request):
     returnBook = 'libraryApp/return_book.html'
