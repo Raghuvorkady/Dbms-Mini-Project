@@ -126,16 +126,16 @@
     <div class="col-md-4 mt-5">
         <div class="row justify-content-center">
             <button type="button" onclick="location.href='{% url 'dashboard' %}'" class="btn btn-outline-success btn-lg" 
-            {% if request.user.is_staff %}disabled{% endif %}
+            {% if request.user.is_staff or isBookBorrowed %}disabled{% endif %}
                     data-toggle="tooltip" data-placement="right"
-                    title="Click here to borrow the book">Borrow book</button>
+                    title="Click here to borrow '{{book.bookTitle}}'">Borrow book</button>
         </div>
         <br>
         <div class="row justify-content-center">
             <button type="button" onclick="location.href='{% url 'dashboard' %}'" class="btn btn-outline-danger btn-lg"
-            {% if request.user.is_staff %}disabled{% endif %}
+            {% if request.user.is_staff or not isBookBorrowed %}disabled{% endif %}
                     data-toggle="tooltip" data-placement="right"
-                    title="Click here to return the book">Return book</button>
+                    title="Click here to return '{{book.bookTitle}}'">Return book</button>
         </div>
     </div>
 </div>

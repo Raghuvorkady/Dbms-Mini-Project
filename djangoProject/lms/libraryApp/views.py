@@ -388,10 +388,21 @@ def viewBook(request, bookID):
     bookObject = tempBook(None, book.bookTitle, book.id, book.genre, pub.id, pub.pubName,
                           book.pubYear, authorIDList, authorString, book.isbn, stock.bookCopies)
 
+    user = request.user
+    isBookBorrowed = False
+    bb = user.borrowedbook_set.filter(bookID__id=bookID)
+    if bb.count() == 1:
+        bb = bb.first()
+        if bb.checkIn is None:
+            isBookBorrowed = True
+        else:
+            isBookBorrowed = False
+    
     context = {
         "book": bookObject,
         "pub": pub,
-        "myFilter": myFilter
+        "myFilter": myFilter,
+        "isBookBorrowed" : isBookBorrowed
     }
     return render(request, viewBook, context)
 
