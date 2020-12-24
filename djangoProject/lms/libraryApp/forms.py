@@ -62,6 +62,7 @@ class AddBookForm(ModelForm):
     class Meta:
         model = BOOK
         fields = '__all__'
+        exclude = ['librarianID']
 
 # class AddWrittenByForm(ModelForm):
 #     class Meta:

@@ -88,7 +88,7 @@ class BOOK(models.Model):
     pubYear = models.CharField(max_length=4, null=True, help_text="Year of publication")
     isbn = models.CharField(max_length=13, null=True, unique=True, help_text="International Standard Book Number")
     librarianID = models.ForeignKey(
-        LIBRARIAN, null=True, on_delete=models.SET_NULL, help_text="Librarian ID")
+        settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL, help_text="Librarian ID")
     pubID = models.ForeignKey(PUBLISHER, null=True, on_delete=models.CASCADE, help_text="Publisher ID")
     authorID = models.ManyToManyField(AUTHOR, help_text="Authors")
     # isAvail = models.BooleanField()
@@ -101,7 +101,7 @@ class STOCK(models.Model):
     bookCopies = models.PositiveSmallIntegerField(default=0, help_text="Number of the Book copies")
     bookID = models.OneToOneField(BOOK, null=True, on_delete=models.CASCADE, help_text="Book ID")
     librarianID = models.ForeignKey(
-        LIBRARIAN, null=True, on_delete=models.SET_NULL, help_text="Librarian ID")
+        settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL, help_text="Librarian ID")
 
 
 # class WRITTENBY(models.Model):

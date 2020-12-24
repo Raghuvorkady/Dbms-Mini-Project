@@ -118,6 +118,12 @@ def addBookDetails(request, option):
 
     addBookForm = AddBookForm()
     addStockForm = AddStockForm()
+    
+    print("\nUSER: ", request.user)
+    print("\nUSER ID: ", request.user.id)
+
+    #addBookForm.fields['librarianID'].widget.attrs['readonly'] = True # text input
+
 
     if request.method == "POST":
         print("BOOK REQUEST:", request.POST)
@@ -128,10 +134,11 @@ def addBookDetails(request, option):
             print("\nBOOK ID: ", bookID)
 
             stock = request.POST['bookCopies']
-            librarianID = LIBRARIAN.objects.get(id=bookID.librarianID.id)
+            bookID.librarianID = Account.objects.get(id=request.user.id)
+            bookID.save()
 
             STOCK.objects.create(
-                bookID=bookID, bookCopies=stock, librarianID=librarianID)
+                bookID=bookID, bookCopies=stock, librarianID=bookID.librarianID)
 
             return redirect(manage)
 
