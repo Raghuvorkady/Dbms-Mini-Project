@@ -267,8 +267,8 @@ def dashboard(request):
                         rbList.append(tempDashboard(
                             None, j.bookID, j.bookID.id, userName, None, None, j.checkOut, j.checkIn, None))
     else:
-        borroedBooks = user.borrowedbook_set.all()
-        for i in borroedBooks:
+        borrowedBooks = user.borrowedbook_set.all()
+        for i in borrowedBooks:
             if i.checkIn is None:
                 bCount += 1
                 bbList.append(tempDashboard(
@@ -398,8 +398,6 @@ def viewBook(request, bookID):
 
 def returnBook(request):
     returnBook = 'libraryApp/return_book.html'
-    borrowedBooksCount = BORROWEDBOOK.objects.count()
-    books = BOOK.objects.all()
 
     myFilter = BookFilter(request.GET, queryset=BOOK.objects.all())
 
@@ -408,27 +406,25 @@ def returnBook(request):
         return redirect(searchBook, book=request.POST['bookTitle'])
 
     rbActive = True
+    borrowedBooksCount = 0
     bbList = []
 
-    start_time = time.time()
-    for i in books:
-        bb = i.borrowedbook_set.all()
-        if bb.exists():
-            for j in bb:
-                bookid = j.bookID.id
+    user = request.user
+    if not user.is_staff:
+        borrowedBooks = user.borrowedbook_set.all()
+        for i in borrowedBooks:
+            if i.checkIn is None:
+                bookid = i.bookID.id
                 authors = AUTHOR.objects.filter(book__id=bookid)
-                userName = j.userID.fName + " " + j.userID.mName + " " + j.userID.lName
                 authorList = []
                 for a in authors.all():
                     if a not in authorList:  # loic to check redundancy
                         authorList.append(a)
                 authorString = ', '.join(map(str, authorList))
-                if j.checkIn is None:
-                    bbList.append(tempDashboard(None, j.bookID, bookid, userName,
-                                                authorString, j.bookID.isbn, j.checkOut, None, j.dueDate))
-                print(bookid, authorString)
-    print("--- %s seconds ---" % (time.time() - start_time))
-
+                borrowedBooksCount += 1
+                bbList.append(tempDashboard(
+                            None, i.bookID.bookTitle, bookid, None, authorString, i.bookID.isbn, i.checkOut, None, i.dueDate))
+        
     context = {
         "borrowedBooks": bbList,
         "count": borrowedBooksCount,
@@ -468,6 +464,10 @@ def signOut(request):
 
 def signUp(request):
     signUp = 'libraryApp/sign_up.html'
+
+    user = request.user
+    if user.is_authenticated:
+        return redirect(dashboard)
 
     studentSignUpForm = StudentRegistrationForm()
     staffSignUpForm = StaffRegistrationForm()
