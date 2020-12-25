@@ -10,7 +10,7 @@ import datetime
 
 
 class STAFF(models.Model):
-    staffEmail = models.CharField(max_length=20)
+    staffEmail = models.EmailField(max_length=50, unique=True, help_text="Email id")
 
     def __str__(self):
         return self.staffEmail

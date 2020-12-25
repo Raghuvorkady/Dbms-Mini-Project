@@ -1,3 +1,4 @@
+from libraryApp.models import STAFF
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.forms import fields
@@ -26,6 +27,17 @@ class StaffRegistrationForm(UserCreationForm):
         model = Account
         fields = ['email', 'username', 'fName', 'mName', 'lName', 'streetAddr', 
         'district', 'state', 'pinCode', 'phoneNum', 'salary']
+
+    def clean(self):
+        staff = STAFF.objects.all()
+        staffEmails = []
+        if self.is_valid():
+            email = self.cleaned_data['email']
+            for i in staff:
+                staffEmails.append(i.staffEmail)
+            if email not in staffEmails:
+                raise forms.ValidationError("Invalid staff mail id\nContact admin")
+        staffEmails.clear()
 
 class AccountLoginForm(forms.ModelForm):
     password = forms.CharField(label='Password', widget=forms.PasswordInput)
