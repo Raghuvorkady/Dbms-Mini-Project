@@ -1,73 +1,88 @@
 {% load static %}
 <style media="screen">
-  .welcomeMsg{
+  .welcomeMsg {
     font-size: 18px;
     color: #555555;
   }
-  .logo{
+
+  .logo {
     margin: 2px;
   }
 </style>
 
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light align-items-end">
-    <img class="logo" src="{% static '/img/lms.png' %}" alt="" >
-    <button class="navbar-toggler ml-auto custom-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+  <img class="logo" src="{% static '/img/lms.png' %}" alt="">
+  <button class="navbar-toggler ml-auto custom-toggler" type="button" data-toggle="collapse"
+    data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false"
+    aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+
+  <div class="collapse navbar-collapse mr-2" id="navbarNavAltMarkup">
     <div class="navbar-nav navbar-right ml-auto">
-      <a class="nav-item nav-link active welcomeMsg">Welcome, {{request.user.username}}<span class="sr-only">(current)</span></a>
-      <a class="nav-item nav-link welcomeMsg" href="{% url 'signout' %}">Sign out</a>
+
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle welcomeMsg" data-toggle="dropdown" href="#" role="button"
+          aria-haspopup="true" aria-expanded="false">Welcome, {{request.user.username}}</a>
+        <div class="dropdown-menu">
+          <a class="dropdown-item" href="#">Profile</a>
+          <a class="dropdown-item" href="#">Settings</a>
+          <a class="dropdown-item" href="{% url 'signout' %}">Sign out</a>
+        </div>
+      </li>
+
     </div>
   </div>
 </nav>
 
 {% comment %} <nav class="navbar">
-    <div class="navbar-nav mySubMenu ml-auto">
-      <nav>
+  <div class="navbar-nav mySubMenu ml-auto">
+    <nav>
       {% if dbActive == True %}
-        <a class="text-muted" href="{% url 'dashboard' %}">Dashboard</a>
-        <a href="{% url 'borrowbook' %}">Borrow book</a>
-        <a href="{% url 'manage' %}">Manage</a>
-        <a href="{% url 'returnbook' %}">Return book</a>
+      <a class="text-muted" href="{% url 'dashboard' %}">Dashboard</a>
+      <a href="{% url 'borrowbook' %}">Borrow book</a>
+      <a href="{% url 'manage' %}">Manage</a>
+      <a href="{% url 'returnbook' %}">Return book</a>
       {% elif bbActive == True %}
-        <a href="{% url 'dashboard' %}">Dashboard</a>
-        <a class="text-muted" href="{% url 'borrowbook' %}">Borrow book</a>
-        <a href="{% url 'manage' %}">Manage</a>
-        {% comment %} Manage book 
-        <a href="{% url 'returnbook' %}">Return book</a>
+      <a href="{% url 'dashboard' %}">Dashboard</a>
+      <a class="text-muted" href="{% url 'borrowbook' %}">Borrow book</a>
+      <a href="{% url 'manage' %}">Manage</a>
+      {% comment %} Manage book
+      <a href="{% url 'returnbook' %}">Return book</a>
       {% elif rbActive == True %}
-        <a href="{% url 'dashboard' %}">Dashboard</a>
-        <a href="{% url 'borrowbook' %}">Borrow book</a>
-        <a href="{% url 'manage' %}">Manage</a>
-        <a class="text-muted" href="{% url 'returnbook' %}">Return book</a>
+      <a href="{% url 'dashboard' %}">Dashboard</a>
+      <a href="{% url 'borrowbook' %}">Borrow book</a>
+      <a href="{% url 'manage' %}">Manage</a>
+      <a class="text-muted" href="{% url 'returnbook' %}">Return book</a>
       {% elif mActive == True %}
-        <a href="{% url 'dashboard' %}">Dashboard</a>
-        <a href="{% url 'borrowbook' %}">Borrow book</a>
-        <a class="text-muted" href="{% url 'manage' %}">Manage</a>
-        <a href="{% url 'returnbook' %}">Return book</a>
+      <a href="{% url 'dashboard' %}">Dashboard</a>
+      <a href="{% url 'borrowbook' %}">Borrow book</a>
+      <a class="text-muted" href="{% url 'manage' %}">Manage</a>
+      <a href="{% url 'returnbook' %}">Return book</a>
       {% else %}
-        <a href="{% url 'dashboard' %}">Dashboard</a>
-        <a href="{% url 'borrowbook' %}">Borrow book</a>
-        <a href="{% url 'manage' %}">Manage</a>
-        <a href="{% url 'returnbook' %}">Return book</a>
+      <a href="{% url 'dashboard' %}">Dashboard</a>
+      <a href="{% url 'borrowbook' %}">Borrow book</a>
+      <a href="{% url 'manage' %}">Manage</a>
+      <a href="{% url 'returnbook' %}">Return book</a>
       {% endif %}
-      </nav>
+    </nav>
+  </div>
+  <form class="form-inline">
+    {% comment %} <input class="form-control mr-sm-2" type="search" placeholder="Search for books" aria-label="Search">
+    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    <div class="input-group">
+      <button class="btn btn-secondary" type="button">
+        <i class="fa fa-microphone"></i>
+      </button>
+      <input type="text" class="form-control" placeholder="Search for books" id="searchInput">
+      <div class="input-group-append">
+        <button onclick="location.href='{% url 'search' 'atc' %}'" id="searchButton" class="btn btn-outline-success"
+          type="button">
+          <i class="fa fa-search"></i>
+        </button>
+      </div>
     </div>
-    <form class="form-inline">
-      {% comment %} <input class="form-control mr-sm-2" type="search" placeholder="Search for books" aria-label="Search">
-      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button> 
-      <div class="input-group">
-              <button class="btn btn-secondary" type="button">
-                    <i class="fa fa-microphone"></i>
-                </button>
-            <input type="text" class="form-control" placeholder="Search for books" id="searchInput">
-            <div class="input-group-append">
-                <button onclick="location.href='{% url 'search' 'atc' %}'" id="searchButton" class="btn btn-outline-success" type="button">
-                            <i class="fa fa-search"></i>
-                </button>
-            </div>
-        </div>
-    </form>
-  </nav> {% endcomment %}
+  </form>
+</nav> {% endcomment %}

@@ -4,7 +4,25 @@
 
 {% block content %}
 
-    <div class="container" style="max-width: 500px;">
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav navbar-right ml-auto">
+              <li class="nav-item">
+                <a class="nav-link active" href="{% url 'signin' %}">Sign in</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'signup' %}">Sign up</a>
+              </li>
+            </ul>
+          </div>
+    </nav>
+
+
+    <div class="container mt-4" style="max-width: 500px;">
 
     <form class="form-signin" method="POST">
     {% csrf_token %}
