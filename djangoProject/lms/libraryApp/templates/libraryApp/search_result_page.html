@@ -65,27 +65,36 @@
             aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-            <div class="navbar-nav navbar-right ml-auto">
-                <a class="nav-item nav-link active welcomeMsg">Welcome, {{request.user.username}}<span
-                        class="sr-only">(current)</span></a>
-                <a class="nav-item nav-link welcomeMsg" href="{% url 'signout' %}">Sign out</a>
-            </div>
+        
+        <div class="collapse navbar-collapse mr-2" id="navbarNavAltMarkup">
+    <div class="navbar-nav navbar-right ml-auto">
+
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle welcomeMsg" data-toggle="dropdown" href="#" role="button"
+          aria-haspopup="true" aria-expanded="false">Welcome, {{request.user.username}}</a>
+        <div class="dropdown-menu">
+          <a class="dropdown-item" href="#">Profile</a>
+          <a class="dropdown-item" href="#">Settings</a>
+          <a class="dropdown-item" href="{% url 'signout' %}">Sign out</a>
         </div>
+      </li>
+
+    </div>
+  </div>
     </nav>
    
     <nav class="navbar">
     <div class="navbar-nav mySubMenu ml-auto">
         <nav>
-            <a href="{% url 'dashboard' %}">Dashboard</a>
+            <a href="{% url 'dashboard' %}" title="Click here to visit dashboard">Dashboard</a>
             {% if not request.user.is_staff %}
-                <a href="{% url 'borrowbook' %}">Borrow book</a>
+                <a href="{% url 'borrowbook' %}" title="Click here to borrow books">Borrow book</a>
             {% endif %}
             {% if request.user.is_staff %}
-                <a href="{% url 'manage' %}">Manage</a>
+                <a href="{% url 'manage' %}" title="Click here to manage books">Manage</a>
             {% endif %}
             {% if not request.user.is_staff %}
-                <a href="{% url 'returnbook' %}">Return book</a>
+                <a href="{% url 'returnbook' %}" title="Click here to return borrowed books">Return book</a>
             {% endif %}
         </nav>
     </div>
