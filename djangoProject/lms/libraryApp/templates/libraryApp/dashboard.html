@@ -74,8 +74,8 @@
           {% if request.user.is_staff %}
             <td>{{i.userName}}</td>
           {% endif %}
-          <td>{{i.checkOut}}</td>
-          <td>{{i.dueDate}}</td>
+          <td>{{i.checkOut|date:"d/m/Y h:i A"}}</td>
+          <td>{{i.dueDate|date:"d/m/Y h:i A"}}</td>
         </tr>
         {% endfor %}
       </table>
@@ -113,8 +113,8 @@
           {% if request.user.is_staff %}
             <td>{{i.userName}}</td>
           {% endif %}
-          <td>{{i.checkOut}}</td>
-          <td>{{i.checkIn}}</td>
+          <td>{{i.checkOut|date:"d/m/Y h:i A"}}</td>
+          <td>{{i.checkIn|date:"d/m/Y h:i A"}}</td>
         </tr>
         {% endfor %}
 
