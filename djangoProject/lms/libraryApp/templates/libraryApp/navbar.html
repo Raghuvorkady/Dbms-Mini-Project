@@ -4,15 +4,24 @@
     font-size: 18px;
     color: #555555;
   }
-
-  .logo {
-    margin: 2px;
-  }
 </style>
 
+    <div class="d-flex flex-column flex-md-row align-items-center p-2 px-md-3 mb-2 bg-light border-bottom shadow-sm">
+      <img class="logo my-0 mr-md-auto font-weight-normal" src="{% static '/img/lms.png' %}" alt="LMS Logo">
+        <nav class="nav pt-4">
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" data-toggle="dropdown" role="button">Welcome, {{request.user.username}}</a>
+              <div class="dropdown-menu">
+                <a class="dropdown-item" href="#">Profile</a>
+                <a class="dropdown-item" href="#">Settings</a>
+                <a class="dropdown-item" href="{% url 'signout' %}">Sign out</a>
+              </div>
+            </li>
+      </nav>
+    </div>
 
+{% comment %} 
 <nav class="navbar navbar-expand-lg navbar-light bg-light align-items-end">
-  <img class="logo" src="{% static '/img/lms.png' %}" alt="">
   <button class="navbar-toggler ml-auto custom-toggler" type="button" data-toggle="collapse"
     data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false"
     aria-label="Toggle navigation">
@@ -35,7 +44,7 @@
 
     </div>
   </div>
-</nav>
+</nav> {% endcomment %}
 
 {% comment %} <nav class="navbar">
   <div class="navbar-nav mySubMenu ml-auto">

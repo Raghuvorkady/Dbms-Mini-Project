@@ -3,14 +3,6 @@
     <div class="row text-center booksTable mt-5">
         <div class="col-md-12">
 
-            {% if messages %}
-            <ul class="messages">
-                {% for message in messages %}
-                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-                {% endfor %}
-            </ul>
-            {% endif %}
-
             <h1 class="text-center">
                 Currently, we have {{authCount}} no. of Authors in the Library database
             </h1>

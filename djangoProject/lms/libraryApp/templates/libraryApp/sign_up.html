@@ -4,7 +4,16 @@
 
 {% block content %}
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-light border-bottom shadow-sm">
+      <h5 class="my-0 mr-md-auto font-weight-normal">Welcome to LMS</h5>
+      <nav class="my-2 my-md-0 mr-md-3">
+          <a class="p-2 text-dark" href="{% url 'signin' %}">Sign in</a>
+          <a class="p-2 text-muted" href="{% url 'signup' %}">Sign up</a>
+      </nav>
+    </div>
+
+
+{% comment %} <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -19,7 +28,7 @@
               </li>
             </ul>
           </div>
-    </nav>
+    </nav> {% endcomment %}
 
     <div class="container mt-4" style="max-width: 700px;">
 

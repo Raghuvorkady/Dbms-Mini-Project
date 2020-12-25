@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect
 from .filters import BookFilter
 from .forms import AddAuthorForm, AddBookForm, AddPublisherForm, AddStockForm
 from django.contrib.auth import authenticate, login, logout
-import time
+from django.contrib import messages
 import datetime
 
 class tempBook:
@@ -55,7 +55,8 @@ def addPublisherDetails(request, option):
     if request.method == "POST":
         addPublisherForm = AddPublisherForm(request.POST)
         if addPublisherForm.is_valid():
-            addPublisherForm.save()
+            pub = addPublisherForm.save()
+            messages.success(request, "You have successfully added publisher: "+ pub.pubName)
             return redirect(manage)
 
         # print("PUB REQUEST:",request.POST)
@@ -91,7 +92,8 @@ def addAuthorDetails(request, option):
     if request.method == "POST":
         addAuthorForm = AddAuthorForm(request.POST)
         if addAuthorForm.is_valid():
-            addAuthorForm.save()
+            auth = addAuthorForm.save()
+            messages.success(request, "You have successfully added author: "+ auth.authorName)
             return redirect(manage)
 
         """print("AUTH REQUEST:",request.POST)
@@ -144,6 +146,7 @@ def addBookDetails(request, option):
             STOCK.objects.create(
                 bookID=bookID, bookCopies=stock, librarianID=bookID.librarianID)
 
+            messages.success(request, "You have successfully added book: "+ bookID.bookTitle)
             return redirect(manage)
 
     context = {
@@ -163,8 +166,9 @@ def updatePublisherDetails(request, pubID):
     if request.method == "POST":
         addPublisherForm = AddPublisherForm(request.POST, instance=publishers)
         if addPublisherForm.is_valid():
-            addPublisherForm.save()
+            pub = addPublisherForm.save()
             print("REQUEST:", request.POST)
+            messages.success(request, "You have successfully updated publisher: "+ pub.pubName)
             return redirect(manage)
 
     context = {
@@ -184,7 +188,8 @@ def updateAuthorDetails(request, pk):
     if request.method == "POST":
         addAuthorForm = AddAuthorForm(request.POST, instance=authors)
         if addAuthorForm.is_valid():
-            addAuthorForm.save()
+            auth = addAuthorForm.save()
+            messages.success(request, "You have successfully updated author: "+ auth.authorName)
             return redirect(manage)
 
     context = {
@@ -215,6 +220,7 @@ def updateBookDetails(request, bookID):
 
             stocks.bookCopies = stock
             stocks.save()
+            messages.success(request, "You have successfully updated book: "+ bookID.bookTitle)
             return redirect(manage)
 
     context = {
@@ -419,7 +425,8 @@ def requestBorrowBook(request, bookid):
     stock = STOCK.objects.filter(bookID=bookID).first()
     stock.bookCopies -= 1
     stock.save()
-    #stock updation
+    
+    messages.success(request, "You have successfully borrowed book: " + bookID.bookTitle)
     return redirect(dashboard)
 
 def requestReturnBook(request, bookid):
@@ -433,6 +440,7 @@ def requestReturnBook(request, bookid):
     stock = STOCK.objects.filter(bookID=bookID).first()
     stock.bookCopies += 1
     stock.save()
+    messages.success(request, "You have successfully returned book: " + bookID.bookTitle)
     return redirect(dashboard)
 
 def returnBook(request):
@@ -605,26 +613,23 @@ def manage(request):
 
 def deleteAuthorDetails(request, pk):
     author = AUTHOR.objects.get(id=pk)
-    name = author.authorName
     author.delete()
 
-    #messages.success(request, 'Author', name,'deleted successfully!')
+    messages.success(request, "You have successfully deleted author: "+ author.authorName)
     return redirect(manage)
 
 
 def deletePublisherDetails(request, pk):
     pub = PUBLISHER.objects.get(id=pk)
-    name = pub.pubName
     pub.delete()
 
-    #messages.success(request, 'Author', name,'deleted successfully!')
+    messages.success(request, "You have successfully deleted publisher: "+ pub.pubName)
     return redirect(manage)
 
 
 def deleteBookDetails(request, bookID):
     book = BOOK.objects.get(id=bookID)
-    name = book.bookTitle
     book.delete()
 
-    #messages.success(request, 'Author', name,'deleted successfully!')
+    messages.success(request, "You have successfully deleted book: "+ book.bookTitle)
     return redirect(manage)
