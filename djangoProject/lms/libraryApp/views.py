@@ -1,3 +1,4 @@
+from libraryApp.decorators import unathenticated_user
 from account.forms import AccountLoginForm, StaffRegistrationForm, StudentRegistrationForm
 from libraryApp.models import *
 from django.shortcuts import render, redirect
@@ -475,13 +476,11 @@ def returnBook(request):
 
     return render(request, returnBook, context)
 
+@unathenticated_user
 def signIn(request):
     signIn = 'libraryApp/sign_in.html'
     context = {}
-    user = request.user
-    if user.is_authenticated:
-        messages.success(request, "You are already logged in to LMS")
-        return redirect(dashboard)
+    
     if request.POST:
         signInForm = AccountLoginForm(request.POST)
         if signInForm.is_valid():
@@ -506,13 +505,9 @@ def signOut(request):
     messages.success(request, "You have successfully been logged out from LMS")
     return redirect(signIn)
 
+@unathenticated_user
 def signUp(request):
     signUp = 'libraryApp/sign_up.html'
-
-    user = request.user
-    if user.is_authenticated:
-        messages.success(request, "You are already logged in to LMS")
-        return redirect(dashboard)
 
     studentSignUpForm = StudentRegistrationForm()
     staffSignUpForm = StaffRegistrationForm()
