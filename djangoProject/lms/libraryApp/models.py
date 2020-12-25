@@ -114,7 +114,7 @@ class BORROWEDBOOK(models.Model):
     dueDate = models.DateTimeField(null=True, blank=True, help_text="Due date")
     checkIn = models.DateTimeField(auto_now_add=False, null=True, blank=True, help_text="Check in date")
     userID = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL, help_text="User ID")
-    bookID = models.ForeignKey(BOOK, null=True, on_delete=models.SET_NULL, help_text="Book ID")
+    bookID = models.ForeignKey(BOOK, null=True, on_delete=models.CASCADE, help_text="Book ID")
 
     def save(self, *args, **kwargs):
         self.dueDate = datetime.datetime.now()+datetime.timedelta(days=14) # original answer used this line: self.created + datetime.timedelta(365).isoformat()

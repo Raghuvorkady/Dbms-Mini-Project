@@ -487,6 +487,7 @@ def signIn(request):
     context = {}
     user = request.user
     if user.is_authenticated:
+        messages.success(request, "You are already logged in to LMS")
         return redirect(dashboard)
     if request.POST:
         signInForm = AccountLoginForm(request.POST)
@@ -497,6 +498,7 @@ def signIn(request):
 
             if user:
                 login(request, user)
+                messages.success(request, "Welcome " + request.user.username + ",... You have successfully logged in to LMS")
                 return redirect(dashboard)
     else:
         signInForm = AccountLoginForm()
@@ -507,6 +509,7 @@ def signIn(request):
 
 def signOut(request):
     logout(request)
+    messages.success(request, "You have successfully been logged out from LMS")
     return redirect(signIn)
 
 def signUp(request):
@@ -514,6 +517,7 @@ def signUp(request):
 
     user = request.user
     if user.is_authenticated:
+        messages.success(request, "You are already logged in to LMS")
         return redirect(dashboard)
 
     studentSignUpForm = StudentRegistrationForm()
@@ -532,6 +536,7 @@ def signUp(request):
                 password = staffSignUpForm.cleaned_data.get('password1')
                 account = authenticate(email=email, password=password)
                 login(request, account)
+                messages.success(request, "Congrats! " + request.user.username + ",... You have successfully been registered to LMS")
                 return redirect(dashboard)
         else:
             data = {
@@ -548,6 +553,7 @@ def signUp(request):
                 password = studentSignUpForm.cleaned_data.get('password1')
                 account = authenticate(email=email, password=password)
                 login(request, account)
+                messages.success(request, "Congrats! " + request.user.username + ",... You have successfully been registered to LMS")
                 return redirect(dashboard)
         print("SIGNUP REQUEST", request.POST)
 
