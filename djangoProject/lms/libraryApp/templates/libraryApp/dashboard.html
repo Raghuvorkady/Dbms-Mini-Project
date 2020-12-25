@@ -43,7 +43,11 @@
     <h2 class="text-center">Borrowed Books</h2>
     <div class="col-md-12 mt-3">
       <h6 class="form-text text-center text-muted">
+      {% if bCount > 0 %}
         Till date you have borrowed {{bCount}} no. of books
+        {% else %}
+        <p>Click <a href="{% url 'borrowbook' %}">here</a> to borrow books from the library</p>
+        {% endif %}
       </h6>
     </div>
 
@@ -62,6 +66,7 @@
           </tr>
         </thead>
 
+        
         {% for i in borrowedBooks %}
         <tr>
           <td>{{forloop.counter}}</td>
