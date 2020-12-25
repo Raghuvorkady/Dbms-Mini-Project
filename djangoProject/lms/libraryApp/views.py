@@ -38,8 +38,11 @@ class tempDashboard:
 
 
 def index(request):
-    main = 'libraryApp/main.html'
-    return render(request, main)
+    user = request.user
+    if user.is_authenticated:
+        return redirect(dashboard)
+    else:
+        return redirect(signIn)
 
 
 def addPublisherDetails(request, option):
