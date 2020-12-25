@@ -409,11 +409,17 @@ def viewBook(request, bookID):
             else:
                 isBookBorrowed = False
     
+    # isStockAvailable = False
+    # if stock.bookCopies > 0:
+    #     isStockAvailable = True
+    # print("IS AVAILBLE: ", isStockAvailable, stock.bookCopies)
+
     context = {
         "book": bookObject,
         "pub": pub,
         "myFilter": myFilter,
-        "isBookBorrowed" : isBookBorrowed
+        "isBookBorrowed" : isBookBorrowed,
+        #"isStockAvailable" : isStockAvailable
     }
     return render(request, viewBook, context)
 
@@ -422,12 +428,14 @@ def viewBook(request, bookID):
 def requestBorrowBook(request, bookid):
     userID = request.user
     bookID = BOOK.objects.get(id=bookid)
-    BORROWEDBOOK.objects.create(userID=userID, bookID=bookID)
     stock = STOCK.objects.filter(bookID=bookID).first()
-    stock.bookCopies -= 1
-    stock.save()
-    
-    messages.success(request, "You have successfully borrowed book: " + bookID.bookTitle)
+    if stock.bookCopies > 0:
+        BORROWEDBOOK.objects.create(userID=userID, bookID=bookID)
+        stock.bookCopies -= 1
+        stock.save()
+        messages.success(request, "You have successfully borrowed book: " + bookID.bookTitle)
+    else:
+        messages.info(request, "The requested book, " + bookID.bookTitle + " is currently out of stock")
     return redirect(dashboard)
 
 @login_required(login_url='signin')
@@ -500,7 +508,7 @@ def signIn(request):
 
             if user:
                 login(request, user)
-                messages.success(request, "Welcome " + request.user.username + ",... You have successfully logged in to LMS")
+                messages.success(request, "Welcome " + request.user.username + ", You have successfully logged in to LMS")
                 return redirect(dashboard)
     else:
         signInForm = AccountLoginForm()
