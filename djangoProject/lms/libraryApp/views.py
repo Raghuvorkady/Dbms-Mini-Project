@@ -409,17 +409,17 @@ def viewBook(request, bookID):
             else:
                 isBookBorrowed = False
     
-    # isStockAvailable = False
-    # if stock.bookCopies > 0:
-    #     isStockAvailable = True
-    # print("IS AVAILBLE: ", isStockAvailable, stock.bookCopies)
+    isStockAvailable = False
+    if stock.bookCopies > 0:
+        isStockAvailable = True
+    print("IS AVAILBLE: ", isStockAvailable, stock.bookCopies)
 
     context = {
         "book": bookObject,
         "pub": pub,
         "myFilter": myFilter,
         "isBookBorrowed" : isBookBorrowed,
-        #"isStockAvailable" : isStockAvailable
+        "isStockAvailable" : isStockAvailable
     }
     return render(request, viewBook, context)
 
