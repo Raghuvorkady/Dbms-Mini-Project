@@ -77,7 +77,7 @@ class AccountAdmin(UserAdmin):
 
     fieldsets = (
         (None, {'fields': ('email', 'password')}),
-        ('Personal info', {'fields': ('fName', 'mName', 'lName', 'streetAddr',
+        ('Personal info', {'fields': ('username','fName', 'mName', 'lName','streetAddr',
                                       'district', 'state', 'pinCode', 'phoneNum', 'salary', 'USN', 'course', 'sem')}),
         ('Permissions', {'fields': ('is_admin', 'is_staff', 'is_superuser',
                                     'is_active')}),
@@ -87,7 +87,7 @@ class AccountAdmin(UserAdmin):
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': ('email', 'fName', 'mName', 'lName', 'streetAddr',
+            'fields': ('email', 'username', 'fName', 'mName', 'lName', 'streetAddr',
                        'district', 'state', 'pinCode', 'phoneNum', 'salary', 'USN',
                        'course', 'sem', 'password1', 'password2'),
         }),
@@ -98,4 +98,4 @@ class AccountAdmin(UserAdmin):
 admin.site.register(Account, AccountAdmin)
 # ... and, since we're not using Django's built-in permissions,
 # unregister the Group model from admin.
-#admin.site.unregister(Group)
+admin.site.unregister(Group)

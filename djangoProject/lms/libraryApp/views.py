@@ -5,6 +5,7 @@ from .filters import BookFilter
 from .forms import AddAuthorForm, AddBookForm, AddPublisherForm, AddStockForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 import datetime
 
 class tempBook:
@@ -44,7 +45,7 @@ def index(request):
     else:
         return redirect(signIn)
 
-
+@login_required(login_url='signin')
 def addPublisherDetails(request, option):
     publisherDetails = 'libraryApp/add_publisher_details.html'
     publishers = PUBLISHER.objects.all()
@@ -81,7 +82,7 @@ def addPublisherDetails(request, option):
 
     return render(request, publisherDetails, context)
 
-
+@login_required(login_url='signin')
 def addAuthorDetails(request, option):
     authorDetails = 'libraryApp/add_author_details.html'
     authors = AUTHOR.objects.all()
@@ -118,7 +119,7 @@ def addAuthorDetails(request, option):
 
     return render(request, authorDetails, context)
 
-
+@login_required(login_url='signin')
 def addBookDetails(request, option):
     bookDetails = 'libraryApp/add_book_details.html'
 
@@ -156,7 +157,7 @@ def addBookDetails(request, option):
     }
     return render(request, bookDetails, context)
 
-
+@login_required(login_url='signin')
 def updatePublisherDetails(request, pubID):
     publisherDetails = 'libraryApp/add_publisher_details.html'
     publishers = PUBLISHER.objects.get(id=pubID)
@@ -178,7 +179,7 @@ def updatePublisherDetails(request, pubID):
     }
     return render(request, publisherDetails, context)
 
-
+@login_required(login_url='signin')
 def updateAuthorDetails(request, pk):
     authorDetails = 'libraryApp/add_author_details.html'
     authors = AUTHOR.objects.get(id=pk)
@@ -200,7 +201,7 @@ def updateAuthorDetails(request, pk):
 
     return render(request, authorDetails, context)
 
-
+@login_required(login_url='signin')
 def updateBookDetails(request, bookID):
     bookDetails = 'libraryApp/add_book_details.html'
 
@@ -230,17 +231,7 @@ def updateBookDetails(request, bookID):
     }
     return render(request, bookDetails, context)
 
-
-def addBookTemplate(request):
-    addBookTemplate = 'libraryApp/add_book_template.html'
-    return render(request, addBookTemplate)
-
-
-def progressive(request):
-    progressive = 'libraryApp/progresive.html'
-    return render(request, progressive)
-
-
+@login_required(login_url='signin')
 def dashboard(request):
     dashboard = 'libraryApp/dashboard.html'
 
@@ -298,7 +289,7 @@ def dashboard(request):
     }
     return render(request, dashboard, context)
 
-
+@login_required(login_url='signin')
 def searchBook(request, book):
     searchResult = 'libraryApp/search_result_page.html'
     books = BOOK.objects.filter(bookTitle__icontains=book)
@@ -335,7 +326,7 @@ def searchBook(request, book):
     }
     return render(request, searchResult, context)
 
-
+@login_required(login_url='signin')
 def borrowBook(request):
     borrowBook = 'libraryApp/borrow_book.html'
 
@@ -374,7 +365,7 @@ def borrowBook(request):
     }
     return render(request, borrowBook, context)
 
-
+@login_required(login_url='signin')
 def viewBook(request, bookID):
     viewBook = 'libraryApp/view_book.html'
 
@@ -418,6 +409,7 @@ def viewBook(request, bookID):
     }
     return render(request, viewBook, context)
 
+@login_required(login_url='signin')
 def requestBorrowBook(request, bookid):
     userID = request.user
     bookID = BOOK.objects.get(id=bookid)
@@ -429,6 +421,7 @@ def requestBorrowBook(request, bookid):
     messages.success(request, "You have successfully borrowed book: " + bookID.bookTitle)
     return redirect(dashboard)
 
+@login_required(login_url='signin')
 def requestReturnBook(request, bookid):
     userID = request.user
     bookID = BOOK.objects.get(id=bookid)
@@ -443,6 +436,7 @@ def requestReturnBook(request, bookid):
     messages.success(request, "You have successfully returned book: " + bookID.bookTitle)
     return redirect(dashboard)
 
+@login_required(login_url='signin')
 def returnBook(request):
     returnBook = 'libraryApp/return_book.html'
 
@@ -481,7 +475,6 @@ def returnBook(request):
 
     return render(request, returnBook, context)
 
-
 def signIn(request):
     signIn = 'libraryApp/sign_in.html'
     context = {}
@@ -507,6 +500,7 @@ def signIn(request):
 
     return render(request, signIn, context)
 
+@login_required(login_url='signin')
 def signOut(request):
     logout(request)
     messages.success(request, "You have successfully been logged out from LMS")
@@ -563,7 +557,7 @@ def signUp(request):
     }
     return render(request, signUp, context)
 
-
+@login_required(login_url='signin')
 def manage(request):
     manage = 'libraryApp/manage_tab.html'
     books = BOOK.objects.all()
@@ -616,7 +610,7 @@ def manage(request):
     }
     return render(request, manage, context)
 
-
+@login_required(login_url='signin')
 def deleteAuthorDetails(request, pk):
     author = AUTHOR.objects.get(id=pk)
     author.delete()
@@ -624,7 +618,7 @@ def deleteAuthorDetails(request, pk):
     messages.success(request, "You have successfully deleted author: "+ author.authorName)
     return redirect(manage)
 
-
+@login_required(login_url='signin')
 def deletePublisherDetails(request, pk):
     pub = PUBLISHER.objects.get(id=pk)
     pub.delete()
@@ -632,7 +626,7 @@ def deletePublisherDetails(request, pk):
     messages.success(request, "You have successfully deleted publisher: "+ pub.pubName)
     return redirect(manage)
 
-
+@login_required(login_url='signin')
 def deleteBookDetails(request, bookID):
     book = BOOK.objects.get(id=bookID)
     book.delete()

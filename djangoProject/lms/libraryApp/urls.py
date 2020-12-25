@@ -12,8 +12,6 @@ urlpatterns = [
     path('deletebookdetails/<str:bookID>/', views.deleteBookDetails, name="deletebookdetail"),
     path('addauthordetails/<str:option>/', views.addAuthorDetails, name="addauthordetail"),
     path('addbookdetails/<str:option>/', views.addBookDetails, name="addbookdetail"),
-    path('addbooktemplate/', views.addBookTemplate, name="addbooktemplate"),
-    path('progressive/', views.progressive),
     path('dashboard/', views.dashboard, name="dashboard"),
     path('borrowbook/', views.borrowBook, name="borrowbook"),
     #path('/', views.borrowBook),  for staff to view all books
