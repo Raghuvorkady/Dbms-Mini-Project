@@ -55,15 +55,21 @@
     <h2 class="text-center">Borrowed Books</h2>
     <div class="col-md-12 mt-3">
       <h6 class="form-text text-center text-muted">
-      {% if bCount > 0 %}
-        Till date {% if request.user.is_staff %}
-            students
-          {% else %}
-             you
-          {% endif %} have borrowed {{bCount}} no. of books
+
+      {% if request.user.is_staff %}
+        {% if bCount > 0 %}
+          Till date students have borrowed {{bCount}} no. of books
         {% else %}
-        <p>Click <a href="{% url 'borrowbook' %}">here</a> to borrow books from the library</p>
+          Currently, students have not borrowed any books☹
         {% endif %}
+      {% else %}
+      {% if bCount > 0 %}
+          Till date you have borrowed {{bCount}} no. of books
+        {% else %}
+          <p>Click <a href="{% url 'borrowbook' %}">here</a> to borrow books from the library</p>
+        {% endif %}
+      {% endif %}
+
       </h6>
     </div>
 

@@ -1,4 +1,4 @@
-from libraryApp.decorators import unathenticated_user
+from libraryApp.decorators import staff_only_allowed, student_only_allowed, unathenticated_user
 from account.forms import AccountLoginForm, StaffRegistrationForm, StudentRegistrationForm
 from libraryApp.models import *
 from django.shortcuts import render, redirect
@@ -47,6 +47,7 @@ def index(request):
         return redirect(signIn)
 
 @login_required(login_url='signin')
+@staff_only_allowed
 def addPublisherDetails(request, option):
     publisherDetails = 'libraryApp/add_publisher_details.html'
     publishers = PUBLISHER.objects.all()
@@ -84,6 +85,7 @@ def addPublisherDetails(request, option):
     return render(request, publisherDetails, context)
 
 @login_required(login_url='signin')
+@staff_only_allowed
 def addAuthorDetails(request, option):
     authorDetails = 'libraryApp/add_author_details.html'
     authors = AUTHOR.objects.all()
@@ -121,6 +123,7 @@ def addAuthorDetails(request, option):
     return render(request, authorDetails, context)
 
 @login_required(login_url='signin')
+@staff_only_allowed
 def addBookDetails(request, option):
     bookDetails = 'libraryApp/add_book_details.html'
 
@@ -159,6 +162,7 @@ def addBookDetails(request, option):
     return render(request, bookDetails, context)
 
 @login_required(login_url='signin')
+@staff_only_allowed
 def updatePublisherDetails(request, pubID):
     publisherDetails = 'libraryApp/add_publisher_details.html'
     publishers = PUBLISHER.objects.get(id=pubID)
@@ -181,6 +185,7 @@ def updatePublisherDetails(request, pubID):
     return render(request, publisherDetails, context)
 
 @login_required(login_url='signin')
+@staff_only_allowed
 def updateAuthorDetails(request, pk):
     authorDetails = 'libraryApp/add_author_details.html'
     authors = AUTHOR.objects.get(id=pk)
@@ -203,6 +208,7 @@ def updateAuthorDetails(request, pk):
     return render(request, authorDetails, context)
 
 @login_required(login_url='signin')
+@staff_only_allowed
 def updateBookDetails(request, bookID):
     bookDetails = 'libraryApp/add_book_details.html'
 
@@ -328,6 +334,7 @@ def searchBook(request, book):
     return render(request, searchResult, context)
 
 @login_required(login_url='signin')
+@student_only_allowed
 def borrowBook(request):
     borrowBook = 'libraryApp/borrow_book.html'
 
@@ -411,6 +418,7 @@ def viewBook(request, bookID):
     return render(request, viewBook, context)
 
 @login_required(login_url='signin')
+@student_only_allowed
 def requestBorrowBook(request, bookid):
     userID = request.user
     bookID = BOOK.objects.get(id=bookid)
@@ -423,6 +431,7 @@ def requestBorrowBook(request, bookid):
     return redirect(dashboard)
 
 @login_required(login_url='signin')
+@student_only_allowed
 def requestReturnBook(request, bookid):
     userID = request.user
     bookID = BOOK.objects.get(id=bookid)
@@ -438,6 +447,7 @@ def requestReturnBook(request, bookid):
     return redirect(dashboard)
 
 @login_required(login_url='signin')
+@student_only_allowed
 def returnBook(request):
     returnBook = 'libraryApp/return_book.html'
 
@@ -553,6 +563,7 @@ def signUp(request):
     return render(request, signUp, context)
 
 @login_required(login_url='signin')
+@staff_only_allowed
 def manage(request):
     manage = 'libraryApp/manage_tab.html'
     books = BOOK.objects.all()
@@ -606,6 +617,7 @@ def manage(request):
     return render(request, manage, context)
 
 @login_required(login_url='signin')
+@staff_only_allowed
 def deleteAuthorDetails(request, pk):
     author = AUTHOR.objects.get(id=pk)
     author.delete()
@@ -614,6 +626,7 @@ def deleteAuthorDetails(request, pk):
     return redirect(manage)
 
 @login_required(login_url='signin')
+@staff_only_allowed
 def deletePublisherDetails(request, pk):
     pub = PUBLISHER.objects.get(id=pk)
     pub.delete()
@@ -622,6 +635,7 @@ def deletePublisherDetails(request, pk):
     return redirect(manage)
 
 @login_required(login_url='signin')
+@staff_only_allowed
 def deleteBookDetails(request, bookID):
     book = BOOK.objects.get(id=bookID)
     book.delete()
