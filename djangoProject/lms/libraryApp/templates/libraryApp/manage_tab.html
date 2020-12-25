@@ -6,16 +6,8 @@
 <nav class="navbar">
   <div class="navbar-nav mySubMenu ml-auto">
     <nav>
-        <a href="{% url 'dashboard' %}">Dashboard</a>
-        {% if not request.user.is_staff %}
-            <a href="{% url 'borrowbook' %}">Borrow book</a>
-        {% endif %}
-        {% if request.user.is_staff %}
-            <a class="text-muted" href="{% url 'manage' %}">Manage</a>
-        {% endif %}
-        {% if not request.user.is_staff %}
-            <a href="{% url 'returnbook' %}">Return book</a>
-        {% endif %}
+        <a href="{% url 'dashboard' %}" title="Click here to visit dashboard">Dashboard</a>
+        <a class="text-muted " href="{% url 'manage' %}">Manage</a>
     </nav>
   </div>
   <form class="form-inline" method="POST">
