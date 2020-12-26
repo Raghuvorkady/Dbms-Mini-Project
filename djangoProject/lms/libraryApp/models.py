@@ -1,7 +1,5 @@
-from account.models import Account
 from django.db import models
 from django.conf import settings
-from django.core.validators import MinValueValidator
 import datetime
 # Create your models here.
 # null = True is only for testing
@@ -22,6 +20,7 @@ class PUBLISHER(models.Model):
     state = models.CharField(max_length=20, help_text="State", null=True)
     pinCode = models.CharField(max_length=6, help_text="PIN Code", null=True)
     phoneNum = models.CharField(max_length=10, help_text="Phone number", null=True)
+    #validators for pinCode, phoneNum
 
     def __str__(self):
         return self.pubName
@@ -53,7 +52,7 @@ class BOOK(models.Model):
         settings.AUTH_USER_MODEL, null=True, on_delete=models.CASCADE, help_text="Librarian ID")
     pubID = models.ForeignKey(PUBLISHER, null=True, on_delete=models.CASCADE, help_text="Publisher ID")
     authorID = models.ManyToManyField(AUTHOR, help_text="Authors")
-    # isAvail = models.BooleanField()
+    #validators for isbn, pubYear
 
     def __str__(self):
         return self.bookTitle
@@ -64,12 +63,7 @@ class STOCK(models.Model):
     bookID = models.OneToOneField(BOOK, null=True, on_delete=models.CASCADE, help_text="Book ID")
     librarianID = models.ForeignKey(
         settings.AUTH_USER_MODEL, null=True, on_delete=models.CASCADE, help_text="Librarian ID")
-
-
-# class WRITTENBY(models.Model):
-#     bookID = models.ManyToManyField(BOOK)
-#     authorID = models.ManyToManyField(AUTHOR)
-
+        
 
 class BORROWEDBOOK(models.Model):
     checkOut = models.DateTimeField(auto_now_add=True, null=True, help_text="Check out date")
@@ -84,28 +78,6 @@ class BORROWEDBOOK(models.Model):
 
 
 class defaultValues(models.Model):
-    # coursesAll = models.CharField(max_length=30, null=True)
-    # genreAll = models.CharField(max_length=20, null=True)
-    courses = (
-        "Information Science Engineering",
-        "Computer Science Engineering",
-        "Electronics and Communication Engineering",
-        "Mechanical Engineering",
-        "Electronics and Telecommunication Engineering",
-        "Electrical and Electronics Engineering",
-        "Civil Engineering",
-        "Master of Computer Applications",
-        "Artificial Intelligence and Machine Learning"
-    )
-
-    genre = (
-        "History",
-        "Math",
-        "Science",
-        "Travel",
-        "Business",
-        "Coding"
-    )
     """
     statesInIndia = [
         ('KA', 'Karnataka'), 
@@ -149,5 +121,5 @@ class defaultValues(models.Model):
                      "Nagaland", "Odisha", "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu", "Telangana", "Tripura", "Uttar Pradesh", "Uttarakhand", "West Bengal", "Andaman and Nicobar Islands", "Chandigarh", "Dadra and Nagar Haveli", "Daman and Diu", "Lakshadweep", "Delhi", "Puducherry")
 
     districtInKerala = [
-        ("Ksd", "Kasaragod"),
+        ("Kasaragod", "Kasaragod"),
     ]

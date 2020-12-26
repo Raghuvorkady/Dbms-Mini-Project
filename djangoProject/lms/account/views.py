@@ -1,6 +1,5 @@
 from account.forms import RegistrationForm
 from django.shortcuts import render
-from libraryApp.models import defaultValues
 
 # Create your views here.
 def signUp(request):
