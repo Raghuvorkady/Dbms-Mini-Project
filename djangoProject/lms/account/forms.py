@@ -17,6 +17,13 @@ class StudentRegistrationForm(UserCreationForm):
         model = Account
         fields = ['email', 'username', 'fName', 'mName', 'lName', 'streetAddr', 
         'district', 'state', 'pinCode', 'phoneNum', 'USN', 'course', 'sem']
+    
+    def clean_USN(self):
+        usn = self.cleaned_data['USN']
+        if len(usn) != 10:
+            raise forms.ValidationError("Enter a valid USN")
+        else:
+            return usn
 
 class StaffRegistrationForm(UserCreationForm):
     def __init__(self, *args, **kwargs):
@@ -41,17 +48,6 @@ class StaffRegistrationForm(UserCreationForm):
                 return email
         else:
             raise forms.ValidationError("Invalid staff mail id | Please contact admin")
-        staffEmails.clear()
-
-    # def clean(self):
-    #     staff = STAFF.objects.all()
-    #     staffEmails = []
-    #     email = self.cleaned_data['email']
-    #     for i in staff:
-    #         staffEmails.append(i.staffEmail)
-    #     if email not in staffEmails:
-    #         raise forms.ValidationError("Invalid staff mail id | Please contact admin")
-    #     staffEmails.clear()
 
 class AccountLoginForm(forms.ModelForm):
     password = forms.CharField(label='Password', widget=forms.PasswordInput)
