@@ -67,13 +67,13 @@ class Account(AbstractBaseUser):
     streetAddr = models.CharField(max_length=50, help_text="Street Address", null=True)
     district = models.CharField(max_length=20, null=True, help_text="District")
     state = models.CharField(max_length=20, null=True, help_text="State")
-    pinCode = models.CharField(max_length=6, null=True, help_text="PIN Code")
-    phoneNum = models.CharField(max_length=10, null=True, blank=True, help_text="Phone number")
+    pinCode = models.CharField(max_length=6, null=True, help_text="PIN Code", validators=[RegexValidator(regex='[0-9]{6}', message="Enter a valid Postal Identification Number", code="invalid_pinCode")])
+    phoneNum = models.CharField(max_length=10, null=True, blank=True, help_text="Phone number", validators=[RegexValidator(regex='[0-9]{10}', message="Enter a valid Phone Number", code="invalid_phoneNum")])
 
     USN = models.CharField(max_length=10, null=True, unique=True, blank=True, help_text="University Serial Number", validators=[RegexValidator(regex='[1-4]{1}[a-zA-Z]{2}[0-9]{2}[a-zA-Z]{2}[0-9]{3}', message="Enter a valid USN", code="invalid_USN")])
     course = models.CharField(max_length=50, null=True, choices=COURSES, blank=True, help_text="Branch")
     sem = models.PositiveSmallIntegerField(null=True, choices=SEM, blank=True, help_text="Semester")
-    salary = models.CharField(max_length=6, null=True, blank=True, help_text="Salary")
+    salary = models.CharField(max_length=6, null=True, blank=True, help_text="Salary", validators=[RegexValidator(regex='[0-9]{6}', message="Enter a valid Salary", code="invalid_salary")])
     
     date_joined = models.DateTimeField(verbose_name='date joined', auto_now_add=True)
     last_login = models.DateTimeField(verbose_name='last login', auto_now=True)
