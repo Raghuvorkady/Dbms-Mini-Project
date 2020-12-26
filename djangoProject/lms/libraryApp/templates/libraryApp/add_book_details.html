@@ -4,165 +4,166 @@
 
 {% block content %}
 
-<h1 class="text-center">{{option}} book</h1>
-<br>
 
 <div class="container">
-  <div class="card card-body">
+<h1 class="text-center shadow-sm p-3 bg-white rounded">{{option}} book</h1>
+<br>
+  <div class="card card-body shadow-sm p-3 bg-white rounded">
 
 
-<form method="POST" novalidate>
-  {% csrf_token %}
+    <form method="POST" novalidate>
+      {% csrf_token %}
 
- <div class="card-header text-center">
+      <div class="card-header text-center">
         <h2 class="text-info">{{option}} book details</h2>
       </div>
       <br>
 
-  {% for hidden_field in addBookForm.hidden_fields %}
-    {{ hidden_field }}
-  {% endfor %}
-
-  {% if addBookForm.non_field_errors %}
-    <div class="alert alert-danger" role="alert">
-      {% for error in addBookForm.non_field_errors %}
-        {{ error }}
+      {% for hidden_field in addBookForm.hidden_fields %}
+      {{ hidden_field }}
       {% endfor %}
-    </div>
-  {% endif %}
 
-  {% for field in addBookForm.visible_fields %}
-    <div class="form-group">
-      {{ field.label_tag }}
-
-      {% if addBookForm.is_bound %}
-        {% if field.errors %}
-          {% render_field field class="form-control is-invalid" %}
-          {% for error in field.errors %}
-            <div class="invalid-feedback">
-              {{ error }}
-            </div>
-          {% endfor %}
-        {% else %}
-          {% render_field field class="form-control is-valid" %}
-        {% endif %}
-      {% else %}
-        {% render_field field class="form-control" %}
-      {% endif %}
-
-      {% if field.help_text %}
-        <small class="form-text text-muted">{{ field.help_text }}</small>
-      {% endif %}
-    </div>
-  {% endfor %}
-  
-  {% comment %} addStockForm {% endcomment %}
-  {% for hidden_field in addStockForm.hidden_fields %}
-    {{ hidden_field }}
-  {% endfor %}
-
-  {% if addStockForm.non_field_errors %}
-    <div class="alert alert-danger" role="alert">
-      {% for error in addStockForm.non_field_errors %}
+      {% if addBookForm.non_field_errors %}
+      <div class="alert alert-danger" role="alert">
+        {% for error in addBookForm.non_field_errors %}
         {{ error }}
-      {% endfor %}
-    </div>
-  {% endif %}
+        {% endfor %}
+      </div>
+      {% endif %}
 
-  {% for field in addStockForm.visible_fields %}
-    <div class="form-group">
-      {{ field.label_tag }}
+      {% for field in addBookForm.visible_fields %}
+      <div class="form-group">
+        {{ field.label_tag }}
 
-      {% if addStockForm.is_bound %}
+        {% if addBookForm.is_bound %}
         {% if field.errors %}
-          {% render_field field class="form-control is-invalid" %}
-          {% for error in field.errors %}
-            <div class="invalid-feedback">
-              {{ error }}
-            </div>
-          {% endfor %}
+        {% render_field field class="form-control is-invalid" %}
+        {% for error in field.errors %}
+        <div class="invalid-feedback">
+          {{ error }}
+        </div>
+        {% endfor %}
         {% else %}
-          {% render_field field class="form-control is-valid" %}
+        {% render_field field class="form-control is-valid" %}
         {% endif %}
-      {% else %}
+        {% else %}
         {% render_field field class="form-control" %}
-      {% endif %}
+        {% endif %}
 
-      {% if field.help_text %}
+        {% if field.help_text %}
         <small class="form-text text-muted">{{ field.help_text }}</small>
-      {% endif %}
-    </div>
-  {% endfor %}
+        {% endif %}
+      </div>
+      {% endfor %}
 
-   <div class="row justify-content-end">
-        <a href="javascript:window.history.back()"><button type="button" class="btn btn-primary" style="margin-right: 10px;">Previous</button></a>
+      {% comment %} addStockForm {% endcomment %}
+      {% for hidden_field in addStockForm.hidden_fields %}
+      {{ hidden_field }}
+      {% endfor %}
+
+      {% if addStockForm.non_field_errors %}
+      <div class="alert alert-danger" role="alert">
+        {% for error in addStockForm.non_field_errors %}
+        {{ error }}
+        {% endfor %}
+      </div>
+      {% endif %}
+
+      {% for field in addStockForm.visible_fields %}
+      <div class="form-group">
+        {{ field.label_tag }}
+
+        {% if addStockForm.is_bound %}
+        {% if field.errors %}
+        {% render_field field class="form-control is-invalid" %}
+        {% for error in field.errors %}
+        <div class="invalid-feedback">
+          {{ error }}
+        </div>
+        {% endfor %}
+        {% else %}
+        {% render_field field class="form-control is-valid" %}
+        {% endif %}
+        {% else %}
+        {% render_field field class="form-control" %}
+        {% endif %}
+
+        {% if field.help_text %}
+        <small class="form-text text-muted">{{ field.help_text }}</small>
+        {% endif %}
+      </div>
+      {% endfor %}
+
+      <div class="row justify-content-end">
+        <a href="javascript:window.history.back()"><button type="button" class="btn btn-primary"
+            style="margin-right: 10px;">Cancel</button></a>
 
         <button type="submit" class="btn btn-primary mr-3">Submit</button>
       </div>
-</form>
+    </form>
 
-      {% comment %} <div class="form-row">
-        <div class="form-group col-md-12">
-          <label for="firstName">Book title</label>
-          <input type="text" class="form-control" id="firstName" placeholder="your book title">
-        </div>
+    {% comment %} <div class="form-row">
+      <div class="form-group col-md-12">
+        <label for="firstName">Book title</label>
+        <input type="text" class="form-control" id="firstName" placeholder="your book title">
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="genre">Select Genre</label>
+        <select id="genre" class="form-control" data-dropup-auto="false">
+          {% for i in genres %}
+          <option>{{i}}</option>
+          {% endfor %}
+        </select>
       </div>
 
-      <div class="form-row">
-        <div class="form-group col-md-6">
-          <label for="genre">Select Genre</label>
-          <select id="genre" class="form-control" data-dropup-auto="false">
-            {% for i in genres %}
-              <option>{{i}}</option>
-            {% endfor %}
-          </select>
-        </div>
-        
-        <div class="form-group col-md-6">
-          <label for="authName">Select author</label>
-          <select id="authName" class="selectpicker form-control" multiple data-live-search="true">
-              {% for i in authors %}
-                  <option>{{i}}</option>
-              {% endfor %}
-          </select>
-        </div>
+      <div class="form-group col-md-6">
+        <label for="authName">Select author</label>
+        <select id="authName" class="selectpicker form-control" multiple data-live-search="true">
+          {% for i in authors %}
+          <option>{{i}}</option>
+          {% endfor %}
+        </select>
+      </div>
+    </div>
+
+
+
+    <div class="form-row">
+      <div class="form-group col-md-9">
+        <label for="pubName">Select publisher</label>
+        <select id="pubName" class="form-control">
+          {% for i in publishers %}
+          <option>{{i}}</option>
+          {% endfor %}
+        </select>
       </div>
 
-      
+      <div class="form-group col-md-3">
+        <label for="firstName">Publication year</label>
+        <br>
+        <input class="datePicker form-control" type="text" id="datepicker">
+      </div>
+    </div>
 
-      <div class="form-row">
-        <div class="form-group col-md-9">
-          <label for="pubName">Select publisher</label>
-          <select id="pubName" class="form-control">
-            {% for i in publishers %}
-                <option>{{i}}</option>
-            {% endfor %}
-          </select>
-        </div>
 
-        <div class="form-group col-md-3">
-          <label for="firstName">Publication year</label>
-          <br>
-          <input class="datePicker form-control" type="text" id="datepicker">
-        </div>
+    <div class="form-row">
+      <div class="form-group col-md-8">
+        <label for="firstName">ISBN</label>
+        <input type="text" class="form-control" id="firstName" placeholder="978-3-16-148410-0">
       </div>
 
+      <div class="form-group col-md-4">
+        <label for="stock">Stock</label>
+        <input type="number" class="form-control" id="stock" placeholder="no. of books">
+      </div>
+    </div>{% endcomment %}
 
-      <div class="form-row">
-        <div class="form-group col-md-8">
-          <label for="firstName">ISBN</label>
-          <input type="text" class="form-control" id="firstName" placeholder="978-3-16-148410-0">
-        </div>
 
-        <div class="form-group col-md-4">
-          <label for="stock">Stock</label>
-          <input type="number" class="form-control" id="stock" placeholder="no. of books">
-        </div> 
-      </div>{% endcomment %}
+  </div>
 
-  
 </div>
-
 <br>
-
-{% endblock %}
+  {% endblock %}

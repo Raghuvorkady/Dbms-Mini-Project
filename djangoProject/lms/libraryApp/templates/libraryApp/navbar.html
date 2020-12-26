@@ -8,16 +8,16 @@
 
     <div class="d-flex flex-column flex-md-row align-items-center p-2 px-md-3 mb-2 bg-light border-bottom shadow-sm">
       <img class="logo my-0 mr-md-auto font-weight-normal" src="{% static '/img/lms.png' %}" alt="LMS Logo">
-        <nav class="nav pt-4">
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" data-toggle="dropdown" role="button">Welcome, {{request.user.username}}</a>
+        <nav class="nav mt-3 mr-2">
+            <div class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" data-toggle="dropdown" role="button">{{request.user.username}}</a>
               <div class="dropdown-menu">
                 <a class="dropdown-item" href="#">Profile</a>
-                <a class="dropdown-item" href="#">Settings</a>
                 <a class="dropdown-item" href="{% url 'signout' %}">Sign out</a>
               </div>
-            </li>
-      </nav>
+            </div>
+            <a class="p-2 text-dark" href="{% url 'about' %}">About</a>
+        </nav>
     </div>
 
 {% comment %} 

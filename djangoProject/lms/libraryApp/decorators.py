@@ -2,6 +2,7 @@ from django.contrib import messages
 from django.http import HttpResponse
 from django.shortcuts import redirect
 
+#to redirect a user from signin and signup if user is already authenticated
 def unathenticated_user(view_func):
     def wrapper_func(request, *args, **kwargs):
         user = request.user

@@ -38,13 +38,26 @@ class tempDashboard:
         self.checkIn = checkIn
         self.dueDate = dueDate
 
-
+@unathenticated_user
 def index(request):
-    user = request.user
-    if user.is_authenticated:
-        return redirect(dashboard)
-    else:
-        return redirect(signIn)
+    return redirect(signIn)
+
+#to redirect the user to signin if not authenticated
+@login_required(login_url='signin')
+def about(request):
+    about = 'libraryApp/about.html'
+    books = BOOK.objects.all()
+
+    myFilter = BookFilter(request.GET, queryset=BOOK.objects.all())
+
+    if request.method == "POST":
+        print(request.POST)
+        return redirect(searchBook, book=request.POST['bookTitle'])
+    
+    context = {
+        'myFilter': myFilter
+    }
+    return render(request, about, context)
 
 @login_required(login_url='signin')
 @staff_only_allowed

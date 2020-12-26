@@ -22,6 +22,7 @@ urlpatterns = [
     path('signup/', views.signUp, name="signup"),
     path('signin/', views.signIn, name="signin"),
     path('signout/', views.signOut, name="signout"),
+    path('about/', views.about, name="about"),
     path('requestborrowbook/<int:bookid>/', views.requestBorrowBook, name="requestBorrowBook"),
     path('requestreturnbook/<int:bookid>/', views.requestReturnBook, name="requestReturnBook"),
 ]

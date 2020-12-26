@@ -62,31 +62,20 @@
 
 <body>
 
-    <nav class="navbar navbar-expand-lg navbar-light bg-light align-items-end">
-        <img class="logo" src="{% static '/img/lms.png' %}" alt="">
-        <button class="navbar-toggler ml-auto custom-toggler" type="button" data-toggle="collapse"
-            data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false"
-            aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        
-        <div class="collapse navbar-collapse mr-2" id="navbarNavAltMarkup">
-    <div class="navbar-nav navbar-right ml-auto">
-
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle welcomeMsg" data-toggle="dropdown" href="#" role="button"
-          aria-haspopup="true" aria-expanded="false">Welcome, {{request.user.username}}</a>
-        <div class="dropdown-menu">
-          <a class="dropdown-item" href="#">Profile</a>
-          <a class="dropdown-item" href="#">Settings</a>
-          <a class="dropdown-item" href="{% url 'signout' %}">Sign out</a>
-        </div>
-      </li>
-
+    <div class="d-flex flex-column flex-md-row align-items-center p-2 px-md-3 mb-2 bg-light border-bottom shadow-sm">
+      <img class="logo my-0 mr-md-auto font-weight-normal" src="{% static '/img/lms.png' %}" alt="LMS Logo">
+        <nav class="nav mt-3 mr-2">
+            <div class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" data-toggle="dropdown" role="button">{{request.user.username}}</a>
+              <div class="dropdown-menu">
+                <a class="dropdown-item" href="#">Profile</a>
+                <a class="dropdown-item" href="{% url 'signout' %}">Sign out</a>
+              </div>
+            </div>
+            <a class="p-2 text-dark" href="{% url 'about' %}">About</a>
+        </nav>
     </div>
-  </div>
-    </nav>
-   
+
     <nav class="navbar">
     <div class="navbar-nav mySubMenu ml-auto">
         <nav>
@@ -122,7 +111,7 @@
     <br>
     <div class="container-fluid">
         <div class="container">
-            <div class="col-md-12 text-center">
+            <div class="col-md-12 text-center shadow-sm p-3 bg-white rounded">
                 <h1>You have searched for "{{query}}"</h1>
             </div>
             <div class="col-md-12 mt-3">
@@ -131,7 +120,7 @@
                 </h6>
             </div>
             {% if count > 0%}
-            <div class="card card-body col-md-12 mt-4">
+            <div class="card card-body col-md-12 shadow-sm p-3 bg-white rounded mt-4">
                 <table id="dataTable8" class="table table-sm table-hover text-center">
                     <thead class="thead-light threadText">
                         <tr>

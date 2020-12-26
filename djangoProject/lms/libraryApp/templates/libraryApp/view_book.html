@@ -70,13 +70,13 @@
 <br>
 
 <div>
-    <h1 class="text-center">
+    <h1 class="text-center shadow-sm p-3 bg-white rounded">
         View book
     </h1>
 </div>
 
 <div class="row align-items-center viewBook mt-4">
-    <div class="card card-body border-light bg-light col-md-8">
+    <div class="card card-body border-light bg-light col-md-8 shadow p-3 bg-white rounded">
         <!-- <img src="{% static '/img/sample-book-cover2.png' %}" class="img-rounded" alt=""> -->
         <div class="card-header text-center cardHead">
             <div class="row justify-content-center">
@@ -125,22 +125,19 @@
     </div>
     <div class="col-md-4 mt-5">
         <div class="row justify-content-center">
-            <button type="button" onclick="location.href='{% url 'requestBorrowBook' book.bookID %}'" class="btn btn-outline-success btn-lg" 
+            <button type="button" onclick="location.href='{% url 'requestBorrowBook' book.bookID %}'" class="btn btn-outline-success btn-lg shadow-sm rounded" 
             {% if request.user.is_staff or isBookBorrowed or not isStockAvailable %}disabled{% endif %}
                     data-toggle="tooltip" data-placement="right"
                     title="Click here to borrow '{{book.bookTitle}}'">Borrow book</button>
         </div>
         <br>
         <div class="row justify-content-center">
-            <button type="button" onclick="location.href='{% url 'requestReturnBook' book.bookID %}'" class="btn btn-outline-danger btn-lg"
+            <button type="button" onclick="location.href='{% url 'requestReturnBook' book.bookID %}'" class="btn btn-outline-danger btn-lg shadow-sm rounded"
             {% if request.user.is_staff or not isBookBorrowed %}disabled{% endif %}
                     data-toggle="tooltip" data-placement="right"
                     title="Click here to return '{{book.bookTitle}}'">Return book</button>
         </div>
     </div>
 </div>
-
-<br>
-
 
 {% endblock %}
