@@ -556,7 +556,7 @@ def signUp(request):
                 password = staffSignUpForm.cleaned_data.get('password1')
                 account = authenticate(email=email, password=password)
                 login(request, account)
-                messages.success(request, "Congrats! " + request.user.username + ",... You have successfully been registered to LMS")
+                messages.success(request, "Congrats! " + request.user.username + ", You have successfully been registered to LMS")
                 return redirect(dashboard)
         else:
             data = {
@@ -573,7 +573,7 @@ def signUp(request):
                 password = studentSignUpForm.cleaned_data.get('password1')
                 account = authenticate(email=email, password=password)
                 login(request, account)
-                messages.success(request, "Congrats! " + request.user.username + ",... You have successfully been registered to LMS")
+                messages.success(request, "Congrats! " + request.user.username + ", You have successfully been registered to LMS")
                 return redirect(dashboard)
         print("SIGNUP REQUEST", request.POST)
 

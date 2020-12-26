@@ -28,16 +28,30 @@ class StaffRegistrationForm(UserCreationForm):
         fields = ['email', 'username', 'fName', 'mName', 'lName', 'streetAddr', 
         'district', 'state', 'pinCode', 'phoneNum', 'salary']
 
-    def clean(self):
+    def clean_email(self):
         staff = STAFF.objects.all()
         staffEmails = []
-        if self.is_valid():
-            email = self.cleaned_data['email']
-            for i in staff:
-                staffEmails.append(i.staffEmail)
-            if email not in staffEmails:
-                raise forms.ValidationError("Invalid staff mail id\nContact admin")
+        email = self.cleaned_data['email']
+        for i in staff:
+            staffEmails.append(i.staffEmail)
+        if email in staffEmails:
+            if Account.objects.filter(email=email).exists():
+                raise forms.ValidationError("This email address is already in use.")
+            else:
+                return email
+        else:
+            raise forms.ValidationError("Invalid staff mail id | Please contact admin")
         staffEmails.clear()
+
+    # def clean(self):
+    #     staff = STAFF.objects.all()
+    #     staffEmails = []
+    #     email = self.cleaned_data['email']
+    #     for i in staff:
+    #         staffEmails.append(i.staffEmail)
+    #     if email not in staffEmails:
+    #         raise forms.ValidationError("Invalid staff mail id | Please contact admin")
+    #     staffEmails.clear()
 
 class AccountLoginForm(forms.ModelForm):
     password = forms.CharField(label='Password', widget=forms.PasswordInput)
