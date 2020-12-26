@@ -15,44 +15,6 @@ class STAFF(models.Model):
     def __str__(self):
         return self.staffEmail
 
-
-class USER(models.Model):
-    fName = models.CharField(max_length=20)
-    mName = models.CharField(max_length=20, blank=True)
-    lName = models.CharField(max_length=20, blank=True)
-    email = models.EmailField(help_text='A valid email address, please.')
-    pwd = models.CharField(max_length=20)
-    streetAddr = models.CharField(max_length=50)
-    district = models.CharField(max_length=20)
-    state = models.CharField(max_length=20)
-    pinCode = models.CharField(max_length=6)
-    phoneNum = models.CharField(max_length=10)
-    USN = models.CharField(max_length=10)
-    course = models.CharField(max_length=50)
-    sem = models.IntegerField()
-
-    def __str__(self):
-        return self.email
-
-
-class LIBRARIAN(models.Model):
-    fName = models.CharField(max_length=20)
-    # null=True blank=True This means that the field is optional in all circumstances.
-    mName = models.CharField(max_length=20, blank=True)
-    lName = models.CharField(max_length=20, blank=True)
-    email = models.EmailField()
-    pwd = models.CharField(max_length=20)
-    streetAddr = models.CharField(max_length=50)
-    district = models.CharField(max_length=20)
-    state = models.CharField(max_length=20)
-    pinCode = models.CharField(max_length=6)
-    phoneNum = models.CharField(max_length=10)
-    salary = models.CharField(max_length=6)
-
-    def __str__(self):
-        return self.email
-
-
 class PUBLISHER(models.Model):
     pubName = models.CharField(max_length=30, help_text="Publisher name", null=True)
     streetAddr = models.CharField(max_length=50, help_text="Street Address", null=True)
