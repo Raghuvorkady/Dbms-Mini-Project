@@ -18,13 +18,6 @@ class StudentRegistrationForm(UserCreationForm):
         fields = ['email', 'username', 'fName', 'mName', 'lName', 'streetAddr', 
         'district', 'state', 'pinCode', 'phoneNum', 'USN', 'course', 'sem']
     
-    def clean_USN(self):
-        usn = self.cleaned_data['USN']
-        if len(usn) != 10:
-            raise forms.ValidationError("Enter a valid USN")
-        else:
-            return usn
-
 class StaffRegistrationForm(UserCreationForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

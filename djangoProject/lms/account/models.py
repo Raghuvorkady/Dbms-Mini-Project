@@ -1,4 +1,4 @@
-from django.core.validators import MaxValueValidator
+from django.core.validators import MaxValueValidator, RegexValidator
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 
@@ -70,7 +70,7 @@ class Account(AbstractBaseUser):
     pinCode = models.CharField(max_length=6, null=True, help_text="PIN Code")
     phoneNum = models.CharField(max_length=10, null=True, blank=True, help_text="Phone number")
 
-    USN = models.CharField(max_length=10, null=True, unique=True, blank=True, help_text="University Serial Number")
+    USN = models.CharField(max_length=10, null=True, unique=True, blank=True, help_text="University Serial Number", validators=[RegexValidator(regex='[1-4]{1}[a-zA-Z]{2}[0-9]{2}[a-zA-Z]{2}[0-9]{3}', message="Enter a valid USN", code="invalid_USN")])
     course = models.CharField(max_length=50, null=True, choices=COURSES, blank=True, help_text="Branch")
     sem = models.PositiveSmallIntegerField(null=True, choices=SEM, blank=True, help_text="Semester")
     salary = models.CharField(max_length=6, null=True, blank=True, help_text="Salary")
