@@ -1,0 +1,20 @@
+127.0.0.1:8000
+It is the REQUEST
+
+What django do for the above request?
+-> urls.py (project) 
+ -> urls.py (app) 
+  -> views.py (app) 
+   -> render html pages(HttpResponse)
+
+It is the response
+
+urls.py = For creating url path addresses for the website and invoke fun in view.py
+views.py = For rendering the html pages(where logic is written)
+models.py = For creating tables
+admin.py = registering the created models(table) in admin site
+forms.py = For creating forms(signin/signup) using the models created
+filters.py = For implementing search function
+decorators.py = For implementing user checkup(signed in or not), restricting user
+templates = A space for html files
+settings.py = Contains configuration of the project
