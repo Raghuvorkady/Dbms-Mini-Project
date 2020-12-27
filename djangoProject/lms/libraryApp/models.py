@@ -1,3 +1,4 @@
+from django.core.validators import RegexValidator
 from django.db import models
 from django.conf import settings
 import datetime
@@ -22,9 +23,11 @@ class PUBLISHER(models.Model):
         max_length=50, help_text="Street Address", null=True)
     district = models.CharField(max_length=20, help_text="District", null=True)
     state = models.CharField(max_length=20, help_text="State", null=True)
-    pinCode = models.CharField(max_length=6, help_text="PIN Code", null=True)
+    pinCode = models.CharField(max_length=6, help_text="PIN Code", null=True, validators=[RegexValidator(
+        regex='[0-9]{6}', message="Enter a valid Postal Identification Number", code="invalid_pinCode")])
     phoneNum = models.CharField(
-        max_length=10, help_text="Phone number", null=True)
+        max_length=10, help_text="Phone number", null=True, validators=[
+            RegexValidator(regex='[0-9]{10}', message="Enter a valid Phone Number", code="invalid_phoneNum")])
     # validators for pinCode, phoneNum
 
     def __str__(self):
