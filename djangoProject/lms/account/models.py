@@ -3,6 +3,8 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 
 # Create your models here.
+
+
 class MyAccountManager(BaseUserManager):
     def create_user(self, email, username, fName, password=None):
         if not email:
@@ -21,7 +23,7 @@ class MyAccountManager(BaseUserManager):
         user.set_password(password)
         user.save(using=self._db)
         return user
-    
+
     def create_superuser(self, email, username, fName, password):
         user = self.create_user(
             email=self.normalize_email(email),
@@ -35,18 +37,22 @@ class MyAccountManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
+# there are two ways of creating different users:
+# 1. extending User class and creating OneToOneField
+# 2. extending AbstractBaseUser class(here email address can be made as your identification token instead of a username)
+
 
 class Account(AbstractBaseUser):
     COURSES = (
-        ("ISE","Information Science Engineering"),
-        ("CSE","Computer Science Engineering"),
-        ("ECE","Electronics and Communication Engineering"),
-        ("ME","Mechanical Engineering"),
-        ("ETE","Electronics and Telecommunication Engineering"),
-        ("EEE","Electrical and Electronics Engineering"),
-        ("CIV","Civil Engineering"),
-        ("MCA","Master of Computer Applications"),
-        ("AI&ML","Artificial Intelligence and Machine Learning")
+        ("ISE", "Information Science Engineering"),
+        ("CSE", "Computer Science Engineering"),
+        ("ECE", "Electronics and Communication Engineering"),
+        ("ME", "Mechanical Engineering"),
+        ("ETE", "Electronics and Telecommunication Engineering"),
+        ("EEE", "Electrical and Electronics Engineering"),
+        ("CIV", "Civil Engineering"),
+        ("MCA", "Master of Computer Applications"),
+        ("AI&ML", "Artificial Intelligence and Machine Learning")
     )
     SEM = (
         (1, 1),
@@ -58,34 +64,45 @@ class Account(AbstractBaseUser):
         (7, 7),
         (8, 8),
     )
-    
-    email = models.EmailField(verbose_name="email", max_length=50, unique=True, help_text="Email id")
-    username = models.CharField(max_length=30, unique=True, help_text="Username")
+
+    email = models.EmailField(verbose_name="email",
+                              max_length=50, unique=True, help_text="Email id")
+    username = models.CharField(
+        max_length=30, unique=True, help_text="Username")
     fName = models.CharField(max_length=20, help_text='First name')
-    mName = models.CharField(max_length=20, help_text='Middle name', blank=True)
+    mName = models.CharField(
+        max_length=20, help_text='Middle name', blank=True)
     lName = models.CharField(max_length=20, help_text='Last name', blank=True)
-    streetAddr = models.CharField(max_length=50, help_text="Street Address", null=True)
+    streetAddr = models.CharField(
+        max_length=50, help_text="Street Address", null=True)
     district = models.CharField(max_length=20, null=True, help_text="District")
     state = models.CharField(max_length=20, null=True, help_text="State")
-    pinCode = models.CharField(max_length=6, null=True, help_text="PIN Code", validators=[RegexValidator(regex='[0-9]{6}', message="Enter a valid Postal Identification Number", code="invalid_pinCode")])
-    phoneNum = models.CharField(max_length=10, null=True, blank=True, help_text="Phone number", validators=[RegexValidator(regex='[0-9]{10}', message="Enter a valid Phone Number", code="invalid_phoneNum")])
+    pinCode = models.CharField(max_length=6, null=True, help_text="PIN Code", validators=[RegexValidator(
+        regex='[0-9]{6}', message="Enter a valid Postal Identification Number", code="invalid_pinCode")])
+    phoneNum = models.CharField(max_length=10, null=True, blank=True, help_text="Phone number", validators=[
+                                RegexValidator(regex='[0-9]{10}', message="Enter a valid Phone Number", code="invalid_phoneNum")])
 
-    USN = models.CharField(max_length=10, null=True, unique=True, blank=True, help_text="University Serial Number", validators=[RegexValidator(regex='[1-4]{1}[a-zA-Z]{2}[0-9]{2}[a-zA-Z]{2}[0-9]{3}', message="Enter a valid USN", code="invalid_USN")])
-    course = models.CharField(max_length=50, null=True, choices=COURSES, blank=True, help_text="Branch")
-    sem = models.PositiveSmallIntegerField(null=True, choices=SEM, blank=True, help_text="Semester")
-    salary = models.CharField(max_length=6, null=True, blank=True, help_text="Salary", validators=[RegexValidator(regex='[0-9]{5,6}', message="Enter a valid Salary", code="invalid_salary")])
-    
-    date_joined = models.DateTimeField(verbose_name='date joined', auto_now_add=True)
+    USN = models.CharField(max_length=10, null=True, unique=True, blank=True, help_text="University Serial Number", validators=[
+                           RegexValidator(regex='[1-4]{1}[a-zA-Z]{2}[0-9]{2}[a-zA-Z]{2}[0-9]{3}', message="Enter a valid USN", code="invalid_USN")])
+    course = models.CharField(max_length=50, null=True,
+                              choices=COURSES, blank=True, help_text="Branch")
+    sem = models.PositiveSmallIntegerField(
+        null=True, choices=SEM, blank=True, help_text="Semester")
+    salary = models.CharField(max_length=6, null=True, blank=True, help_text="Salary", validators=[
+                              RegexValidator(regex='[0-9]{5,6}', message="Enter a valid Salary", code="invalid_salary")])
+
+    date_joined = models.DateTimeField(
+        verbose_name='date joined', auto_now_add=True)
     last_login = models.DateTimeField(verbose_name='last login', auto_now=True)
     is_admin = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
-    is_superuser = models.BooleanField(default=False)    
+    is_superuser = models.BooleanField(default=False)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username', 'fName']
 
-    objects = MyAccountManager()    
+    objects = MyAccountManager()
 
     def __str__(self):
         return self.email

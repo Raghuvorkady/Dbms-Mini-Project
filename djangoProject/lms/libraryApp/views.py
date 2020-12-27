@@ -7,7 +7,9 @@ from .forms import AddAuthorForm, AddBookForm, AddPublisherForm, AddStockForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from account.models import Account
 import datetime
+
 
 class tempBook:
     def __init__(self, slNo, bookTitle, bookID, genre, pubID, pubName, pubYear, authID, author, isbn, stock):
@@ -38,11 +40,14 @@ class tempDashboard:
         self.checkIn = checkIn
         self.dueDate = dueDate
 
+
 @unathenticated_user
 def index(request):
     return redirect(signIn)
 
-#to redirect the user to signin if not authenticated
+# to redirect the user to signin if not authenticated
+
+
 @login_required(login_url='signin')
 def about(request):
     about = 'libraryApp/about.html'
@@ -53,11 +58,12 @@ def about(request):
     if request.method == "POST":
         print(request.POST)
         return redirect(searchBook, book=request.POST['bookTitle'])
-    
+
     context = {
         'myFilter': myFilter
     }
     return render(request, about, context)
+
 
 @login_required(login_url='signin')
 @staff_only_allowed
@@ -72,7 +78,8 @@ def addPublisherDetails(request, option):
         addPublisherForm = AddPublisherForm(request.POST)
         if addPublisherForm.is_valid():
             pub = addPublisherForm.save()
-            messages.success(request, "You have successfully added publisher: "+ pub.pubName)
+            messages.success(
+                request, "You have successfully added publisher: " + pub.pubName)
             return redirect(manage)
 
         # print("PUB REQUEST:",request.POST)
@@ -97,6 +104,7 @@ def addPublisherDetails(request, option):
 
     return render(request, publisherDetails, context)
 
+
 @login_required(login_url='signin')
 @staff_only_allowed
 def addAuthorDetails(request, option):
@@ -110,7 +118,8 @@ def addAuthorDetails(request, option):
         addAuthorForm = AddAuthorForm(request.POST)
         if addAuthorForm.is_valid():
             auth = addAuthorForm.save()
-            messages.success(request, "You have successfully added author: "+ auth.authorName)
+            messages.success(
+                request, "You have successfully added author: " + auth.authorName)
             return redirect(manage)
 
         """print("AUTH REQUEST:",request.POST)
@@ -135,6 +144,7 @@ def addAuthorDetails(request, option):
 
     return render(request, authorDetails, context)
 
+
 @login_required(login_url='signin')
 @staff_only_allowed
 def addBookDetails(request, option):
@@ -142,12 +152,11 @@ def addBookDetails(request, option):
 
     addBookForm = AddBookForm()
     addStockForm = AddStockForm()
-    
+
     print("\nUSER: ", request.user)
     print("\nUSER ID: ", request.user.id)
 
-    #addBookForm.fields['librarianID'].widget.attrs['readonly'] = True # text input
-
+    # addBookForm.fields['librarianID'].widget.attrs['readonly'] = True # text input
 
     if request.method == "POST":
         print("BOOK REQUEST:", request.POST)
@@ -158,13 +167,15 @@ def addBookDetails(request, option):
             print("\nBOOK ID: ", bookID)
 
             stock = request.POST['bookCopies']
-            bookID.librarianID = Account.objects.get(id=request.user.id)
+            bookID.librarianID = Account.objects.get(
+                id=request.user.id)
             bookID.save()
 
             STOCK.objects.create(
                 bookID=bookID, bookCopies=stock, librarianID=bookID.librarianID)
 
-            messages.success(request, "You have successfully added book: "+ bookID.bookTitle)
+            messages.success(
+                request, "You have successfully added book: " + bookID.bookTitle)
             return redirect(manage)
 
     context = {
@@ -173,6 +184,7 @@ def addBookDetails(request, option):
         'addStockForm': addStockForm
     }
     return render(request, bookDetails, context)
+
 
 @login_required(login_url='signin')
 @staff_only_allowed
@@ -187,7 +199,8 @@ def updatePublisherDetails(request, pubID):
         if addPublisherForm.is_valid():
             pub = addPublisherForm.save()
             print("REQUEST:", request.POST)
-            messages.success(request, "You have successfully updated publisher: "+ pub.pubName)
+            messages.success(
+                request, "You have successfully updated publisher: " + pub.pubName)
             return redirect(manage)
 
     context = {
@@ -196,6 +209,7 @@ def updatePublisherDetails(request, pubID):
         'option': 'Update'
     }
     return render(request, publisherDetails, context)
+
 
 @login_required(login_url='signin')
 @staff_only_allowed
@@ -209,7 +223,8 @@ def updateAuthorDetails(request, pk):
         addAuthorForm = AddAuthorForm(request.POST, instance=authors)
         if addAuthorForm.is_valid():
             auth = addAuthorForm.save()
-            messages.success(request, "You have successfully updated author: "+ auth.authorName)
+            messages.success(
+                request, "You have successfully updated author: " + auth.authorName)
             return redirect(manage)
 
     context = {
@@ -219,6 +234,7 @@ def updateAuthorDetails(request, pk):
     }
 
     return render(request, authorDetails, context)
+
 
 @login_required(login_url='signin')
 @staff_only_allowed
@@ -241,7 +257,8 @@ def updateBookDetails(request, bookID):
 
             stocks.bookCopies = stock
             stocks.save()
-            messages.success(request, "You have successfully updated book: "+ bookID.bookTitle)
+            messages.success(
+                request, "You have successfully updated book: " + bookID.bookTitle)
             return redirect(manage)
 
     context = {
@@ -250,6 +267,7 @@ def updateBookDetails(request, bookID):
         'addStockForm': addStockForm
     }
     return render(request, bookDetails, context)
+
 
 @login_required(login_url='signin')
 def dashboard(request):
@@ -293,11 +311,11 @@ def dashboard(request):
             if i.checkIn is None:
                 bCount += 1
                 bbList.append(tempDashboard(
-                            None, i.bookID.bookTitle, i.bookID.id, None, None, None, i.checkOut, None, i.dueDate))
+                    None, i.bookID.bookTitle, i.bookID.id, None, None, None, i.checkOut, None, i.dueDate))
             else:
                 rCount += 1
                 rbList.append(tempDashboard(
-                            None, i.bookID.bookTitle, i.bookID.id, None, None, None, i.checkOut, i.checkIn, None))
+                    None, i.bookID.bookTitle, i.bookID.id, None, None, None, i.checkOut, i.checkIn, None))
 
     context = {
         "borrowedBooks": bbList,
@@ -308,6 +326,7 @@ def dashboard(request):
         "dbActive": dbActive
     }
     return render(request, dashboard, context)
+
 
 @login_required(login_url='signin')
 def searchBook(request, book):
@@ -335,7 +354,7 @@ def searchBook(request, book):
                 authorIDList.append(a.id)
         authorString = ', '.join(map(str, authorList))
         #print(i.bookTitle, "of genre", i.genre, "of ID:", i.id, "is published by,", pub.pubName,"of id", pub.id, "and authors are: ", authors, "is having:", stock.bookCopies, "copies")
-        booksList.append(tempBook(count, i.bookTitle, i.id, i.genre, i.pubID.id,
+        booksList.append(tempBook(count, i.bookTitle, i.id, i.get_genre_display, i.pubID.id,
                                   i.pubID.pubName, i.pubYear, authorIDList, authorString, i.isbn, stock.bookCopies))
 
     context = {
@@ -345,6 +364,7 @@ def searchBook(request, book):
         'myFilter': myFilter
     }
     return render(request, searchResult, context)
+
 
 @login_required(login_url='signin')
 @student_only_allowed
@@ -386,6 +406,7 @@ def borrowBook(request):
     }
     return render(request, borrowBook, context)
 
+
 @login_required(login_url='signin')
 def viewBook(request, bookID):
     viewBook = 'libraryApp/view_book.html'
@@ -407,7 +428,7 @@ def viewBook(request, bookID):
             authorList.append(a)
             authorIDList.append(a.id)
     authorString = ', '.join(map(str, authorList))
-    bookObject = tempBook(None, book.bookTitle, book.id, book.genre, pub.id, pub.pubName,
+    bookObject = tempBook(None, book.bookTitle, book.id, book.get_genre_display, pub.id, pub.pubName,
                           book.pubYear, authorIDList, authorString, book.isbn, stock.bookCopies)
 
     user = request.user
@@ -421,7 +442,7 @@ def viewBook(request, bookID):
                 break
             else:
                 isBookBorrowed = False
-    
+
     isStockAvailable = False
     if stock.bookCopies > 0:
         isStockAvailable = True
@@ -431,10 +452,11 @@ def viewBook(request, bookID):
         "book": bookObject,
         "pub": pub,
         "myFilter": myFilter,
-        "isBookBorrowed" : isBookBorrowed,
-        "isStockAvailable" : isStockAvailable
+        "isBookBorrowed": isBookBorrowed,
+        "isStockAvailable": isStockAvailable
     }
     return render(request, viewBook, context)
+
 
 @login_required(login_url='signin')
 @student_only_allowed
@@ -446,10 +468,13 @@ def requestBorrowBook(request, bookid):
         BORROWEDBOOK.objects.create(userID=userID, bookID=bookID)
         stock.bookCopies -= 1
         stock.save()
-        messages.success(request, "You have successfully borrowed book: " + bookID.bookTitle)
+        messages.success(
+            request, "You have successfully borrowed book: " + bookID.bookTitle)
     else:
-        messages.info(request, "The requested book, " + bookID.bookTitle + " is currently out of stock")
+        messages.info(request, "The requested book, " +
+                      bookID.bookTitle + " is currently out of stock")
     return redirect(dashboard)
+
 
 @login_required(login_url='signin')
 @student_only_allowed
@@ -464,8 +489,10 @@ def requestReturnBook(request, bookid):
     stock = STOCK.objects.filter(bookID=bookID).first()
     stock.bookCopies += 1
     stock.save()
-    messages.success(request, "You have successfully returned book: " + bookID.bookTitle)
+    messages.success(
+        request, "You have successfully returned book: " + bookID.bookTitle)
     return redirect(dashboard)
+
 
 @login_required(login_url='signin')
 @student_only_allowed
@@ -496,8 +523,8 @@ def returnBook(request):
                 authorString = ', '.join(map(str, authorList))
                 borrowedBooksCount += 1
                 bbList.append(tempDashboard(
-                            None, i.bookID.bookTitle, bookid, None, authorString, i.bookID.isbn, i.checkOut, None, i.dueDate))
-        
+                    None, i.bookID.bookTitle, bookid, None, authorString, i.bookID.isbn, i.checkOut, None, i.dueDate))
+
     context = {
         "borrowedBooks": bbList,
         "count": borrowedBooksCount,
@@ -507,11 +534,12 @@ def returnBook(request):
 
     return render(request, returnBook, context)
 
+
 @unathenticated_user
 def signIn(request):
     signIn = 'libraryApp/sign_in.html'
     context = {}
-    
+
     if request.POST:
         signInForm = AccountLoginForm(request.POST)
         if signInForm.is_valid():
@@ -521,20 +549,23 @@ def signIn(request):
 
             if user:
                 login(request, user)
-                messages.success(request, "Welcome " + request.user.username + ", You have successfully logged in to LMS")
+                messages.success(request, "Welcome " + request.user.username +
+                                 ", You have successfully logged in to LMS")
                 return redirect(dashboard)
     else:
         signInForm = AccountLoginForm()
-    
+
     context['signInForm'] = signInForm
 
     return render(request, signIn, context)
+
 
 @login_required(login_url='signin')
 def signOut(request):
     logout(request)
     messages.success(request, "You have successfully been logged out from LMS")
     return redirect(signIn)
+
 
 @unathenticated_user
 def signUp(request):
@@ -556,12 +587,13 @@ def signUp(request):
                 password = staffSignUpForm.cleaned_data.get('password1')
                 account = authenticate(email=email, password=password)
                 login(request, account)
-                messages.success(request, "Congrats! " + request.user.username + ", You have successfully been registered to LMS")
+                messages.success(request, "Congrats! " + request.user.username +
+                                 ", You have successfully been registered to LMS")
                 return redirect(dashboard)
         else:
             data = {
                 "USN": request.POST['USN'],
-                "course": request.POST['course'], 
+                "course": request.POST['course'],
                 "sem": request.POST['sem']}
 
             studentSignUpForm = StudentRegistrationForm(
@@ -573,7 +605,8 @@ def signUp(request):
                 password = studentSignUpForm.cleaned_data.get('password1')
                 account = authenticate(email=email, password=password)
                 login(request, account)
-                messages.success(request, "Congrats! " + request.user.username + ", You have successfully been registered to LMS")
+                messages.success(request, "Congrats! " + request.user.username +
+                                 ", You have successfully been registered to LMS")
                 return redirect(dashboard)
         print("SIGNUP REQUEST", request.POST)
 
@@ -582,6 +615,7 @@ def signUp(request):
         "staffForm": staffSignUpForm
     }
     return render(request, signUp, context)
+
 
 @login_required(login_url='signin')
 @staff_only_allowed
@@ -620,7 +654,7 @@ def manage(request):
         pub = PUBLISHER.objects.filter(
             book__id=i.id).first()
         #print(i.bookTitle, "of genre", i.genre, "of ID:", i.id, "is published by,", pub.pubName,"of id", pub.id, "and authors are: ", authors, "is having:", stock.bookCopies, "copies")
-        booksList.append(tempBook(bookCount, i.bookTitle, i.id, i.genre, pub.id,
+        booksList.append(tempBook(bookCount, i.bookTitle, i.id, i.get_genre_display, pub.id,
                                   pub.pubName, i.pubYear, authorIDList, authorString, i.isbn, stock.bookCopies))
         #print("BOOK ID",i.id)
         #print("PUB ID",pub.id)
@@ -637,14 +671,17 @@ def manage(request):
     }
     return render(request, manage, context)
 
+
 @login_required(login_url='signin')
 @staff_only_allowed
 def deleteAuthorDetails(request, pk):
     author = AUTHOR.objects.get(id=pk)
     author.delete()
 
-    messages.success(request, "You have successfully deleted author: "+ author.authorName)
+    messages.success(
+        request, "You have successfully deleted author: " + author.authorName)
     return redirect(manage)
+
 
 @login_required(login_url='signin')
 @staff_only_allowed
@@ -652,8 +689,10 @@ def deletePublisherDetails(request, pk):
     pub = PUBLISHER.objects.get(id=pk)
     pub.delete()
 
-    messages.success(request, "You have successfully deleted publisher: "+ pub.pubName)
+    messages.success(
+        request, "You have successfully deleted publisher: " + pub.pubName)
     return redirect(manage)
+
 
 @login_required(login_url='signin')
 @staff_only_allowed
@@ -661,5 +700,6 @@ def deleteBookDetails(request, bookID):
     book = BOOK.objects.get(id=bookID)
     book.delete()
 
-    messages.success(request, "You have successfully deleted book: "+ book.bookTitle)
+    messages.success(
+        request, "You have successfully deleted book: " + book.bookTitle)
     return redirect(manage)

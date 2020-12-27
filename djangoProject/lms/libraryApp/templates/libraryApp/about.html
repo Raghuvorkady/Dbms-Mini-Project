@@ -1,51 +1,61 @@
-{% extends 'libraryApp/main.html' %}
-{% load static %}
-
-{% block content %}
+{% extends 'libraryApp/main.html' %} {% load static %} {% block content %}
 
 <nav class="navbar">
-    <div class="navbar-nav mySubMenu ml-auto">
-      <nav>
-        <a href="{% url 'dashboard' %}">Dashboard</a>
-        {% if not request.user.is_staff %}
-          <a href="{% url 'borrowbook' %}" title="Click here to borrow books">Borrow book</a>
-        {% endif %}
-        {% if request.user.is_staff %}
-          <a href="{% url 'manage' %}" title="Click here to manage books">Manage</a>
-        {% endif %}
-        {% if not request.user.is_staff %}
-          <a href="{% url 'returnbook' %}" title="Click here to return borrowed books">Return book</a>
-        {% endif %}
-      </nav>
-    </div>
-  
-    <form class="form-inline" method="POST">
-      {% csrf_token %}
-      <div class="input-group">
-        <div id="speech" class="btn btn-light" title="Click the mic to speak">
-          <i class="fa fa-microphone" aria-hidden="true"></i>
-          <div class="pulse-ring" id="pulseRing"></div>
-        </div>
-        {{myFilter.form}}
-        <div class="input-group-append">
-          <button id="searchButton" class="btn btn-outline-success" type="submit">
-            <i class="fa fa-search"></i>
-          </button>
-        </div>
-      </div>
-    </form>
-  </nav>
+  <div class="navbar-nav mySubMenu ml-auto">
+    <nav>
+      <a href="{% url 'dashboard' %}">Dashboard</a>
+      {% if not request.user.is_staff %}
+      <a href="{% url 'borrowbook' %}" title="Click here to borrow books"
+        >Borrow book</a
+      >
+      {% endif %} {% if request.user.is_staff %}
+      <a href="{% url 'manage' %}" title="Click here to manage books">Manage</a>
+      {% endif %} {% if not request.user.is_staff %}
+      <a
+        href="{% url 'returnbook' %}"
+        title="Click here to return borrowed books"
+        >Return book</a
+      >
+      {% endif %}
+    </nav>
+  </div>
 
+  <form class="form-inline" method="POST">
+    {% csrf_token %}
+    <div class="input-group">
+      <div id="speech" class="btn btn-light" title="Click the mic to speak">
+        <i class="fa fa-microphone" aria-hidden="true"></i>
+        <div class="pulse-ring" id="pulseRing"></div>
+      </div>
+      {{myFilter.form}}
+      <div class="input-group-append">
+        <button id="searchButton" class="btn btn-outline-success" type="submit">
+          <i class="fa fa-search"></i>
+        </button>
+      </div>
+    </div>
+  </form>
+</nav>
 
 <div class="container p-2">
-<div class="text-center">
-    <br>
+  <div class="text-center">
+    <br />
     <h1 class="shadow-sm p-3 mb-5 bg-white rounded">About</h1>
-<h4 class="text-monospace">
-    <p class="">This webapp is made with ❤ by <a href="https://github.com/Raghuvorkady" target="_blank">Raghavendra K M</a> and <a href="https://github.com/Sanjanags12" target="_blank">Sanjana Gajanana Shetty</a></p>
-    <p>It is a part of DBMS Mini Project</p>
-</h4>
-</div>
+    <h4 class="text-monospace">
+      <p class="">
+        This webapp is made with ❤ by
+        <a href="https://github.com/Raghuvorkady" target="_blank"
+          >Raghavendra K M</a
+        >
+        and
+        <a href="https://github.com/Sanjanags12" target="_blank"
+          >Sanjana Gajanana Shetty</a
+        >
+      </p>
+      <br />
+      <p>It is a part of DBMS Mini Project</p>
+    </h4>
+  </div>
 </div>
 
 {% endblock content %}
