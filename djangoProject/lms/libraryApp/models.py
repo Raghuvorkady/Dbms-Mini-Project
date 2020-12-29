@@ -1,7 +1,12 @@
 from django.core.validators import RegexValidator
 from django.db import models
 from django.conf import settings
+
+from django.dispatch import receiver
+from django.db.models.signals import post_save
+
 import datetime
+
 # Create your models here.
 # null = True is only for testing
 # not needed since django provides a way to store users
@@ -99,49 +104,17 @@ class BORROWEDBOOK(models.Model):
         super(BORROWEDBOOK, self).save(*args, **kwargs)
 
 
-class defaultValues(models.Model):
-    """
-    statesInIndia = [
-        ('KA', 'Karnataka'), 
-        ('AP', 'Andhra Pradesh'), 
-        ('KL', 'Kerala'), 
-        ('TN', 'Tamil Nadu'),
-        ('MH', 'Maharashtra'),
-        ('UP', 'Uttar Pradesh'),
-        ('GA', 'Goa'), 
-        ('GJ', 'Gujarat'), 
-        ('RJ', 'Rajasthan'),
-        ('HP', 'Himachal Pradesh'),
-        ('JK', 'Jammu and Kashmir'),
-        ('TG', 'Telangana'), 
-        ('AR', 'Arunachal Pradesh'),
-        ('AS', 'Assam'), 
-        ('BR', 'Bihar'), 
-        ('CG', 'Chattisgarh'),
-        ('HR', 'Haryana'),
-        ('JH', 'Jharkhand'), 
-        ('MP','Madhya Pradesh'),
-        ('MN', 'Manipur'),
-        ('ML', 'Meghalaya'),
-        ('MZ', 'Mizoram'),
-        ('NL', 'Nagaland'),
-        ('OR', 'Orissa'), 
-        ('PB', 'Punjab'), 
-        ('SK', 'Sikkim'), 
-        ('TR', 'Tripura'), 
-        ('UA', 'Uttarakhand'),
-        ('WB', 'West Bengal'),
-        ('AN', 'Andaman and Nicobar'), 
-        ('CH', 'Chandigarh'), 
-        ('DN', 'Dadra and Nagar Haveli'),
-        ('DD', 'Daman and Diu'), 
-        ('DL', 'Delhi'), 
-        ('LD', 'Lakshadweep'),
-        ('PY', 'Pondicherry')
-    ]"""
-    statesInIndia = ("Andhra Pradesh", "Arunachal Pradesh ", "Assam", "Bihar", "Chhattisgarh", "Goa", "Gujarat", "Haryana", "Himachal Pradesh", "Jammu and Kashmir", "Jharkhand", "Karnataka", "Kerala", "Madhya Pradesh", "Maharashtra", "Manipur", "Meghalaya", "Mizoram",
-                     "Nagaland", "Odisha", "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu", "Telangana", "Tripura", "Uttar Pradesh", "Uttarakhand", "West Bengal", "Andaman and Nicobar Islands", "Chandigarh", "Dadra and Nagar Haveli", "Daman and Diu", "Lakshadweep", "Delhi", "Puducherry")
+@receiver(post_save, sender=AUTHOR)
+def onAuthorInsertion(sender, instance, **kwargs):
+    auth = instance.authorName
+    print("Author added", auth)
+    
+@receiver(post_save, sender=PUBLISHER)
+def onAuthorInsertion(sender, instance, **kwargs):
+    pub = instance.pubName
+    print("Publisher added", pub)
 
-    districtInKerala = [
-        ("Kasaragod", "Kasaragod"),
-    ]
+@receiver(post_save, sender=BOOK)
+def onBookInsertion(sender, instance, **kwargs):
+    bookTitle = instance.bookTitle
+    print("Book added", bookTitle)

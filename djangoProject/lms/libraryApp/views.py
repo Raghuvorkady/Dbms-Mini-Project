@@ -46,12 +46,9 @@ def index(request):
     return redirect(signIn)
 
 # to redirect the user to signin if not authenticated
-
-
 @login_required(login_url='signin')
 def about(request):
     about = 'libraryApp/about.html'
-    books = BOOK.objects.all()
 
     myFilter = BookFilter(request.GET, queryset=BOOK.objects.all())
 
@@ -71,7 +68,6 @@ def addPublisherDetails(request, option):
     publisherDetails = 'libraryApp/add_publisher_details.html'
     publishers = PUBLISHER.objects.all()
 
-    #selectPublisherForm = SelectPublisherForm()
     addPublisherForm = AddPublisherForm()
 
     if request.method == "POST":
@@ -82,23 +78,9 @@ def addPublisherDetails(request, option):
                 request, "You have successfully added publisher: " + pub.pubName)
             return redirect(manage)
 
-        # print("PUB REQUEST:",request.POST)
-        # addPub = request.POST['pubName']
-        # if addPub == '':
-        #     selectedPub = request.POST['publisher']
-        #     print(selectedPub)
-        #     return redirect(addAuthorDetails, option=option)
-        # else:
-        #     print("add PUB:", addPub)
-        #     addPublisherForm = AddPublisherForm(request.POST)
-        #     if addPublisherForm.is_valid():
-        #         addPublisherForm.save()
-        #         return redirect(addAuthorDetails, option=option)
-
     context = {
         'publishers': publishers,
         'option': option,
-        # 'selectPublisherForm' : selectPublisherForm,
         'addPublisherForm': addPublisherForm
     }
 
