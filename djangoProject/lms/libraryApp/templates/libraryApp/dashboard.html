@@ -58,13 +58,13 @@
 
       {% if request.user.is_staff %}
         {% if bCount > 0 %}
-          Till date students have borrowed {{bCount}} no. of books
+          Till date students have borrowed {{bCount}} books
         {% else %}
           Currently, students have not borrowed any books☹
         {% endif %}
       {% else %}
       {% if bCount > 0 %}
-          Till date you have borrowed {{bCount}} no. of books
+          Till date you have borrowed {{bCount}} books
         {% else %}
           <p>Click <a href="{% url 'borrowbook' %}">here</a> to borrow books from the library</p>
         {% endif %}
@@ -114,7 +114,7 @@
             students
           {% else %}
              you
-          {% endif %} have returned {{rCount}} no. of books
+          {% endif %} have returned {{rCount}} books
       </h6>
     </div>
     
