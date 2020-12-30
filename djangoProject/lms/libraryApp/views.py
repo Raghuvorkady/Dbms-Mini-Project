@@ -104,23 +104,9 @@ def addAuthorDetails(request, option):
                 request, "You have successfully added author: " + auth.authorName)
             return redirect(manage)
 
-        """print("AUTH REQUEST:",request.POST)
-        addAuthor = request.POST['authorName']
-        if addAuthor == '':
-            selectedAuthor = request.POST['author']
-            print(selectedAuthor)
-            return redirect(addBookDetails, option=option)
-        else:
-            print("add PUB:", addAuthor)
-            addAuthorForm = AddAuthorForm(request.POST)
-            if addAuthorForm.is_valid():
-                addAuthorForm.save()
-                return redirect(addBookDetails, option=option)"""
-
     context = {
         'authors': authors,
         'option': option,
-        # 'selectAuthorForm' : selectAuthorForm,
         'addAuthorForm': addAuthorForm
     }
 
@@ -137,8 +123,6 @@ def addBookDetails(request, option):
 
     print("\nUSER: ", request.user)
     print("\nUSER ID: ", request.user.id)
-
-    # addBookForm.fields['librarianID'].widget.attrs['readonly'] = True # text input
 
     if request.method == "POST":
         print("BOOK REQUEST:", request.POST)
@@ -210,7 +194,6 @@ def updateAuthorDetails(request, pk):
             return redirect(manage)
 
     context = {
-        # 'authors': authors,
         'option': 'Update',
         'addAuthorForm': addAuthorForm
     }
