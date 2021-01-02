@@ -358,7 +358,7 @@ def borrowBook(request):
                 authorList.append(a)
                 authorIDList.append(a.id)
         authorString = ', '.join(map(str, authorList))
-        booksList.append(tempBook(None, i.bookTitle, i.id, i.genre, i.pubID.id,
+        booksList.append(tempBook(None, i.bookTitle, i.id, i.get_genre_display, i.pubID.id,
                                   i.pubID.pubName, i.pubYear, authorIDList, authorString, i.isbn, stock.bookCopies))
         #print("BOOK ID",i.id)
         #print("PUB ID",pub.id)
