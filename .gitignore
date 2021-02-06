@@ -1,8 +1,9 @@
 ReportFiles/
-Abstract/
+AbstractFiles/
 other/
-DjangoInShort.txt
+PPT/
 features.txt
+DjangoInShort.txt
 ProblemStatement.txt
 TODO.txt
-PPT/
+djangoProject/lms/db.sqlite3
