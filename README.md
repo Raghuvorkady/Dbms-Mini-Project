@@ -1,62 +1,5 @@
 # Library Management System (with Voice based search)
 
-
-### Steps to push:
-
-1. Open the command prompt and change the directory (choose a folder to maintain the local repos ex. dbms project)
-
-2. Run the command
-
-	> Type: **git clone https://github.com/Raghuvorkady/Dbms-Mini-Project.git**
-
-3. Next it will prompt you to enter your GitHub username/email and password
-
-4. Now after successfull clone(download), create a new django project inside the folder "djangoProject"<br>For the above step again open the command prompt and change the directory to the folder "djangoProject"
-
-	> Type: **django-admin startproject speechTest**
-
-	After starting new project, change the directory to **speechTest**
-
-	> Type: **python manage.py startapp srt**
-
-And now it's time for some django work, designing a simple ui to input a speech and extract the output
-
-5. Open the cmd, change the dir to **Dbms-Mini-Project** (the cloned repo)
-
-	> Type: **git status**
-
-	> Type: **git add ***
-
-	> Type: **git commit -m "YOURNAME speech commit"**
-
-	> Type: **git push**
-
-	> Type: **git status**
-	(Ouput should be: nothing to commit, working tree clean)
-
-6. If successfully pushed, all will receive a mail.
-
-7. For updating your local repo, whenever someone pushes to the remote repo
-	> Type: **git pull**
-
-Note: push request will not work, if your local repo is not updated with the remote repo.
-
-So if you face any rejected message whenever you push, follow Step 7.
-
----
-
-### PROCEDURE:
-| Sl. No | Step | Status |
-| --- | --- | --- |
-| 1 | First step feature listing | ✔ |
-| 2 | Design of db | ❌ |
-| 3 | ER diagram | ✔ |
-| 4 | Schema Diagram | ✔ |
-| 5 | Populate small dataset | ✔ |
-| 6 | Testing SQLite with few test cases | ✔ |
-| 7 | Test your backend | ❌ |
-| 8 | Front end building | ❌ |
-***
 ### Tools required:
 1. SQLite - Database
 2. Python - Backend
@@ -64,11 +7,13 @@ So if you face any rejected message whenever you push, follow Step 7.
 ***
 ### Tutorials:
 1. [Django for Everbody | Coursera](https://www.coursera.org/specializations/django?utm_campaign=email-coursera-blast-july-20-django-for-everybody&utm_content=email&utm_medium=institutions&utm_source=umich)
+2. [Bootstrap Documentation](https://getbootstrap.com/docs/4.5/getting-started/introduction/)
+3. [Django Documentation](https://www.djangoproject.com/start/)
+4. [Building a Website with Django & Python](https://youtube.com/playlist?list=PLgCYzUzKIBE_dil025VAJnDjNZHHHR9mW)
+5. [Django (3.0) Crash Course Tutorials | Customer Management App](https://www.youtube.com/playlist?list=PL-51WBLyFTg2vW-_6XBoUpE7vpmoR3ztO)
 ***
 ### Some useful links:
 1. [Oracle DB vs SQLite DB](https://db-engines.com/en/system/Oracle%3BSQLite)
 2. [Guide to Speech Recognition using python](https://realpython.com/python-speech-recognition/)
 3. [Projects using django](https://data-flair.training/blogs/django-project-ideas/)
 ***
-### GitHub project repos:
-1. https://github.com/samarth-p/College-ERP
