@@ -1,9 +1,9 @@
 # Library Management System (with Voice based search)
 
 ### Tools required:
-1. SQLite - Database
-2. Python - Backend
-3. Django - Frontend
+1. SQLite
+2. Python
+3. Django
 ***
 ### Tutorials:
 1. [Django for Everbody | Coursera](https://www.coursera.org/specializations/django?utm_campaign=email-coursera-blast-july-20-django-for-everybody&utm_content=email&utm_medium=institutions&utm_source=umich)
