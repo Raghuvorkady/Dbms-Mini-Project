@@ -1,5 +1,0 @@
-select USER.fName
-from BORROWED_BOOKS, USER
-WHERE USER.userId = BORROWED_BOOKS.userId
-GROUP by BORROWED_BOOKS.userId 
-HAVING count(*) > 1;

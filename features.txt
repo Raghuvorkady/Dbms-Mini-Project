@@ -1,8 +1,0 @@
-1. Login facility for librarian and user
-2. Checking for available books in the library
-3. Student can borrow book from library, and he will be issued and notified about the due date
-4. Sorting of books acc to genres
-5. Librarian can perform CRUD(Create Read Update Delete) operations
-6. A option for each user, librarian to search for books (v need to implement voice based too)
-7. Details of particular book (author, publication, genre etc)
-8. Calculation of late fines
